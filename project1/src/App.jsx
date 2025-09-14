@@ -1,21 +1,18 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-// import Transport from "./pages/Transport";
-// import Wellbeing from "./pages/Wellbeing";
-// import Market from "./pages/Market";
-// import Food from "./pages/Food";
-// import Academic from "./pages/Academic";
+import TransportServices from "./pages/TransportServices";
+import DailyCommute from "./pages/DailyCommute";
+import UrgentForm from "./pages/UrgentForm";
+
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/transport" element={<Transport />} />
-        <Route path="/wellbeing" element={<Wellbeing />} />
-        <Route path="/market" element={<Market />} />
-        <Route path="/food" element={<Food />} />
-        <Route path="/academic" element={<Academic />} /> */}
+        <Route path="/transport" element={<TransportServices />} />
+        <Route path="/daily-commute" element={<DailyCommute />} />
+        <Route path="/urgent" element={<UrgentForm />} />
       </Routes>
     </Router>
   );
