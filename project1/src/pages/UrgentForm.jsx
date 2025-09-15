@@ -1,8 +1,16 @@
 import { useState } from "react";
-import "./UrgentForm.css"; // Import the CSS file
+import "./UrgentForm.css";
 
 function UrgentForm() {
-  const [form, setForm] = useState({ from: "", to: "", urgency: "" });
+  const [form, setForm] = useState({
+    from: "",
+    to: "",
+    name: "",
+    number: "",
+    nurse: "",
+    necessity: "",
+    friendNumber: "",
+  });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -10,7 +18,14 @@ function UrgentForm() {
 
   const handleSubmit = () => {
     alert(
-      `Urgent request: From ${form.from} to ${form.to}, Reason: ${form.urgency}`
+      `🚑 Urgent Request\n
+      From: ${form.from}\n
+      To: ${form.to}\n
+      Name: ${form.name}\n
+      Phone: ${form.number}\n
+      Nurse Required: ${form.nurse}\n
+      Medical Necessity: ${form.necessity}\n
+      Friend's Number: ${form.friendNumber}`
     );
   };
 
@@ -30,16 +45,42 @@ function UrgentForm() {
           onChange={handleChange}
           className="urgent-input"
         />
+        <input
+          name="name"
+          placeholder="Your Name"
+          onChange={handleChange}
+          className="urgent-input"
+        />
+        <input
+          name="number"
+          placeholder="Your Phone Number"
+          type="tel"
+          onChange={handleChange}
+          className="urgent-input"
+        />
         <select
-          name="urgency"
+          name="nurse"
           onChange={handleChange}
           className="urgent-input"
         >
-          <option value="">Select Urgency</option>
-          <option value="medical">Medical Emergency</option>
-          <option value="work">Work Deadline</option>
-          <option value="personal">Personal</option>
+          <option value="">Nurse Required?</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
         </select>
+        <textarea
+          name="necessity"
+          placeholder="Any Medical Necessity (if any)"
+          onChange={handleChange}
+          className="urgent-input"
+          rows="3"
+        />
+        <input
+          name="friendNumber"
+          placeholder="Friend's Number (if coming along)"
+          type="tel"
+          onChange={handleChange}
+          className="urgent-input"
+        />
         <button onClick={handleSubmit} className="urgent-button">
           Submit Request
         </button>

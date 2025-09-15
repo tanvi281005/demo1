@@ -1,20 +1,43 @@
 import { useState } from "react";
-import "./DailyCommute.css"; // Import the CSS file
+import "./DailyCommute.css";
 
 function DailyCommute() {
   const [form, setForm] = useState({ from: "", to: "", date: "" });
+  const [buses, setBuses] = useState([]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = () => {
-    alert(`Searching buses from ${form.from} to ${form.to} on ${form.date}`);
+    if (!form.from || !form.to || !form.date) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Dummy bus data (random for demo)
+    const dummyBuses = [
+      { id: 1, name: "Express Line", fare: "₹150", times: ["8:00 AM", "10:00 AM", "2:00 PM"] },
+      { id: 2, name: "City Rider", fare: "₹120", times: ["9:00 AM", "1:00 PM", "5:00 PM"] },
+      { id: 3, name: "Metro Travels", fare: "₹200", times: ["7:30 AM", "11:30 AM", "6:00 PM"] },
+    ];
+
+    setBuses(dummyBuses);
+  };
+
+  const handleBook = (bus, time) => {
+    if (!time) {
+      alert("Please select a time before booking.");
+      return;
+    }
+    alert(`Booked ${bus.name} at ${time} for ${bus.fare}`);
   };
 
   return (
     <div className="daily-container">
       <h2 className="daily-title">Book Your Daily Commute</h2>
+
+      {/* Form */}
       <div className="daily-form">
         <input
           name="from"
@@ -38,6 +61,42 @@ function DailyCommute() {
           Find Buses
         </button>
       </div>
+
+      {/* Results */}
+      {buses.length > 0 && (
+        <div className="results-container">
+          {/* <h3 className="results-title">Available Buses</h3> */}
+          {buses.map((bus) => (
+            <div key={bus.id} className="bus-card">
+              <h4 className="bus-name">{bus.name}</h4>
+              <p className="bus-fare">Fare: {bus.fare}</p>
+              <select
+                className="time-dropdown"
+                defaultValue=""
+                id={`time-${bus.id}`}
+              >
+                <option value="" disabled>
+                  Select time
+                </option>
+                {bus.times.map((time, idx) => (
+                  <option key={idx} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
+              <button
+                className="book-button"
+                onClick={() => {
+                  const timeSelect = document.getElementById(`time-${bus.id}`);
+                  handleBook(bus, timeSelect.value);
+                }}
+              >
+                Book
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

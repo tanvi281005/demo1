@@ -1,64 +1,152 @@
 /* Container */
 .daily-container {
   min-height: 100vh;
-  padding: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #f3f4f6;
-  font-family: Arial, sans-serif;
+  background: beige;
+  font-family: "Segoe UI", Arial, sans-serif;
+  padding: 32px;
 }
 
 /* Title */
 .daily-title {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: bold;
-  color: #1d4ed8;
+  color: black;
   margin-bottom: 24px;
   text-align: center;
+  letter-spacing: 1px;
 }
 
 /* Form container */
 .daily-form {
-  background-color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  border-radius: 16px;
-  padding: 24px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-radius: 14px;
+  padding: 20px;
   width: 100%;
-  max-width: 400px;
+  max-width: 900px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 16px;
+  flex-wrap: wrap;
 }
 
-/* Inputs */
 .daily-input {
-  padding: 12px;
+  flex: 1;
+  min-width: 180px;
+  padding: 12px 14px;
   border: 1px solid #cbd5e1;
-  border-radius: 12px;
+  border-radius: 10px;
   font-size: 1rem;
   outline: none;
-  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .daily-input:focus {
-  border-color: #60a5fa;
-  box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.3);
+  border-color: maroon;
+  box-shadow: 0 0 6px rgba(128, 0, 0, 0.4);
 }
 
-/* Button */
 .daily-button {
-  padding: 12px;
-  background-color: #2563eb;
+  padding: 12px 20px;
+  background-color: maroon;
   color: white;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .daily-button:hover {
-  background-color: #1e40af;
+  background-color: #800000cc; /* slightly lighter maroon */
+  transform: translateY(-2px);
+}
+
+/* Results Section */
+.results-container {
+  margin-top: 40px;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.results-title {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: black;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+/* Bus Cards grid */
+.results-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+/* Individual Bus Card */
+.bus-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bus-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(128, 0, 0, 0.25);
+}
+
+.bus-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1f2937;
+}
+
+.bus-fare {
+  color: #374151;
+  font-size: 1rem;
+}
+
+/* Dropdown */
+.time-dropdown {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+}
+
+.time-dropdown:focus {
+  border-color: maroon;
+  box-shadow: 0 0 4px rgba(128, 0, 0, 0.4);
+}
+
+/* Book button */
+.book-button {
+  padding: 10px;
+  margin-top: 8px;
+  background: maroon;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.book-button:hover {
+  background: #800000cc;
+  transform: translateY(-2px);
 }

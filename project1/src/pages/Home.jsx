@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import "./Home.css"; // CSS file
+import { useNavigate } from "react-router-dom";
+import "./Home.css";
 
 const panelsData = [
   { title: "Transport Bookings", image: "/images/bus1.jpg", content: "Book buses, cabs, or rides easily.", route: "/transport" },
@@ -12,14 +12,18 @@ const panelsData = [
 
 export default function Home() {
   const [activeIndex, setActiveIndex] = useState(null);
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
 
+  // Only expand/collapse on click
   const handlePanelClick = (index) => {
-    setActiveIndex(index);
+    setActiveIndex(index === activeIndex ? null : index);
+  };
 
-    // If the clicked panel has a route, navigate there
-    if (panelsData[index].route) {
-      navigate(panelsData[index].route);
+  // Navigate when "Enter" button is clicked
+  const handleEnterClick = (index) => {
+    const route = panelsData[index].route;
+    if (route) {
+      navigate(route);
     }
   };
 
@@ -40,7 +44,15 @@ export default function Home() {
             {activeIndex === index && (
               <div className="panel-content">
                 <p>{panel.content}</p>
-                <button className="enter-btn">Enter</button>
+                <button
+                  className="enter-btn"
+                  onClick={(e) => {
+                    e.stopPropagation(); // prevent triggering panel expand
+                    handleEnterClick(index);
+                  }}
+                >
+                  Enter
+                </button>
               </div>
             )}
           </div>
