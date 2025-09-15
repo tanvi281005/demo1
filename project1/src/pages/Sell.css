@@ -1,0 +1,82 @@
+/* Sell page wrapper */
+.sellPage {
+  width: 100vw;
+  min-height: 100vh;
+  background: url('https://i.pinimg.com/736x/ff/b8/ed/ffb8eda73de41d8dfdad7e5fcc56ca6c.jpg') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px 20px;
+  box-sizing: border-box;
+  font-family: 'Montserrat', Arial, sans-serif;
+  color: #333;
+}
+
+/* Container scoped inside sellPage */
+.sellPage-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.sellPage-container h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #007bff;
+}
+
+.sellPage-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sellPage-container label {
+  font-weight: 600;
+}
+
+.sellPage-container input[type="text"],
+.sellPage-container input[type="number"],
+.sellPage-container select,
+.sellPage-container textarea {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sellPage-container textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.sellPage-container input[type="file"] {
+  padding: 5px;
+}
+
+.sellPage-container button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.sellPage-container button:hover {
+  background: #0056b3;
+}
+
+@media (max-width: 500px) {
+  .sellPage-container {
+    padding: 20px;
+  }
+}

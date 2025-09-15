@@ -1,0 +1,93 @@
+.buy-container {
+    margin: 0;
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: url('https://i.pinimg.com/736x/ff/b8/ed/ffb8eda73de41d8dfdad7e5fcc56ca6c.jpg') no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh;
+    color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.profile-icon img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid white;
+}
+
+.animated-heading {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.animated-heading span {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeIn 0.05s forwards;
+}
+
+@keyframes fadeIn {
+    to { opacity: 1; }
+}
+
+.search-container {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 40px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: none;
+    font-size: 1rem;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    outline: none;
+}
+
+.categories-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.category-button {
+    width: 250px;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.category-button:hover {
+    transform: scale(1.05);
+    box-shadow: 6px 6px 20px rgba(0,0,0,0.5);
+}
+
+.overlay {
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    font-weight: bold;
+}
