@@ -35,6 +35,13 @@ function UploadResourceForm() {
 
   return (
     <div className="resource-container">
+      {/* Background video */}
+      <video className="background-video" autoPlay loop muted playsInline>
+        <source src="/images/ar_video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      {/* Form */}
       <form className="resource-form" onSubmit={handleSubmit}>
         <h2 className="resource-title">📘 Upload Resource</h2>
 
