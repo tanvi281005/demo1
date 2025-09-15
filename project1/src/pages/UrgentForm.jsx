@@ -31,8 +31,8 @@ function UrgentForm() {
 
   return (
     <div className="urgent-container">
-      <h2 className="urgent-title">Urgent Transport Request</h2>
       <div className="urgent-form">
+        <h2 className="urgent-title">🚑 Urgent Transport Request</h2>
         <input
           name="from"
           placeholder="From"
@@ -58,11 +58,7 @@ function UrgentForm() {
           onChange={handleChange}
           className="urgent-input"
         />
-        <select
-          name="nurse"
-          onChange={handleChange}
-          className="urgent-input"
-        >
+        <select name="nurse" onChange={handleChange} className="urgent-input">
           <option value="">Nurse Required?</option>
           <option value="Yes">Yes</option>
           <option value="No">No</option>
