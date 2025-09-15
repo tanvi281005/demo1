@@ -1,48 +1,143 @@
-/* Container */
-.transport-container {
-  min-height: 100vh;
-  padding: 24px;
+/* load font (optional) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+.transport-wrapper {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  font-family: "Poppins", sans-serif;
+  background: #000;
+}
+
+/* Background video covering entire viewport */
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Overlay to improve readability */
+.transport-overlay {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(to bottom, #bfdbfe, #93c5fd);
-  font-family: Arial, sans-serif;
+  justify-content: flex-start; /* title a little above center */
+  color: white;
+  text-align: center;
+  padding: 2.5rem 1rem;
+  box-sizing: border-box;
 }
 
-/* Title */
+/* Title slightly above and centered */
 .transport-title {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #1e3a8a;
-  margin-bottom: 32px;
-  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin: 1.2rem 0 2.2rem;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.8);
 }
 
-/* Grid layout */
-.transport-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
+/* Container for vertical (stacked) bars */
+.transport-options-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 650px;
+  padding: 0 1rem;
+  box-sizing: border-box;
 }
 
-/* Cards */
-.transport-card {
-  background-color: white;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
+/* Bar common styles - use a button (accessible) */
+.transport-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: rgba(255,255,255,0.12);
+  border-radius: 12px;
+  padding: 1.15rem 1.2rem;
+  border: none;
+  color: inherit;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  font: inherit;
 }
 
-.transport-card:hover {
-  transform: scale(1.05);
+/* Left side inside bar: icon + text */
+.bar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
 }
 
-/* Emoji / Text */
-.transport-emoji {
-  font-size: 1.5rem;
+/* Emoji/icon size */
+.bar-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+/* Main text */
+.bar-text {
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+/* Arrow on right */
+.bar-arrow {
+  font-size: 1.3rem;
+  opacity: 0.95;
+  margin-left: 0.5rem;
+}
+
+/* Hover/focus */
+.transport-bar:hover,
+.transport-bar:focus {
+  transform: translateY(-6px);
+  background: rgba(255,255,255,0.20);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+  outline: none;
+}
+
+/* Urgent variant (slightly different tinted background) */
+.transport-bar-urgent {
+  background: rgba(255, 60, 60, 0.10);
+}
+
+.transport-bar-urgent:hover,
+.transport-bar-urgent:focus {
+  background: rgba(255, 60, 60, 0.18);
+}
+
+/* Responsive adjustments */
+@media (max-width: 520px) {
+  .transport-title {
+    font-size: 1.6rem;
+    margin-top: 0.8rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .bar-text {
+    font-size: 1rem;
+  }
+
+  .transport-options-vertical {
+    gap: 0.9rem;
+    max-width: 92%;
+  }
+
+  .transport-bar {
+    padding: 0.9rem 1rem;
+  }
 }

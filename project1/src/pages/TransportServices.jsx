@@ -1,28 +1,54 @@
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./TransportServices.css"; // Import the CSS file
+import "./TransportServices.css";
 
-function TransportServices() {
+export default function TransportServices() {
   const navigate = useNavigate();
 
   return (
-    <div className="transport-container">
-      <h2 className="transport-title">Choose Your Transport Service</h2>
-      <div className="transport-grid">
-        <div
-          className="transport-card"
-          onClick={() => navigate("/daily-commute")}
-        >
-          <span className="transport-emoji">🚍 Daily Commute</span>
-        </div>
-        <div
-          className="transport-card"
-          onClick={() => navigate("/urgent")}
-        >
-          <span className="transport-emoji">🚄 Urgent</span>
+    <div className="transport-wrapper">
+      {/* Background video */}
+      <video
+        className="background-video"
+        autoPlay
+        loop
+        muted
+        playsInline
+      >
+        <source src="/images/bus_video.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+
+      {/* Foreground overlay */}
+      <div className="transport-overlay">
+        <h1 className="transport-title">Choose Your Commute</h1>
+
+        <div className="transport-options-vertical">
+          <button
+            type="button"
+            className="transport-bar"
+            onClick={() => navigate("/daily-commute")}
+          >
+            <div className="bar-left">
+              <span className="bar-icon">🚌</span>
+              <span className="bar-text">Daily Commute</span>
+            </div>
+            <span className="bar-arrow">→</span>
+          </button>
+
+          <button
+            type="button"
+            className="transport-bar transport-bar-urgent"
+            onClick={() => navigate("/urgent")}
+          >
+            <div className="bar-left">
+              <span className="bar-icon">⚡</span>
+              <span className="bar-text">Urgent Commute</span>
+            </div>
+            <span className="bar-arrow">→</span>
+          </button>
         </div>
       </div>
     </div>
   );
 }
-
-export default TransportServices;
