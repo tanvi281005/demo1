@@ -1,0 +1,48 @@
+/* Container */
+.transport-container {
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to bottom, #bfdbfe, #93c5fd);
+  font-family: Arial, sans-serif;
+}
+
+/* Title */
+.transport-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1e3a8a;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+/* Grid layout */
+.transport-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Cards */
+.transport-card {
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.transport-card:hover {
+  transform: scale(1.05);
+}
+
+/* Emoji / Text */
+.transport-emoji {
+  font-size: 1.5rem;
+}

@@ -1,0 +1,64 @@
+/* Container */
+.urgent-container {
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(to bottom, #fee2e2, #fecaca);
+  font-family: Arial, sans-serif;
+}
+
+/* Title */
+.urgent-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #b91c1c;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Form container */
+.urgent-form {
+  background-color: white;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Inputs and select */
+.urgent-input {
+  padding: 12px;
+  border: 1px solid #fca5a5;
+  border-radius: 12px;
+  font-size: 1rem;
+  outline: none;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.urgent-input:focus {
+  border-color: #f87171;
+  box-shadow: 0 0 0 3px rgba(248, 113, 113, 0.3);
+}
+
+/* Button */
+.urgent-button {
+  padding: 12px;
+  background-color: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.urgent-button:hover {
+  background-color: #b91c1c;
+}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./DailyCommute.css"; // Import the CSS file
 
 function DailyCommute() {
   const [form, setForm] = useState({ from: "", to: "", date: "" });
@@ -12,31 +13,28 @@ function DailyCommute() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
-      <h2 className="text-2xl font-bold text-blue-700 mb-6">Book Your Daily Commute</h2>
-      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+    <div className="daily-container">
+      <h2 className="daily-title">Book Your Daily Commute</h2>
+      <div className="daily-form">
         <input
           name="from"
           placeholder="From"
           onChange={handleChange}
-          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
+          className="daily-input"
         />
         <input
           name="to"
           placeholder="To"
           onChange={handleChange}
-          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
+          className="daily-input"
         />
         <input
           type="date"
           name="date"
           onChange={handleChange}
-          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-400"
+          className="daily-input"
         />
-        <button
-          onClick={handleSubmit}
-          className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition"
-        >
+        <button onClick={handleSubmit} className="daily-button">
           Find Buses
         </button>
       </div>

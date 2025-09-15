@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./UrgentForm.css"; // Import the CSS file
 
 function UrgentForm() {
   const [form, setForm] = useState({ from: "", to: "", urgency: "" });
@@ -14,35 +15,32 @@ function UrgentForm() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-red-100 to-red-300 flex flex-col items-center p-6">
-      <h2 className="text-2xl font-bold text-red-700 mb-6">Urgent Transport Request</h2>
-      <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
+    <div className="urgent-container">
+      <h2 className="urgent-title">Urgent Transport Request</h2>
+      <div className="urgent-form">
         <input
           name="from"
           placeholder="From"
           onChange={handleChange}
-          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-red-400"
+          className="urgent-input"
         />
         <input
           name="to"
           placeholder="To"
           onChange={handleChange}
-          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-red-400"
+          className="urgent-input"
         />
         <select
           name="urgency"
           onChange={handleChange}
-          className="w-full p-3 mb-4 border rounded-lg focus:ring-2 focus:ring-red-400"
+          className="urgent-input"
         >
           <option value="">Select Urgency</option>
           <option value="medical">Medical Emergency</option>
           <option value="work">Work Deadline</option>
           <option value="personal">Personal</option>
         </select>
-        <button
-          onClick={handleSubmit}
-          className="w-full bg-red-600 text-white py-3 rounded-lg hover:bg-red-700 transition"
-        >
+        <button onClick={handleSubmit} className="urgent-button">
           Submit Request
         </button>
       </div>
