@@ -1,16 +1,30 @@
-.buy-container {
+/* ---------------- Reset global margins and prevent horizontal scroll ---------------- */
+html, body {
     margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; /* prevents horizontal scroll */
     font-family: 'Montserrat', Arial, sans-serif;
-    background: url('https://i.pinimg.com/736x/ff/b8/ed/ffb8eda73de41d8dfdad7e5fcc56ca6c.jpg') no-repeat center center fixed;
-    background-size: cover;
-    min-height: 100vh;
-    color: white;
+    box-sizing: border-box; /* include padding/border in element width */
+}
+
+/* ---------------- Buy container with fullscreen background ---------------- */
+.buy-container {
+    width: 100%;
+    min-height: 100vh; /* full viewport height */
     padding: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: #1f2937; /* Dark text */
+    background: url('https://i.pinimg.com/736x/bd/6e/56/bd6e56b6fcef43fae1ff96dc39cc724e.jpg') no-repeat center center fixed;
+    background-size: cover; /* cover entire screen */
+    background-attachment: fixed; /* keeps bg fixed while scrolling */
+    box-sizing: border-box; /* ensures padding doesn't cause overflow */
 }
 
+/* ---------------- Profile icon ---------------- */
 .profile-icon {
     position: absolute;
     top: 20px;
@@ -23,13 +37,15 @@
     border-radius: 50%;
     object-fit: cover;
     cursor: pointer;
-    border: 2px solid white;
+    border: 2px solid #800000; /* Maroon border */
 }
 
+/* ---------------- Animated heading ---------------- */
 .animated-heading {
     font-size: 1.5rem;
     margin-bottom: 30px;
     text-align: center;
+    color: #800000; /* Maroon heading */
 }
 
 .animated-heading span {
@@ -42,6 +58,7 @@
     to { opacity: 1; }
 }
 
+/* ---------------- Search container ---------------- */
 .search-container {
     width: 100%;
     max-width: 600px;
@@ -52,19 +69,27 @@
     width: 100%;
     padding: 12px 20px;
     border-radius: 25px;
-    border: none;
+    border: 1px solid #800000; /* Maroon border */
     font-size: 1rem;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    box-shadow: 2px 2px 8px rgba(128,0,0,0.25); /* Maroon shadow */
     outline: none;
+    background: #fffbe6; /* Light beige */
+    color: #1f2937; /* Dark text */
+    box-sizing: border-box;
 }
 
+/* ---------------- Categories row ---------------- */
 .categories-row {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap; /* wrap buttons on smaller screens */
     gap: 20px;
     margin-bottom: 20px;
+    max-width: 100%; /* prevent overflow */
+    box-sizing: border-box;
 }
 
+/* ---------------- Category buttons ---------------- */
 .category-button {
     width: 250px;
     height: 250px;
@@ -75,19 +100,33 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    box-shadow: 2px 2px 8px rgba(128,0,0,0.25); /* Maroon shadow */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .category-button:hover {
     transform: scale(1.05);
-    box-shadow: 6px 6px 20px rgba(0,0,0,0.5);
+    box-shadow: 6px 6px 20px rgba(128,0,0,0.4); /* stronger hover shadow */
 }
 
+/* ---------------- Overlay text ---------------- */
 .overlay {
-    background: rgba(0,0,0,0.5);
+    background: rgba(128,0,0,0.6); /* Semi-transparent maroon overlay */
+    color: #f5f5dc; /* Beige text */
     width: 100%;
     text-align: center;
     padding: 10px 0;
     font-weight: bold;
+}
+
+/* ---------------- Responsive adjustments ---------------- */
+@media(max-width: 600px) {
+    .category-button {
+        width: 45%; /* shrink buttons on small screens */
+        height: 200px;
+    }
+
+    .search-container {
+        width: 100%;
+    }
 }

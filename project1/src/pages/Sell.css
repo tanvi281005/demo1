@@ -2,31 +2,30 @@
 .sellPage {
   width: 100vw;
   min-height: 100vh;
-  background: url('https://i.pinimg.com/736x/ff/b8/ed/ffb8eda73de41d8dfdad7e5fcc56ca6c.jpg') no-repeat center center;
-  background-size: cover;
+  background: #f5f5dc; /* Beige background */
   display: flex;
   justify-content: center;
   align-items: flex-start;
   padding: 50px 20px;
   box-sizing: border-box;
   font-family: 'Montserrat', Arial, sans-serif;
-  color: #333;
+  color: #1f2937; /* Dark text */
 }
 
 /* Container scoped inside sellPage */
 .sellPage-container {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(128, 0, 0, 0.95); /* Maroon container with slight transparency */
   padding: 30px;
   border-radius: 15px;
   max-width: 600px;
   width: 100%;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(128, 0, 0, 0.4); /* Maroonish shadow */
 }
 
 .sellPage-container h1 {
   text-align: center;
   margin-bottom: 25px;
-  color: #007bff;
+  color: #f5f5dc; /* Beige heading */
 }
 
 .sellPage-container form {
@@ -37,6 +36,7 @@
 
 .sellPage-container label {
   font-weight: 600;
+  color: #f5f5dc; /* Beige labels */
 }
 
 .sellPage-container input[type="text"],
@@ -45,10 +45,12 @@
 .sellPage-container textarea {
   padding: 10px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #800000; /* Maroon borders */
   font-size: 0.95rem;
   width: 100%;
   box-sizing: border-box;
+  background: #f5f5dc; /* Beige input background */
+  color: #1f2937; /* Dark text */
 }
 
 .sellPage-container textarea {
@@ -61,8 +63,8 @@
 }
 
 .sellPage-container button {
-  background: #007bff;
-  color: white;
+  background: #800000; /* Maroon button */
+  color: #f5f5dc; /* Beige text */
   border: none;
   padding: 12px;
   border-radius: 5px;
@@ -72,7 +74,7 @@
 }
 
 .sellPage-container button:hover {
-  background: #0056b3;
+  background: #800000cc; /* Slightly lighter maroon on hover */
 }
 
 @media (max-width: 500px) {
