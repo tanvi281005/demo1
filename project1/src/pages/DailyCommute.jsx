@@ -35,7 +35,7 @@ function DailyCommute() {
 
   return (
     <div className="daily-container">
-      <h2 className="daily-title">Book Your Daily Commute</h2>
+      {/* 🔴 Removed the <h2 className="daily-title">Book Your Daily Commute</h2> */}
 
       {/* Form */}
       <div className="daily-form">
@@ -65,7 +65,6 @@ function DailyCommute() {
       {/* Results */}
       {buses.length > 0 && (
         <div className="results-container">
-          {/* <h3 className="results-title">Available Buses</h3> */}
           {buses.map((bus) => (
             <div key={bus.id} className="bus-card">
               <h4 className="bus-name">{bus.name}</h4>
