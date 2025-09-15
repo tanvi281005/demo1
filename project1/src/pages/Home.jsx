@@ -7,7 +7,7 @@ const panelsData = [
   { title: "Mental Wellbeing", image: "/images/wellness1.jpg", content: "Access wellness resources and support." },
   { title: "Buy & Sell", image: "/images/buysell1.jpg", content: "Trade items within campus securely." , route: "/buysellpage" },
   { title: "Food & Water", image: "/images/food1.jpg", content: "Order food and manage water bookings." },
-  { title: "Academic Resources", image: "/images/academic1.jpg", content: "Notes, assignments, and study material." },
+  { title: "Academic Resources", image: "/images/academic1.jpg", content: "Notes, assignments, and study material.", route: "/academic" },
 ];
 
 export default function Home() {

@@ -11,6 +11,7 @@ import Vehicles from "./pages/Vehicles"
 import Coats from "./pages/Coats"
 import Miscellaneous from "./pages/Miscellaneous"
 import Sell from "./pages/Sell"
+import Resources from "./pages/Resources";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/coats" element={<Coats />} />
         <Route path="/miscellaneous" element={<Miscellaneous />} />
         <Route path="/sell" element={<Sell />} />
+        <Route path="/academic" element={<Resources />} />
       </Routes>
     </Router>
   );
