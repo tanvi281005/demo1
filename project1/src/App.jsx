@@ -12,6 +12,7 @@ import Coats from "./pages/Coats"
 import Miscellaneous from "./pages/Miscellaneous"
 import Sell from "./pages/Sell"
 import Resources from "./pages/Resources";
+import UploadResourceForm from "./pages/UploadResourceForm";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/miscellaneous" element={<Miscellaneous />} />
         <Route path="/sell" element={<Sell />} />
         <Route path="/academic" element={<Resources />} />
+        <Route path="/upload" element={<UploadResourceForm />} />
       </Routes>
     </Router>
   );

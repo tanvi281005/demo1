@@ -21,7 +21,7 @@ export default function Resources() {
           <button
             type="button"
             className="resources-bar"
-            onClick={() => navigate("/upload-resources")}
+            onClick={() => navigate("/upload")}
           >
             <div className="bar-left">
               <span className="bar-icon">📤</span>
