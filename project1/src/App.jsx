@@ -13,6 +13,7 @@ import Miscellaneous from "./pages/Miscellaneous"
 import Sell from "./pages/Sell"
 import Resources from "./pages/Resources";
 import UploadResourceForm from "./pages/UploadResourceForm";
+import RecipesPage from "./pages/RecipesPage";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/sell" element={<Sell />} />
         <Route path="/academic" element={<Resources />} />
         <Route path="/upload" element={<UploadResourceForm />} />
+        <Route path="/food" element={<RecipesPage/>} />
       </Routes>
     </Router>
   );
