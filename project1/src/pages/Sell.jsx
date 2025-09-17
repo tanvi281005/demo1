@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Sell.css"; // scoped CSS with prefixes
+import "./Sell.css"; // Keep your existing styles here
 
 const Sell = () => {
   const [formData, setFormData] = useState({
@@ -47,77 +47,86 @@ const Sell = () => {
 
   return (
     <div className="sellPage">
-      <div className="sellPage-container">
-        <h1>Sell Your Item</h1>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="category">Select Category:</label>
-          <select
-            id="category"
-            value={formData.category}
-            onChange={handleChange}
-            required
-          >
-            <option value="">--Select Category--</option>
-            <option value="electronics">Electronics</option>
-            <option value="books">Books & Stationery</option>
-            <option value="vehicles">Vehicles</option>
-            <option value="coats">Coats & Formals</option>
-            <option value="miscellaneous">Miscellaneous</option>
-          </select>
+      {/* Video background */}
+      <video className="background-video" autoPlay loop muted>
+        <source src="https://v1.pinimg.com/videos/mc/720p/8c/1d/ed/8c1dedb16848cf25a21ef3d943796b93.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
 
-          <label htmlFor="name">Item Name:</label>
-          <input
-            type="text"
-            id="name"
-            placeholder="Enter item name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+      {/* Content on top of the video */}
+      <div className="content">
+        <div className="sellPage-container">
+          <h1>Post your Ad</h1>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="category">Select Category:</label>
+            <select
+              id="category"
+              value={formData.category}
+              onChange={handleChange}
+              required
+            >
+              <option value="">--Select Category--</option>
+              <option value="electronics">Electronics</option>
+              <option value="books">Books & Stationery</option>
+              <option value="vehicles">Vehicles</option>
+              <option value="coats">Coats & Formals</option>
+              <option value="miscellaneous">Miscellaneous</option>
+            </select>
 
-          <label htmlFor="description">Description:</label>
-          <textarea
-            id="description"
-            placeholder="Enter item description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-          ></textarea>
+            <label htmlFor="name">Item Name:</label>
+            <input
+              type="text"
+              id="name"
+              placeholder="Enter item name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
 
-          <label htmlFor="price">Price:</label>
-          <input
-            type="number"
-            id="price"
-            placeholder="Enter price"
-            min="0"
-            value={formData.price}
-            onChange={handleChange}
-            required
-          />
+            <label htmlFor="description">Description:</label>
+            <textarea
+              id="description"
+              placeholder="Enter item description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+            ></textarea>
 
-          <label htmlFor="condition">Condition:</label>
-          <select
-            id="condition"
-            value={formData.condition}
-            onChange={handleChange}
-            required
-          >
-            <option value="">--Select Condition--</option>
-            <option value="new">New</option>
-            <option value="used">Used</option>
-          </select>
+            <label htmlFor="price">Price:</label>
+            <input
+              type="number"
+              id="price"
+              placeholder="Enter price"
+              min="0"
+              value={formData.price}
+              onChange={handleChange}
+              required
+            />
 
-          <label htmlFor="sell-image">Upload Image:</label>
-          <input
-            type="file"
-            id="sell-image"
-            accept="image/*"
-            onChange={handleChange}
-            required
-          />
+            <label htmlFor="condition">Condition:</label>
+            <select
+              id="condition"
+              value={formData.condition}
+              onChange={handleChange}
+              required
+            >
+              <option value="">--Select Condition--</option>
+              <option value="new">New</option>
+              <option value="used">Used</option>
+            </select>
 
-          <button type="submit">Upload Item</button>
-        </form>
+            <label htmlFor="sell-image">Upload Image:</label>
+            <input
+              type="file"
+              id="sell-image"
+              accept="image/*"
+              onChange={handleChange}
+              required
+            />
+
+            <button type="submit">Upload Item</button>
+          </form>
+        </div>
       </div>
     </div>
   );

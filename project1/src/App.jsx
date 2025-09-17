@@ -13,12 +13,15 @@ import Miscellaneous from "./pages/Miscellaneous"
 import Sell from "./pages/Sell"
 import Resources from "./pages/Resources";
 import UploadResourceForm from "./pages/UploadResourceForm";
+import StudentRegister from "./pages/StudentRegister";
+import StudentLogin from "./pages/StudentLogin";
+// import Home from "./pages/Home.jsx"
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<StudentRegister />} />
         <Route path="/transport" element={<TransportServices />} />
         <Route path="/daily-commute" element={<DailyCommute />} />
         <Route path="/urgent" element={<UrgentForm />} />
@@ -32,6 +35,9 @@ function App() {
         <Route path="/sell" element={<Sell />} />
         <Route path="/academic" element={<Resources />} />
         <Route path="/upload" element={<UploadResourceForm />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<StudentLogin />} />
+        <Route path="/register" element={<StudentRegister />} />
       </Routes>
     </Router>
   );
