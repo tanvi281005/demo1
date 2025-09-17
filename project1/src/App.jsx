@@ -17,11 +17,13 @@ import StudentRegister from "./pages/StudentRegister";
 import StudentLogin from "./pages/StudentLogin";
 // import Home from "./pages/Home.jsx"
 import RecipesPage from "./pages/RecipesPage";
+import Layout from "./pages/Layout";
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route element={<Layout />}>
         <Route path="/" element={<StudentRegister />} />
         <Route path="/transport" element={<TransportServices />} />
         <Route path="/daily-commute" element={<DailyCommute />} />
@@ -39,6 +41,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<StudentLogin />} />
         <Route path="/food" element={<RecipesPage/>} />
+        </Route>
       </Routes>
     </Router>
   );
