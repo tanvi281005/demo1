@@ -30,7 +30,7 @@ const StudentRegister = () => {
     // Normally, send data to backend and handle errors
 
     alert("Registration successful!");
-    navigate("/"); // Redirect to Home page
+    navigate("/home"); // Redirect to Home page
   };
 
   return (

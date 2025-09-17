@@ -17,12 +17,14 @@ import StudentRegister from "./pages/StudentRegister";
 import StudentLogin from "./pages/StudentLogin";
 // import Home from "./pages/Home.jsx"
 import RecipesPage from "./pages/RecipesPage";
+import Layout from "./pages/Layout";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/" element={<StudentRegister />} /> */}
+        <Route element={<Layout />}>
+        <Route path="/" element={<StudentRegister />} />
         <Route path="/transport" element={<TransportServices />} />
         <Route path="/daily-commute" element={<DailyCommute />} />
         <Route path="/urgent" element={<UrgentForm />} />
@@ -36,10 +38,10 @@ function App() {
         <Route path="/sell" element={<Sell />} />
         <Route path="/academic" element={<Resources />} />
         <Route path="/upload" element={<UploadResourceForm />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/login" element={<StudentLogin />} />
-        <Route path="/register" element={<StudentRegister />} />
         <Route path="/food" element={<RecipesPage/>} />
+        </Route>
       </Routes>
     </Router>
   );
