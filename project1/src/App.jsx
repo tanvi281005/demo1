@@ -13,15 +13,18 @@ import Miscellaneous from "./pages/Miscellaneous"
 import Sell from "./pages/Sell"
 import Resources from "./pages/Resources";
 import UploadResourceForm from "./pages/UploadResourceForm";
-import MentalWellness from "./pages/MentalWellness";
-import FindSupport from "./pages/FindSupport";
-
+import StudentRegister from "./pages/StudentRegister";
+import StudentLogin from "./pages/StudentLogin";
+// import Home from "./pages/Home.jsx"
+import RecipesPage from "./pages/RecipesPage";
+import Layout from "./pages/Layout";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route element={<Layout />}>
+        <Route path="/" element={<StudentRegister />} />
         <Route path="/transport" element={<TransportServices />} />
         <Route path="/daily-commute" element={<DailyCommute />} />
         <Route path="/urgent" element={<UrgentForm />} />
@@ -37,8 +40,11 @@ function App() {
         <Route path="/upload" element={<UploadResourceForm />} />
         <Route path="/wellness" element={<MentalWellness />} />
         <Route path="/support" element={<FindSupport />} />
-        <Route path="/counsellor" element={<CounsellorDetails />} />
-
+        <Route path="/counsellor/:id" element={<CounsellorDetails />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/login" element={<StudentLogin />} />
+        <Route path="/food" element={<RecipesPage/>} />
+        </Route>
       </Routes>
     </Router>
   );

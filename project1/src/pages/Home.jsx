@@ -6,7 +6,7 @@ const panelsData = [
   { title: "Transport Bookings", image: "/images/bus1.jpg", content: "Book buses, cabs, or rides easily.", route: "/transport" },
   { title: "Mental Wellbeing", image: "/images/wellness1.jpg", content: "Access wellness resources and support." , route:"/wellness"},
   { title: "Buy & Sell", image: "/images/buysell1.jpg", content: "Trade items within campus securely." , route: "/buysellpage" },
-  { title: "Food & Water", image: "/images/food1.jpg", content: "Order food and manage water bookings." },
+  { title: "Food & Water", image: "/images/food1.jpg", content: "Order food and manage water bookings.", route:"/food" },
   { title: "Academic Resources", image: "/images/academic1.jpg", content: "Notes, assignments, and study material.", route: "/academic" },
 ];
 

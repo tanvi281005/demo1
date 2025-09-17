@@ -1,0 +1,113 @@
+.studentPage {
+  min-height: 100vh;
+  width: 100%;
+  background: url('https://i.pinimg.com/736x/bd/6e/56/bd6e56b6fcef43fae1ff96dc39cc724e.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Center vertically and horizontally */
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: 'Montserrat', Arial, sans-serif;
+  color: #1f2937;
+}
+
+.studentPage-container {
+  background: rgba(128, 0, 0, 0.95);
+  padding: 30px 25px;
+  border-radius: 15px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 8px 20px rgba(128, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.studentPage-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(128, 0, 0, 0.6);
+}
+
+.studentPage-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #f5f5dc;
+  font-size: 2rem;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+
+.studentPage-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.studentPage-container label {
+  font-weight: 600;
+  color: #f5f5dc;
+}
+
+.studentPage-container input[type="text"],
+.studentPage-container input[type="email"],
+.studentPage-container input[type="number"],
+.studentPage-container input[type="date"],
+.studentPage-container input[type="tel"],
+.studentPage-container select {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #800000;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  background: #f5f5dc;
+  color: #1f2937;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.studentPage-container input[type="text"]:focus,
+.studentPage-container input[type="email"]:focus,
+.studentPage-container input[type="number"]:focus,
+.studentPage-container input[type="date"]:focus,
+.studentPage-container input[type="tel"]:focus,
+.studentPage-container select:focus {
+  border-color: #b22222;
+  box-shadow: 0 0 8px rgba(128, 0, 0, 0.5);
+}
+
+.studentPage-container button {
+  background: #800000;
+  color: #f5f5dc;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.studentPage-container button:hover {
+  background: #b22222;
+  transform: scale(1.05);
+}
+
+.login-text {
+  text-align: center;
+  margin-top: 20px;
+  color: #f5f5dc;
+}
+
+.login-text a {
+  color: #f5f5dc;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+  .studentPage-container {
+    padding: 20px 15px;
+  }
+
+  .studentPage-container h1 {
+    font-size: 1.5rem;
+  }
+}

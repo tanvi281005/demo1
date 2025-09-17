@@ -1,7 +1,12 @@
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+  margin-top: 45px; /* same as navbar height */
+  width: 100%;
   text-align: center;
 }
 

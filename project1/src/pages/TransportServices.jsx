@@ -7,9 +7,9 @@ export default function TransportServices() {
 
   return (
     <div className="transport-wrapper">
-      {/* Background video */}
+      {/* Background bus video */}
       <video
-        className="background-video"
+        className="bus_background_video"
         autoPlay
         loop
         muted
@@ -19,7 +19,7 @@ export default function TransportServices() {
         Your browser does not support the video tag.
       </video>
 
-      {/* Foreground overlay */}
+      {/* Overlay with options */}
       <div className="transport-overlay">
         <h1 className="transport-title">Choose Your Commute</h1>
 

@@ -41,12 +41,18 @@
   padding: 14px;
   border: 1px solid #c4a484; /* beige tone border */
   border-radius: 12px;
+  color:black;
   font-size: 1.1rem;
   outline: none;
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
   resize: none;
 }
-
+.urgent-input option[value=""] {
+  color: grey;
+}
+.urgent-input:invalid {
+  color: grey;
+}
 .urgent-input:focus {
   border-color: maroon;
   box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.3);

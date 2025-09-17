@@ -1,10 +1,11 @@
 .container_misc {
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto;
     padding: 50px 20px;
     box-sizing: border-box;
 }
 
+/* Header */
 .header_misc {
     display: flex;
     align-items: center;
@@ -16,7 +17,7 @@
 
 .header_misc h1 {
     font-size: 2.4rem;
-    color: white;
+    color: white; /* Maroon */
     margin: 0;
 }
 
@@ -30,8 +31,10 @@
 .controls_misc select {
     padding: 10px 15px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #cbd5e1; /* Light gray border */
     font-size: 0.95rem;
+    background: #f5f5dc; /* Beige / light background */
+    color: #1f2937; /* Dark gray text */
 }
 
 .products_grid {
@@ -41,9 +44,9 @@
 }
 
 .product_card {
-    background: white;
+    background: #f5f5dc; /* Beige background */
     border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 6px rgba(128, 0, 0, 0.25); /* Maroonish shadow */
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -52,6 +55,7 @@
 
 .product_card:hover {
     transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(128, 0, 0, 0.4); /* stronger hover shadow */
 }
 
 .product_card img {
@@ -70,6 +74,7 @@
 .product_info h3 {
     margin: 0 0 10px 0;
     font-size: 1.2rem;
+    color: #800000; /* Maroon titles */
 }
 
 .product_info p {
@@ -77,26 +82,28 @@
     margin: 0 0 10px 0;
     font-size: 0.9rem;
     line-height: 1.3;
+    color: #1f2937; /* Dark gray text */
 }
 
 .product_meta {
     font-size: 0.8rem;
-    color: #666;
+    color: #374151; /* Medium gray */
     margin-bottom: 10px;
 }
 
 .request_buy {
-    background: #007bff;
-    color: white;
+    background: #800000; /* Maroon button */
+    color: #f5f5dc; /* Beige text */
     border: none;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
     text-align: center;
+    transition: background 0.3s ease;
 }
 
 .request_buy:hover {
-    background: #0056b3;
+    background: #800000cc; /* Lighter maroon hover */
 }
 
 @media(max-width: 600px) {

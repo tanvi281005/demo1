@@ -10,8 +10,8 @@
   background: #000;
 }
 
-/* Background video covering entire viewport */
-.background-video {
+/* Background bus video covering entire viewport */
+.bus_background_video {
   position: absolute;
   top: 0;
   left: 0;
@@ -27,18 +27,18 @@
   z-index: 2;
   height: 100%;
   width: 100%;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.45); /* slightly lighter so bus video shows */
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start; /* title a little above center */
+  justify-content: flex-start;
   color: white;
   text-align: center;
   padding: 2.5rem 1rem;
   box-sizing: border-box;
 }
 
-/* Title slightly above and centered */
+/* Title styling */
 .transport-title {
   font-size: 2.2rem;
   font-weight: 700;
@@ -46,7 +46,7 @@
   text-shadow: 0 2px 8px rgba(0,0,0,0.8);
 }
 
-/* Container for vertical (stacked) bars */
+/* Container for vertical stacked options */
 .transport-options-vertical {
   display: flex;
   flex-direction: column;
@@ -57,7 +57,7 @@
   box-sizing: border-box;
 }
 
-/* Bar common styles - use a button (accessible) */
+/* Transport option button */
 .transport-bar {
   display: flex;
   align-items: center;
@@ -101,7 +101,7 @@
   margin-left: 0.5rem;
 }
 
-/* Hover/focus */
+/* Hover/focus effects */
 .transport-bar:hover,
 .transport-bar:focus {
   transform: translateY(-6px);
@@ -110,7 +110,7 @@
   outline: none;
 }
 
-/* Urgent variant (slightly different tinted background) */
+/* Urgent commute variant */
 .transport-bar-urgent {
   background: rgba(255, 60, 60, 0.10);
 }

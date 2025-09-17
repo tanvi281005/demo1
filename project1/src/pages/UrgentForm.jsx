@@ -58,11 +58,21 @@ function UrgentForm() {
           onChange={handleChange}
           className="urgent-input"
         />
-        <select name="nurse" onChange={handleChange} className="urgent-input">
-          <option value="">Nurse Required?</option>
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
+<select
+  name="nurse"
+  value={form.nurse}
+  onChange={handleChange}
+  className="urgent-input"
+  required
+>
+  <option value="" disabled hidden>
+    Nurse Required?
+  </option>
+  <option value="Yes">Yes</option>
+  <option value="No">No</option>
+</select>
+
+
         <textarea
           name="necessity"
           placeholder="Any Medical Necessity (if any)"

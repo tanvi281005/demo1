@@ -1,0 +1,31 @@
+body {
+    font-family: "Georgia", serif;
+  }
+  
+  /* Gold star styles */
+  .star {
+    font-size: 1.4rem;
+    color: #d4af37;
+    margin-right: 2px;
+  }
+  .star.empty {
+    color: #f5deb3;
+  }
+  
+  .font-georgia {
+    font-family: Georgia, serif;
+  }
+  
+  .bg-dot-pattern {
+    background-color: #f9f6f1;
+    background-image: radial-gradient(circle at 20px 20px, #f3e8dd 2px, transparent 3px),
+                      radial-gradient(circle at 40px 40px, #fbeee6 2px, transparent 3px);
+    background-size: 40px 40px;
+  }
+  
+  /* Selected time slot */
+  .selected {
+    background-color: #800000 !important;
+    color: white !important;
+  }
+  

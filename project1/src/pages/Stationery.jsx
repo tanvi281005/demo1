@@ -66,7 +66,7 @@ const Products = () => {
         <div 
             className="container_products" 
             style={{ 
-                background: "url('https://i.pinimg.com/1200x/a7/2a/b8/a72ab8093e5d210f44a37a448407e38b.jpg') no-repeat center center fixed",
+                background: "url('https://i.pinimg.com/736x/88/71/17/887117d90c4932905617a247eab26fd5.jpg') no-repeat center center fixed",
                 backgroundSize: 'cover',
                 minHeight: '100vh',
                 color: '#333',
