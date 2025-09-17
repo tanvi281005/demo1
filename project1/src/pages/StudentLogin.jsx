@@ -19,7 +19,7 @@ const StudentLogin = () => {
     // Normally, authenticate user here
 
     alert("Login successful!");
-    navigate("/home"); // Redirect to Home page
+    navigate("/"); // Redirect to Home page
   };
 
   return (
