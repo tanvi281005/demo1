@@ -16,6 +16,7 @@ import UploadResourceForm from "./pages/UploadResourceForm";
 import StudentRegister from "./pages/StudentRegister";
 import StudentLogin from "./pages/StudentLogin";
 // import Home from "./pages/Home.jsx"
+import RecipesPage from "./pages/RecipesPage";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<StudentLogin />} />
         <Route path="/register" element={<StudentRegister />} />
+        <Route path="/food" element={<RecipesPage/>} />
       </Routes>
     </Router>
   );
