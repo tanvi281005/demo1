@@ -19,7 +19,7 @@ const StudentLogin = () => {
     // Normally, authenticate user here
 
     alert("Login successful!");
-    navigate("/"); // Redirect to Home page
+    navigate("/home"); // Redirect to Home page
   };
 
   return (
@@ -36,7 +36,7 @@ const StudentLogin = () => {
           <button type="submit">Login</button>
         </form>
         <div className="login-text">
-          Don't have an account? <a onClick={() => navigate("/register")}>Register here</a>
+          Don't have an account? <a onClick={() => navigate("/")}>Register here</a>
         </div>
       </div>
     </div>

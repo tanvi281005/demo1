@@ -22,7 +22,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* <Route path="/" element={<StudentRegister />} /> */}
+        <Route path="/" element={<StudentRegister />} />
         <Route path="/transport" element={<TransportServices />} />
         <Route path="/daily-commute" element={<DailyCommute />} />
         <Route path="/urgent" element={<UrgentForm />} />
@@ -36,9 +36,8 @@ function App() {
         <Route path="/sell" element={<Sell />} />
         <Route path="/academic" element={<Resources />} />
         <Route path="/upload" element={<UploadResourceForm />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/login" element={<StudentLogin />} />
-        <Route path="/register" element={<StudentRegister />} />
         <Route path="/food" element={<RecipesPage/>} />
       </Routes>
     </Router>
