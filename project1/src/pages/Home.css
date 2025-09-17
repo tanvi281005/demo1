@@ -6,7 +6,8 @@
   justify-content: center;
   min-height: 100vh;
   padding: 20px;
-  background: linear-gradient(to bottom right, #1f2937, #111827);
+  background: url('https://i.pinimg.com/736x/bd/6e/56/bd6e56b6fcef43fae1ff96dc39cc724e.jpg') no-repeat center center fixed;
+  background-size: cover; /* cover entire screen */
   color: white;
   font-family: Arial, sans-serif;
 }
@@ -14,6 +15,7 @@
 .title {
   font-size: 2.5rem;
   font-weight: bold;
+  color: #800000;
   margin-bottom: 40px;
   text-align: center;
 }
