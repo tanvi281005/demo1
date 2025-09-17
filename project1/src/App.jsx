@@ -22,7 +22,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<StudentRegister />} />
+        {/* <Route path="/" element={<StudentRegister />} /> */}
         <Route path="/transport" element={<TransportServices />} />
         <Route path="/daily-commute" element={<DailyCommute />} />
         <Route path="/urgent" element={<UrgentForm />} />
