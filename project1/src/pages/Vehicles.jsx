@@ -58,7 +58,7 @@ const Vehicles = () => {
         <div 
             className="container_vehicles"
             style={{ 
-                background: "url('https://i.pinimg.com/736x/11/87/02/11870269b885fddb29b190aa36ffe6d3.jpg') no-repeat center center fixed",
+                background: "url('https://i.pinimg.com/736x/5e/1d/44/5e1d44ff80203d654a6178c30eecaa63.jpg') no-repeat center center fixed",
                 backgroundSize: 'cover',
                 minHeight: '100vh',
                 color: '#333',
