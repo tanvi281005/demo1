@@ -10,8 +10,8 @@
   overflow: hidden;
 }
 
-/* Background video */
-.background-video {
+/* Background video (scoped only for resource page) */
+.resource-container .resource-background-video {
   position: absolute;
   top: 0;
   left: 0;

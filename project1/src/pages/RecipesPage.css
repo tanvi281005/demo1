@@ -1,19 +1,49 @@
 .recipes-wrapper {
   font-family: "Poppins", sans-serif;
-  background: #f8f8f8;
+  background: beige;
   min-height: 100vh;
   padding: 2rem;
-  
   text-align: center;
 }
 
+/* 🔹 Title container with unique video */
+.recipes-title-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 2rem auto;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 250px; /* fixed height banner */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 🔹 Unique video class (food video) */
+.recipes-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0; /* ensure it's visible */
+}
+
+/* 🔹 Title text overlay */
 .recipes-title {
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 1.5rem;
+  padding: 1rem 2rem;
+  color: white;
+  position: relative;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.4); /* translucent dark overlay */
+  border-radius: 12px;
 }
 
-/* Category buttons */
+/* 🔹 Category buttons */
 .categories {
   display: flex;
   justify-content: center;
@@ -42,13 +72,13 @@
   background: #ddd;
 }
 
-/* Recipe count */
+/* 🔹 Recipe count */
 .recipe-count {
   margin-bottom: 2rem;
   color: #555;
 }
 
-/* Recipes grid */
+/* 🔹 Recipes grid */
 .recipes-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -59,7 +89,7 @@
 .recipe-card {
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   transition: transform 0.2s ease;
   text-align: left;
