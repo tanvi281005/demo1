@@ -18,6 +18,9 @@ import StudentLogin from "./pages/StudentLogin";
 // import Home from "./pages/Home.jsx"
 import RecipesPage from "./pages/RecipesPage";
 import Layout from "./pages/Layout";
+import MentalWellness from "./pages/MentalWellness"
+import FindSupport from "./pages/FindSupport"
+import CounsellorDetails from "./pages/CounsellorDetails";
 
 function App() {
   return (
@@ -38,6 +41,9 @@ function App() {
         <Route path="/sell" element={<Sell />} />
         <Route path="/academic" element={<Resources />} />
         <Route path="/upload" element={<UploadResourceForm />} />
+        <Route path="/wellness" element={<MentalWellness />} />
+        <Route path="/support" element={<FindSupport />} />
+        <Route path="/counsellor/:id" element={<CounsellorDetails />} />
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<StudentLogin />} />
         <Route path="/food" element={<RecipesPage/>} />
