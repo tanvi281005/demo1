@@ -11,6 +11,7 @@ const categories = [
 ];
 
 const recipes = [
+<<<<<<< HEAD
   {
     id: 1,
     title: "Suzi's Crabcakes Inspired",
@@ -46,6 +47,16 @@ const recipes = [
     category: "Main Courses",
     img: "/images/food5.jpeg",
   },
+=======
+ 
+ 
+  { id: 1, title: "Suzi's Crabcakes Inspired", author: "Suzi Perry", category: "Starters", img: "./images/food1.jpg" },
+  { id: 2, title: "Creamy Prawn, Bacon & Broccoli Pasta", author: "Ricky Alberta", category: "Starters", img: "./images/food2.jpeg" },
+  { id: 3, title: "Creamy Chicken & Pasta Bake", author: "Suzi Perry", category: "Starters", img: "./images/food3.jpeg" },
+  { id: 4, title: "Italian Veggie Delight", author: "Maria Rossi", category: "Main Courses", img: "./images/food4.jpeg" },
+  { id: 5, title: "Classic Spaghetti Pomodoro", author: "Luigi Romano", category: "Main Courses", img: "./images/food5.jpeg" },
+
+>>>>>>> 0e14454fc54a9008e4492c5a023f41cf2dda9963
 ];
 
 function RecipesPage() {

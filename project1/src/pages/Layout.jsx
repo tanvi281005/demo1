@@ -5,9 +5,10 @@ export default function Layout() {
   return (
     <>
       <Navbar />
-      <div style={{ marginTop: "70px", padding: "20px" }}>
-        <Outlet /> 
-      </div>
+      <div style={{ paddingTop: "70px", padding: "20px" }}>
+  <Outlet />
+</div>
+
     </>
   );
 }
