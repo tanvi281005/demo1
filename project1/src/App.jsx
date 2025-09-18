@@ -18,6 +18,9 @@ import StudentLogin from "./pages/StudentLogin";
 // import Home from "./pages/Home.jsx"
 import RecipesPage from "./pages/RecipesPage";
 import Layout from "./pages/Layout";
+import MentalWellness from "./pages/MentalWellness"
+import FindSupport from "./pages/FindSupport"
+import CounsellorDetails from "./pages/CounsellorDetails";
 
 function App() {
   return (

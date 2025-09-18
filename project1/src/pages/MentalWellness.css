@@ -11,10 +11,12 @@ body, html {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f7f7f7; /* Light off-white background */
+    background-image: linear-gradient(to bottom, #f5f5dc, #fdf6e3, #f5f5dc);
+    background-color: #fdf6e3; /* Fallback color */
     padding: 20px;
     box-sizing: border-box;
   }
+  
   
   /* The main white box (card) */
   .wellness-card {

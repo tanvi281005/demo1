@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import "./CounsellorDetails.css"; // Custom styles for stars, background, etc.
+import React, { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import "./CounsellorDetails.css";
 
 const counsellors = {
-  "Priya Sharma": {
+  1: {
     name: "Dr. Priya Sharma",
     specialization: "Substance Use",
     experience: "10 years experience",
@@ -11,9 +11,9 @@ const counsellors = {
     slots: ["10:00 AM - 11:00 AM", "11:30 AM - 12:30 PM", "2:00 PM - 3:00 PM"],
     description:
       "Dr. Priya Sharma is a compassionate expert helping individuals overcome substance challenges with a holistic approach.",
-    rating: 4.8,
+    rating: 5,
   },
-  "Rohan Verma": {
+  2: {
     name: "Mr. Rohan Verma",
     specialization: "Relationships",
     experience: "7 years experience",
@@ -21,20 +21,74 @@ const counsellors = {
     slots: ["2:00 PM - 3:00 PM", "3:30 PM - 4:30 PM", "5:00 PM - 6:00 PM"],
     description:
       "Mr. Rohan Verma specializes in relationship counselling with a focus on communication and emotional healing.",
-    rating: 4.5,
+    rating: 5,
   },
-  // Add other counsellors similarly...
+  3: {
+    name: "Ms. Anjali Rao",
+    specialization: "Anxiety",
+    experience: "6 years experience",
+    img: "https://cdn-icons-png.flaticon.com/512/4359/4359970.png",
+    slots: ["11:00 AM - 12:00 PM", "1:00 PM - 2:00 PM", "3:00 PM - 4:00 PM"],
+    description:
+      "Ms. Anjali Rao supports individuals struggling with anxiety through mindfulness and therapeutic strategies.",
+    rating: 4,
+  },
+  4: {
+    name: "Dr. Sameer Gupta",
+    specialization: "Depression",
+    experience: "9 years experience",
+    img: "https://cdn-icons-png.flaticon.com/512/4140/4140047.png",
+    slots: ["3:00 PM - 5:00 PM", "6:00 PM - 7:00 PM"],
+    description:
+      "Dr. Sameer Gupta provides empathetic care for those facing depression with evidence-based approaches.",
+    rating: 5,
+  },
+  5: {
+    name: "Ms. Kavya Iyer",
+    specialization: "Relationships",
+    experience: "5 years experience",
+    img: "https://cdn-icons-png.flaticon.com/512/4140/4140048.png",
+    slots: ["9:00 AM - 10:00 AM", "10:30 AM - 11:30 AM", "12:00 PM - 1:00 PM"],
+    description:
+      "Ms. Kavya Iyer helps couples and individuals build healthy, fulfilling relationships through therapy.",
+    rating: 4,
+  },
+  6: {
+    name: "Dr. Arjun Menon",
+    specialization: "Career Guidance",
+    experience: "8 years experience",
+    img: "https://cdn-icons-png.flaticon.com/512/706/706830.png",
+    slots: ["1:00 PM - 2:00 PM", "2:30 PM - 3:30 PM", "4:00 PM - 5:00 PM"],
+    description:
+      "Dr. Arjun Menon guides young professionals and students toward meaningful and goal-oriented careers.",
+    rating: 5,
+  },
+  7: {
+    name: "Ms. Nidhi Sharma",
+    specialization: "Anxiety",
+    experience: "6 years experience",
+    img: "https://cdn-icons-png.flaticon.com/512/3940/3940056.png",
+    slots: ["4:00 PM - 5:00 PM", "5:30 PM - 6:30 PM"],
+    description:
+      "Ms. Nidhi Sharma helps individuals manage anxiety with a focus on lifestyle, therapy, and coping tools.",
+    rating: 4,
+  },
+  8: {
+    name: "Dr. Meera Iyer",
+    specialization: "Substance Use",
+    experience: "11 years experience",
+    img: "https://cdn-icons-png.flaticon.com/512/4359/4359906.png",
+    slots: ["10:00 AM - 12:00 PM", "1:00 PM - 2:00 PM"],
+    description:
+      "Dr. Meera Iyer provides professional support for individuals overcoming substance dependency with compassion.",
+    rating: 5,
+  },
 };
-
-function useQuery() {
-  return new URLSearchParams(useLocation().search);
-}
 
 const CounsellorDetails = () => {
   const navigate = useNavigate();
-  const query = useQuery();
-  const name = query.get("name");
-  const counsellor = counsellors[name];
+  const { id } = useParams();
+  const counsellor = counsellors[id];
 
   const [selectedSlot, setSelectedSlot] = useState("");
   const [confirmationMsg, setConfirmationMsg] = useState("");
@@ -72,83 +126,56 @@ const CounsellorDetails = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6 bg-dot-pattern font-georgia">
-      <div className="bg-white rounded-3xl shadow-2xl max-w-xl w-full p-6 mx-4">
-        <button
-          onClick={() => navigate(-1)}
-          className="mb-6 px-5 py-2 bg-[#800000] text-white rounded-full hover:bg-[#660000] transition"
-        >
+    <div className="counsellor-page">
+      <div className="counsellor-container">
+        <button className="back-button" onClick={() => navigate(-1)}>
           ← Back
         </button>
 
-        {/* Header */}
-        <div className="flex items-center justify-center gap-6 mb-6">
+        <div className="counsellor-header">
           <img
             src={counsellor.img}
             alt={counsellor.name}
-            className="w-20 h-20 rounded-full object-cover border-4 border-[#800000]/30 shadow-md"
+            className="counsellor-image"
           />
-          <h1 className="text-3xl font-extrabold text-[#800000] text-center">
-            {counsellor.name}
-          </h1>
+          <h1 className="counsellor-name">{counsellor.name}</h1>
         </div>
 
-        <p className="text-md text-gray-700 mb-2 text-center">
+        <p className="counsellor-specialization">
           Specialization: {counsellor.specialization}
         </p>
-        <p className="text-[#7b3f00] font-semibold mb-3 text-center">
-          {counsellor.experience}
-        </p>
+        <p className="counsellor-experience">{counsellor.experience}</p>
 
-        {/* Stars */}
-        <div className="flex justify-center mb-4">
+        <div className="stars">
           {Array.from({ length: 5 }, (_, i) => (
-            <span
-              key={i}
-              className={`star ${i < Math.round(counsellor.rating) ? "" : "empty"}`}
-            >
+            <span key={i} className={`star ${i < counsellor.rating ? "" : "empty"}`}>
               ★
             </span>
           ))}
         </div>
 
-        <p className="text-gray-600 text-center mb-5 px-4">
-          {counsellor.description}
-        </p>
+        <p className="counsellor-description">{counsellor.description}</p>
 
-        <div className="flex flex-col items-center gap-5">
-          <div className="w-full max-w-xs">
-            <h2 className="text-lg font-semibold text-[#800000] mb-2 text-center">
-              Available Time Slots
-            </h2>
-            <div className="flex flex-wrap gap-3 justify-center">
-              {counsellor.slots.map((slot, idx) => (
-                <button
-                  key={idx}
-                  className={`px-4 py-2 border border-[#800000] rounded-lg text-[#800000] hover:bg-[#800000] hover:text-white transition ${
-                    selectedSlot === slot ? "selected" : ""
-                  }`}
-                  onClick={() => setSelectedSlot(slot)}
-                >
-                  {slot}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <button
-            onClick={handleBooking}
-            className="mt-6 px-6 py-3 bg-[#800000] text-white rounded-full font-semibold hover:bg-[#660000] transition w-full max-w-xs"
-          >
-            Book Slot
-          </button>
-
-          {confirmationMsg && (
-            <p className="mt-4 text-green-600 font-semibold text-center">
-              {confirmationMsg}
-            </p>
-          )}
+        <h3 className="slots-title">Available Time Slots</h3>
+        <div className="slot-buttons">
+          {counsellor.slots.map((slot, index) => (
+            <button
+              key={index}
+              className={`slot-button ${selectedSlot === slot ? "selected" : ""}`}
+              onClick={() => setSelectedSlot(slot)}
+            >
+              {slot}
+            </button>
+          ))}
         </div>
+
+        <button className="book-button" onClick={handleBooking}>
+          Book Slot
+        </button>
+
+        {confirmationMsg && (
+          <p className="confirmation-message">{confirmationMsg}</p>
+        )}
       </div>
     </div>
   );

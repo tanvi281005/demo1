@@ -1,32 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './FindSupport.css';
 
-// Example counsellors data — replace with your real data or fetch from API
 const counsellors = [
-  { id: 1, name: "Dr. Priya Sharma", specialization: "Substance Use" },
-  { id: 2, name: "Mr. Rohan Verma", specialization: "Relationships" },
-  { id: 3, name: "Ms. Anjali Rao", specialization: "Anxiety" },
-  { id: 4, name: "Dr. Sameer Gupta", specialization: "Depression" },
-  { id: 5, name: "Ms. Kavya Iyer", specialization: "Relationships" },
-  { id: 6, name: "Dr. Arjun Menon", specialization: "Career Guidance" },
-  { id: 7, name: "Ms. Nidhi Sharma", specialization: "Anxiety" },
-  { id: 8, name: "Dr. Meera Iyer", specialization: "Substance Use" }
+  { id: 1, name: "Dr. Priya Sharma", specialization: "Substance Use", slot: "10:00 AM - 12:00 PM", icon: "🛠️" },
+  { id: 2, name: "Mr. Rohan Verma", specialization: "Relationships", slot: "2:00 PM - 4:00 PM", icon: "🎁" },
+  { id: 3, name: "Ms. Anjali Rao", specialization: "Anxiety", slot: "11:00 AM - 1:00 PM", icon: "🧃" },
+  { id: 4, name: "Dr. Sameer Gupta", specialization: "Depression", slot: "3:00 PM - 5:00 PM", icon: "⚪" },
+  { id: 5, name: "Ms. Kavya Iyer", specialization: "Relationships", slot: "9:00 AM - 11:00 AM", icon: "👩‍⚕️" },
+  { id: 6, name: "Dr. Arjun Menon", specialization: "Career Guidance", slot: "1:00 PM - 3:00 PM", icon: "🌼" },
+  { id: 7, name: "Ms. Nidhi Sharma", specialization: "Anxiety", slot: "4:00 PM - 6:00 PM", icon: "🧸" },
+  { id: 8, name: "Dr. Meera Iyer", specialization: "Substance Use", slot: "10:00 AM - 12:00 PM", icon: "🦊" }
 ];
 
+const filters = ["All", "Substance Use", "Relationships", "Anxiety", "Career Guidance", "Depression"];
+
 const FindSupport = () => {
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  const filteredCounsellors = activeFilter === "All"
+    ? counsellors
+    : counsellors.filter(c => c.specialization === activeFilter);
+
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">Find Support</h1>
-      <ul className="space-y-4">
-        {counsellors.map(c => (
-          <li key={c.id} className="border border-gray-300 rounded p-4 hover:shadow-lg transition">
-            <Link to={`/counsellor/${c.id}`} className="text-xl font-semibold text-[#800000] hover:underline">
-              {c.name}
-            </Link>
-            <p className="text-gray-600">Specialization: {c.specialization}</p>
-          </li>
+    <div className="support-page-body">
+      <h1 className="support-header">🌿 Find the Right Support for You</h1>
+
+      <div className="filter-container">
+        {filters.map((filter) => (
+          <button
+            key={filter}
+            className={`filter-btn ${activeFilter === filter ? "active" : ""}`}
+            onClick={() => setActiveFilter(filter)}
+          >
+            {filter}
+          </button>
         ))}
-      </ul>
+      </div>
+
+      <div className="counsellor-grid">
+        {filteredCounsellors.map(c => (
+          <Link key={c.id} to={`/counsellor/${c.id}`} className="counsellor-card-link">
+            <div className="counsellor-card">
+              <div className="counsellor-avatar">{c.icon}</div>
+              <div className="counsellor-info">
+                <h2 className="counsellor-name">{c.name}</h2>
+                <p><strong>Slot:</strong> {c.slot}</p>
+                <p><strong>Specialization:</strong> {c.specialization}</p>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };
