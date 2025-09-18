@@ -1,0 +1,128 @@
+/* Sets a base font and centers the content on the page */
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  
+  .page-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-image: linear-gradient(to bottom, #f5f5dc, #fdf6e3, #f5f5dc);
+    background-color: #fdf6e3; /* Fallback color */
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  
+  /* The main white box (card) */
+  .wellness-card {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    padding: 32px;
+    max-width: 950px;
+    width: 100%;
+    gap: 40px; /* Space between image and content */
+  }
+  
+  /* Styling for the image container and the image itself */
+  .image-section {
+    flex-shrink: 0;
+    border: 1px solid #f0f0f0;
+    padding: 10px;
+    border-radius: 12px;
+  }
+  
+  .wellness-image {
+    max-width: 400px;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+  }
+  
+  /* Styling for the text and button content */
+  .content-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .content-section h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #8B0000; /* Dark Red color */
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+  
+  .content-section p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+  
+  /* A container for the buttons */
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* Space between the two buttons */
+  }
+  
+  /* Base button styles */
+  .btn {
+    padding: 14px 28px;
+    border-radius: 8px;
+    border: 1.5px solid;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  /* Top button: Solid red fill */
+  .btn-primary {
+    background-color: #8B0000;
+    color: white;
+    border-color: #8B0000;
+  }
+  
+  .btn-primary:hover {
+    background-color: #a52a2a;
+    border-color: #a52a2a;
+    transform: translateY(-2px);
+  }
+  
+  /* Bottom button: White with red outline */
+  .btn-secondary {
+    background-color: white;
+    color: #8B0000;
+    border-color: #8B0000;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #fff5f5;
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 850px) {
+    .wellness-card {
+      flex-direction: column;
+      text-align: center;
+      padding: 24px;
+      gap: 24px;
+    }
+    
+    .wellness-image {
+      max-width: 100%;
+    }
+  }
