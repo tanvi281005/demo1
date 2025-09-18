@@ -4,6 +4,7 @@
   min-height: 100vh;
   padding: 2rem;
   text-align: center;
+  position: relative; /* Needed for absolute top-menu */
 }
 
 /* 🔹 Title container with unique video */
@@ -157,12 +158,13 @@
 /* Top right menu */
 .top-menu {
   position: absolute;
-  top: 1rem;
+  top: 3rem;   /* was 1rem → moved lower */
   right: 2rem;
   display: flex;
   gap: 1rem;
-  z-index: 10;
+  z-index: 20;
 }
+
 
 .top-btn {
   padding: 0.5rem 1rem;
@@ -202,6 +204,7 @@
   max-width: 400px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   text-align: center;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .popup h2 {
@@ -237,4 +240,10 @@
 
 .popup-buttons button:hover {
   background: #e63b59;
+}
+
+/* Popup animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
 }

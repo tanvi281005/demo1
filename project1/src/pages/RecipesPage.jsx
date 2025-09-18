@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // For Cart navigation
+import { useNavigate } from "react-router-dom"; 
 import "./RecipesPage.css";
 
 const categories = [
@@ -12,14 +12,11 @@ const categories = [
 ];
 
 const recipes = [
- 
- 
   { id: 1, title: "Suzi's Crabcakes Inspired", author: "Suzi Perry", category: "Starters", img: "./images/food1.jpg" },
   { id: 2, title: "Creamy Prawn, Bacon & Broccoli Pasta", author: "Ricky Alberta", category: "Starters", img: "./images/food2.jpeg" },
   { id: 3, title: "Creamy Chicken & Pasta Bake", author: "Suzi Perry", category: "Starters", img: "./images/food3.jpeg" },
   { id: 4, title: "Italian Veggie Delight", author: "Maria Rossi", category: "Main Courses", img: "./images/food4.jpeg" },
   { id: 5, title: "Classic Spaghetti Pomodoro", author: "Luigi Romano", category: "Main Courses", img: "./images/food5.jpeg" },
-
 ];
 
 function RecipesPage() {
@@ -47,7 +44,7 @@ function RecipesPage() {
       ? recipes
       : recipes.filter((r) => r.category === activeCategory);
 
-  // Form handlers
+  // Popup form handlers
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -55,7 +52,7 @@ function RecipesPage() {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert(
-      `Water booked!\nName: ${formData.name}\nHostel: ${formData.hostel}\nRoom: ${formData.room}\nTime: ${formData.time}`
+      `✅ Water booked!\nName: ${formData.name}\nHostel: ${formData.hostel}\nRoom: ${formData.room}\nTime: ${formData.time}`
     );
     setShowPopup(false);
     setFormData({ name: "", hostel: "", room: "", time: "" });
@@ -65,8 +62,12 @@ function RecipesPage() {
     <div className="recipes-wrapper">
       {/* 🔹 Top Right Menu */}
       <div className="top-menu">
-        <button onClick={() => setShowPopup(true)} className="top-btn">Book Water</button>
-        <button onClick={() => navigate("/cart")} className="top-btn">Cart</button>
+        <button onClick={() => setShowPopup(true)} className="top-btn">
+          Book Water
+        </button>
+        <button onClick={() => navigate("/cart")} className="top-btn">
+          Cart
+        </button>
       </div>
 
       {/* 🔹 Title with background video */}
@@ -154,7 +155,9 @@ function RecipesPage() {
               />
               <div className="popup-buttons">
                 <button type="submit">Submit</button>
-                <button type="button" onClick={() => setShowPopup(false)}>Cancel</button>
+                <button type="button" onClick={() => setShowPopup(false)}>
+                  Cancel
+                </button>
               </div>
             </form>
           </div>
