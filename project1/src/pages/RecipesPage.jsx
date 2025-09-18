@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // For Cart navigation
 import "./RecipesPage.css";
 
 const categories = [
@@ -20,10 +21,13 @@ const recipes = [
 
 function RecipesPage() {
   const [activeCategory, setActiveCategory] = useState("Starters");
-
-  // Track quantity per recipe
   const [quantities, setQuantities] = useState({});
+  const [showPopup, setShowPopup] = useState(false);
+  const [formData, setFormData] = useState({ name: "", hostel: "", room: "", time: "" });
 
+  const navigate = useNavigate();
+
+  // Quantity handlers
   const handleIncrease = (id) => {
     setQuantities((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
   };
@@ -40,8 +44,28 @@ function RecipesPage() {
       ? recipes
       : recipes.filter((r) => r.category === activeCategory);
 
+  // Form handlers
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert(
+      `Water booked!\nName: ${formData.name}\nHostel: ${formData.hostel}\nRoom: ${formData.room}\nTime: ${formData.time}`
+    );
+    setShowPopup(false);
+    setFormData({ name: "", hostel: "", room: "", time: "" });
+  };
+
   return (
     <div className="recipes-wrapper">
+      {/* 🔹 Top Right Menu */}
+      <div className="top-menu">
+        <button onClick={() => setShowPopup(true)} className="top-btn">Book Water</button>
+        <button onClick={() => navigate("/cart")} className="top-btn">Cart</button>
+      </div>
+
       {/* 🔹 Title with background video */}
       <div className="recipes-title-container">
         <video className="recipes-video" autoPlay loop muted playsInline>
@@ -87,6 +111,52 @@ function RecipesPage() {
           </div>
         ))}
       </div>
+
+      {/* 🔹 Popup Form for Water Booking */}
+      {showPopup && (
+        <div className="popup-overlay">
+          <div className="popup">
+            <h2>Book Water</h2>
+            <form onSubmit={handleSubmit} className="popup-form">
+              <input
+                type="text"
+                name="name"
+                placeholder="Enter your name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="hostel"
+                placeholder="Hostel Name"
+                value={formData.hostel}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="text"
+                name="room"
+                placeholder="Room No."
+                value={formData.room}
+                onChange={handleChange}
+                required
+              />
+              <input
+                type="time"
+                name="time"
+                value={formData.time}
+                onChange={handleChange}
+                required
+              />
+              <div className="popup-buttons">
+                <button type="submit">Submit</button>
+                <button type="button" onClick={() => setShowPopup(false)}>Cancel</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
