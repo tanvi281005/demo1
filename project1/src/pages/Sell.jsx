@@ -50,7 +50,7 @@ const Sell = () => {
       {/* Video background */}
       <video className="background-video" autoPlay loop muted>
         <source src="https://v1.pinimg.com/videos/mc/720p/8c/1d/ed/8c1dedb16848cf25a21ef3d943796b93.mp4" type="video/mp4" />
-        Your browser does not support the video tag.
+        {/* Your browser does not support the video tag. */}
       </video>
 
       {/* Content on top of the video */}

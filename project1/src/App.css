@@ -1,14 +1,25 @@
 
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
 body {
   margin: 0;
-  padding: 0;
+  padding: 0;/* or whatever page background you want */
 }
-
 #root {
-  margin-top: 0; /* same as navbar height */
+  margin-top: 0;
+  margin-bottom: 0; /* same as navbar height */
   width: 100%;
   text-align: center;
 }
+.page-wrapper {
+  padding-top: 70px;    /* same height as your navbar */
+  margin: 0;
+  background: inherit;  /* so it blends with body/navbar background */
+}
+
+/* prevent the first child from pushing content down via default margins */
 
 .logo {
   height: 6em;
