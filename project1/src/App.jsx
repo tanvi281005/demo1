@@ -27,7 +27,14 @@ function App() {
     <Router>
       <Routes>
         <Route element={<Layout />}>
+        
+        
+        <Route path="/home" element={<Home />} />
+        
+        
+        </Route>
         <Route path="/" element={<StudentRegister />} />
+        <Route path="/login" element={<StudentLogin />} />
         <Route path="/transport" element={<TransportServices />} />
         <Route path="/daily-commute" element={<DailyCommute />} />
         <Route path="/urgent" element={<UrgentForm />} />
@@ -44,10 +51,7 @@ function App() {
         <Route path="/wellness" element={<MentalWellness />} />
         <Route path="/support" element={<FindSupport />} />
         <Route path="/counsellor/:id" element={<CounsellorDetails />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/login" element={<StudentLogin />} />
         <Route path="/food" element={<RecipesPage/>} />
-        </Route>
       </Routes>
     </Router>
   );
