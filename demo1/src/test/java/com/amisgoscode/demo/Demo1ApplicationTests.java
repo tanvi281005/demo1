@@ -1,4 +1,4 @@
-package com.demo1.demo1;
+package com.amisgoscode.demo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
