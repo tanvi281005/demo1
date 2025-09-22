@@ -1,4 +1,4 @@
-package com.demo1.demo1;
+package com.amisgoscode.demo;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
