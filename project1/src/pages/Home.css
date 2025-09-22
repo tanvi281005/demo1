@@ -1,16 +1,36 @@
 /* Container */
+/* Glassy background for the whole container */
 .container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* min-height: 100vh; */
   padding: 15px;
-  background: beige;
-  background-size: cover; /* cover entire screen */
-  color: white;
+  min-height: 100vh;
   font-family: Arial, sans-serif;
+  color: white;
+  overflow: hidden; /* prevent scrollbars due to blur */
 }
+
+/* 🔹 Blurred background layer */
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("/images/campus-bg.jpg") no-repeat center center/cover;
+  filter: blur(8px); /* adjust blur amount */
+  transform: scale(1.1); /* avoids edge cut-off from blur */
+  z-index: 0;
+}
+
+/* Keep actual content on top */
+.container > * {
+  position: relative;
+  z-index: 1;
+}
+
+
 
 .title {
   font-size: 2.5rem;
