@@ -1,6 +1,10 @@
 package com.thecodealchemist.spring_boot_project.dao;
 
 import com.thecodealchemist.spring_boot_project.model.Student;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,5 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface StudentRepository extends JpaRepository<Student, Integer> {
     boolean existsByEmail(String email);
     boolean existsByPhone(String phone);
+    Optional<Student> findByEmailAndDob(String email, LocalDate dob);
 }
 
