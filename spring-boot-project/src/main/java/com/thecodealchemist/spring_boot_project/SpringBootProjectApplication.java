@@ -30,4 +30,12 @@ public class SpringBootProjectApplication {
     //     };
     // }
 
+	// @Bean
+    // public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+    //     return args -> {
+    //         StudentService studentService = ctx.getBean(StudentService.class);
+    //         studentService.fetchstudent();
+    //     };
+    // }
+
 }
