@@ -57,5 +57,28 @@ public ResponseEntity<String> login(@RequestParam String email,
     }
 }
 
+@GetMapping("/profile")
+public ResponseEntity<?> getProfile(HttpSession session) {
+    Integer studentId = (Integer) session.getAttribute("studentId");
+    
+    if (studentId == null) {
+        return ResponseEntity.status(401).body("You are not logged in.");
+    }
+
+    Student student = studentService.getStudentById(studentId);
+    if (student == null) {
+        return ResponseEntity.status(404).body("Student not found.");
+    }
+
+    return ResponseEntity.ok(student);
+}
+
+// POST endpoint to logout
+@PostMapping("/logout")
+public ResponseEntity<String> logout(HttpSession session) {
+    session.invalidate(); // destroys the session
+    return ResponseEntity.ok("Logout successful.");
+}
+
 
 }

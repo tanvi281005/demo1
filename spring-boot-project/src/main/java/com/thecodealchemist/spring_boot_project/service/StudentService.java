@@ -56,5 +56,11 @@ public class StudentService {
     public Student getStudentByEmailAndDob(String email, LocalDate dob) {
         return studentRepository.findByEmailAndDob(email, dob).orElse(null);
     }
+
+    public Student getStudentById(Integer studentId) {
+        Optional<Student> studentOpt = studentRepository.findById(studentId);
+        return studentOpt.orElse(null); // returns null if student not found
+    }
+    
 }
 
