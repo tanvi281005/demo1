@@ -2,6 +2,10 @@ package com.thecodealchemist.spring_boot_project.service;
 
 import com.thecodealchemist.spring_boot_project.model.Student;
 import com.thecodealchemist.spring_boot_project.dao.StudentRepository;
+
+import java.time.LocalDate;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +46,15 @@ public class StudentService {
         }
 
         return studentRepository.save(student);
+    }
+
+     public Student authenticate(String email, LocalDate dob) {
+        Optional<Student> studentOpt = studentRepository.findByEmailAndDob(email, dob);
+        return studentOpt.orElse(null); // Returns Student if found, otherwise null
+    }
+
+    public Student getStudentByEmailAndDob(String email, LocalDate dob) {
+        return studentRepository.findByEmailAndDob(email, dob).orElse(null);
     }
 }
 
