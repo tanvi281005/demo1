@@ -2,19 +2,15 @@ package com.thecodealchemist.spring_boot_project.service;
 
 import com.thecodealchemist.spring_boot_project.model.Student;
 import com.thecodealchemist.spring_boot_project.dao.StudentRepository;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class StudentService {
 
     private final StudentRepository studentRepository;
 
-    @Autowired
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
@@ -36,7 +32,7 @@ public class StudentService {
 
         // Optional: calculate age from DOB if not provided
         if (student.getDob() != null && student.getAge() == null) {
-            int age = java.time.Period.between(student.getDob(), java.time.LocalDate.now()).getYears();
+            int age = java.time.Period.between(student.getDob(), LocalDate.now()).getYears();
             student.setAge(age);
         }
 
@@ -45,22 +41,31 @@ public class StudentService {
             student.setWallet(0.0f);
         }
 
-        return studentRepository.save(student);
+        // Save student using JDBC repository
+        studentRepository.save(student);
+        return student;
     }
 
-     public Student authenticate(String email, LocalDate dob) {
-        Optional<Student> studentOpt = studentRepository.findByEmailAndDob(email, dob);
-        return studentOpt.orElse(null); // Returns Student if found, otherwise null
+    // Authenticate student by email and dob
+    public Student authenticate(String email, LocalDate dob) {
+        return studentRepository.findByEmailAndDob(email, dob).orElse(null);
     }
 
+    // Get student by email and dob
     public Student getStudentByEmailAndDob(String email, LocalDate dob) {
         return studentRepository.findByEmailAndDob(email, dob).orElse(null);
     }
 
+    // Get student by ID
     public Student getStudentById(Integer studentId) {
-        Optional<Student> studentOpt = studentRepository.findById(studentId);
-        return studentOpt.orElse(null); // returns null if student not found
+        return studentRepository.findById(studentId).orElse(null);
     }
-    
-}
 
+    // Update student info
+    public void updateStudent(Student student) throws Exception {
+        if (student.getStudentId() == null) {
+            throw new Exception("Student ID is required for update");
+        }
+        studentRepository.update(student);
+    }
+}
