@@ -1,70 +1,34 @@
 package com.thecodealchemist.spring_boot_project.model;
-
-import jakarta.persistence.*;
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "Student")
 public class Student {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer studentId;
-
-    @Column(nullable = false, length = 50)
     private String firstName;
-
-    @Column(length = 50)
     private String middleName;
-
-    @Column(nullable = false, length = 50)
     private String lastName;
-
-    @Column(nullable = false, unique = true, length = 100)
     private String email;
-
-    @Column(nullable = false, unique = true, length = 15)
     private String phone;
-
-    @Column
-    private Integer year;  // Validate 1–5 in service layer
-
-    @Column(length = 50)
+    private Integer year;
     private String branch;
-
-    @Enumerated(EnumType.STRING)
-    @Column(length = 10)
-    private Gender gender;
-
-    @Column(length = 50)
+    private Gender gender; // Male, Female, Other
     private String hostel;
-
-    @Column(length = 100)
     private String guardianName;
-
-    @Column(length = 15)
     private String guardianNumber;
-
-    @Column
-    private Float wallet ;
-
-    @Column
+    private Float wallet;
     private LocalDate dob;
-
-    @Column
     private Integer age;
-
-    public enum Gender {
-        Male, Female, Other
+    public enum Gender{
+        Male,Female,Other
     }
 
     // No-argument constructor
     public Student() {}
 
     // All-argument constructor
-    public Student(Integer studentId, String firstName, String middleName, String lastName, String email,
-                   String phone, Integer year, String branch, Gender gender, String hostel,
-                   String guardianName, String guardianNumber, Float wallet, LocalDate dob, Integer age) {
+    public Student(Integer studentId, String firstName, String middleName, String lastName,
+                   String email, String phone, Integer year, String branch, Gender gender,
+                   String hostel, String guardianName, String guardianNumber,
+                   Float wallet, LocalDate dob, Integer age) {
         this.studentId = studentId;
         this.firstName = firstName;
         this.middleName = middleName;
@@ -139,7 +103,7 @@ public class Student {
                 ", phone='" + phone + '\'' +
                 ", year=" + year +
                 ", branch='" + branch + '\'' +
-                ", gender=" + gender +
+                ", gender='" + gender + '\'' +
                 ", hostel='" + hostel + '\'' +
                 ", guardianName='" + guardianName + '\'' +
                 ", guardianNumber='" + guardianNumber + '\'' +
