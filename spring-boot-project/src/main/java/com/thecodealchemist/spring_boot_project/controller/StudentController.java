@@ -82,20 +82,20 @@ public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest,
 }
 
 @GetMapping("/profile")
-public ResponseEntity<?> getProfile(HttpSession session) {
+public ResponseEntity<Student> getProfile(HttpSession session) {
     Integer studentId = (Integer) session.getAttribute("studentId");
-    
     if (studentId == null) {
-        return ResponseEntity.status(401).body("You are not logged in.");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     Student student = studentService.getStudentById(studentId);
     if (student == null) {
-        return ResponseEntity.status(404).body("Student not found.");
+        return ResponseEntity.notFound().build();
     }
 
     return ResponseEntity.ok(student);
 }
+
 
 // POST endpoint to logout
 @PostMapping("/logout")

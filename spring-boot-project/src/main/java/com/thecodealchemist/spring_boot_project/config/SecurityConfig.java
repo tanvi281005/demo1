@@ -14,7 +14,7 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> {})
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/login", "/register").permitAll()
+                .requestMatchers("/api/login", "/register", "/profile").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form.disable()) // disable default form login
