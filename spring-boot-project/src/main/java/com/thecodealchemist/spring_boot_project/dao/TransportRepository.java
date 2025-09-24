@@ -1,4 +1,4 @@
-package com.thecodealchemist.spring_boot_project.repository;
+package com.thecodealchemist.spring_boot_project.dao;
 
 import com.thecodealchemist.spring_boot_project.model.TransportRoute;
 import com.thecodealchemist.spring_boot_project.model.TransportRouteTiming;
