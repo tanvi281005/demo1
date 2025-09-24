@@ -28,6 +28,10 @@ public class MarketItemService {
         return repository.findById(id);
     }
 
+    public List<MarketItem> findByCategory(String category) {
+        return repository.findByCategory(category);
+    }
+
     public void deleteById(Integer id) {
         repository.deleteById(id);
     }

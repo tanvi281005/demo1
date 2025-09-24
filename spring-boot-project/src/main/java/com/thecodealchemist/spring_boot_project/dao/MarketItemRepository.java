@@ -5,8 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +29,12 @@ public class MarketItemRepository {
         item.setItemCondition(rs.getString("item_condition"));
         item.setDescription(rs.getString("description"));
         item.setPhoto(rs.getString("photo"));
+        item.setAddedAt(rs.getTimestamp("added_at"));
         return item;
     };
 
     public void save(MarketItem item) {
-        String sql = "INSERT INTO MarketItem(user_id, category_name, title, price, item_condition, description, photo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO MarketItem(user_id, category_name, title, price, item_condition, description, photo, added_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         jdbcTemplate.update(sql,
                 item.getUserId(),
                 item.getCategoryName(),
@@ -41,17 +42,28 @@ public class MarketItemRepository {
                 item.getPrice(),
                 item.getItemCondition(),
                 item.getDescription(),
-                item.getPhoto()
+                item.getPhoto(),
+                new Timestamp(System.currentTimeMillis())
         );
     }
 
     public Optional<MarketItem> findById(Integer itemId) {
         String sql = "SELECT * FROM MarketItem WHERE item_id = ?";
         try {
-            MarketItem item = jdbcTemplate.queryForObject(sql, rowMapper, itemId);
+            MarketItem item = jdbcTemplate.queryForObject(sql, new Object[]{itemId}, rowMapper);
             return Optional.of(item);
         } catch (Exception e) {
             return Optional.empty();
+        }
+    }
+
+    public List<MarketItem> findByCategory(String category) {
+        String sql = "SELECT * FROM MarketItem WHERE LOWER(category_name) = LOWER(?)";
+        try {
+            return jdbcTemplate.query(sql, new Object[]{category}, rowMapper);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
         }
     }
 

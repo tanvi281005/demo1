@@ -28,6 +28,11 @@ public class MarketItemController {
         return service.findById(id);
     }
 
+    @GetMapping("/category/{category}")
+    public List<MarketItem> getItemsByCategory(@PathVariable String category) {
+        return service.findByCategory(category);
+    }
+
     @PostMapping
     public MarketItem createItem(@RequestBody MarketItem item, HttpSession session) {
         Integer studentId = (Integer) session.getAttribute("studentId");
