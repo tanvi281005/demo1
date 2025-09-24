@@ -22,7 +22,7 @@ import MentalWellness from "./pages/MentalWellness"
 import FindSupport from "./pages/FindSupport"
 import CounsellorDetails from "./pages/CounsellorDetails";
 import CategoryPage from "./pages/Categorypage";
-import ProfilePage from "./pages/ProfilePage";
+import ProfilePage from "./pages/ProfilePage"
 
 function App() {
   return (
@@ -40,7 +40,7 @@ function App() {
         <Route path="/transport" element={<TransportServices />} />
         <Route path="/daily-commute" element={<DailyCommute />} />
         <Route path="/urgent" element={<UrgentForm />} />
-        <Route path="/buysellpage" element={<CategoryPage />} />
+        <Route path="/buysellpage" element={<BuySellHub />} />
         <Route path="/buy" element={<Buy />} />
         <Route path="/electronics" element={<Electronics />} />
         <Route path="/stationery" element={<Stationery />} />
@@ -54,6 +54,8 @@ function App() {
         <Route path="/support" element={<FindSupport />} />
         <Route path="/counsellor/:id" element={<CounsellorDetails />} />
         <Route path="/food" element={<RecipesPage/>} />
+        <Route path="/category/:category" element={<CategoryPage />} />
+        <Route path="/profile" element={<ProfilePage/>}/>
       </Routes>
     </Router>
   );
