@@ -20,22 +20,22 @@ public class TransportRepository {
     private JdbcTemplate jdbcTemplate;
 
     // 1️⃣ Get available buses by destination + date
-    public List<TransportRouteTiming> findAvailableBuses(String destination, LocalDate date) {
+    public List<TransportRouteTiming> findAvailableBuses(String destination) {
         String sql = """
             SELECT rt.route_id, t.timings
             FROM TransportRoute rt
             JOIN TransportRouteTimings t ON rt.route_id = t.route_id
-            WHERE rt.destination = ? AND t.date = ?
+            WHERE rt.destination = ? 
         """;
 
-        return jdbcTemplate.query(sql, new Object[]{destination, date},
-            (rs, rowNum) -> mapRouteTiming(rs, date));
+        return jdbcTemplate.query(sql, new Object[]{destination},
+            (rs, rowNum) -> mapRouteTiming(rs));
     }
 
-    private TransportRouteTiming mapRouteTiming(ResultSet rs, LocalDate date) throws SQLException {
+    private TransportRouteTiming mapRouteTiming(ResultSet rs) throws SQLException {
         int routeId = rs.getInt("route_id");
         LocalTime timing = rs.getTime("timings").toLocalTime();
-        return new TransportRouteTiming(routeId, timing, date);
+        return new TransportRouteTiming(routeId, timing);
     }
 
     // 2️⃣ Save booking

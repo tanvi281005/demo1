@@ -16,8 +16,8 @@ public class TransportService {
     @Autowired
     private TransportRepository transportRepository;
 
-    public List<TransportRouteTiming> getAvailableBuses(String destination, LocalDate date) {
-        return transportRepository.findAvailableBuses(destination, date);
+    public List<TransportRouteTiming> getAvailableBuses(String destination) {
+        return transportRepository.findAvailableBuses(destination);
     }
 
     public int bookTransport(TransportBooking booking) {

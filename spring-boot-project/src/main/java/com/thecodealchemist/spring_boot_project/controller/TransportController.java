@@ -23,7 +23,6 @@ public class TransportController {
     // DTO for search request (destination + date)
     public static class CommuteRequest {
         private String destination;
-        private LocalDate date;
 
         public String getDestination() {
             return destination;
@@ -32,18 +31,13 @@ public class TransportController {
             this.destination = destination;
         }
 
-        public LocalDate getDate() {
-            return date;
-        }
-        public void setDate(LocalDate date) {
-            this.date = date;
-        }
+        
     }
 
     // 1️⃣ Get available buses (by destination + date)
     @PostMapping("/daily-commute")
     public List<TransportRouteTiming> getDailyCommute(@RequestBody CommuteRequest request) {
-        return transportService.getAvailableBuses(request.getDestination(), request.getDate());
+        return transportService.getAvailableBuses(request.getDestination());
     }
 
     // 2️⃣ Book a bus
