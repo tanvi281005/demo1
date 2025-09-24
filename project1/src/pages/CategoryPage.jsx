@@ -1,0 +1,88 @@
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import './Electronics.css'; // keep your existing CSS
+
+// Map category to heading, backend API, and background image
+const categoryData = {
+    electronics: {
+        heading: "Electronic Devices",
+        apiPath: "/market-items/category/electronics",
+        bgImage: "https://i.pinimg.com/736x/7b/b8/12/7bb812007991708f413fb44c36f4ffd1.jpg"
+    },
+    stationery: {
+        heading: "Stationery & Books",
+        apiPath: "/market-items/category/stationery",
+        bgImage: "https://i.pinimg.com/736x/88/71/17/887117d90c4932905617a247eab26fd5.jpg"
+    },
+    coats: {
+        heading: "Coats & Formals",
+        apiPath: "/market-items/category/coats",
+        bgImage: "https://i.pinimg.com/1200x/d7/86/98/d7869880338da7c29e9716033c651af0.jpg"
+    },
+    vehicles: {
+        heading: "Vehicles",
+        apiPath: "/market-items/category/vehicles",
+        bgImage: "https://i.pinimg.com/736x/5e/1d/44/5e1d44ff80203d654a6178c30eecaa63.jpg"
+    },
+    miscellaneous: {
+        heading: "Miscellaneous",
+        apiPath: "/market-items/category/miscellaneous",
+        bgImage: "https://i.pinimg.com/736x/e1/a0/76/e1a076e18bcc62751c9bc4ec0cb81fe8.jpg"
+    }
+};
+
+const CategoryPage = () => {
+    const { category } = useParams();
+    const [items, setItems] = useState([]);
+    const catInfo = categoryData[category];
+
+    useEffect(() => {
+        if (!catInfo) return;
+
+        fetch(`http://localhost:8080${catInfo.apiPath}`)
+            .then(res => res.json())
+            .then(data => setItems(data))
+            .catch(err => console.error("Error fetching category items:", err));
+    }, [category, catInfo]);
+
+    if (!catInfo) return <p>Category not found</p>;
+
+    return (
+        <div
+            className="electronics-container"
+            style={{
+                backgroundImage: `url(${catInfo.bgImage})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundAttachment: 'fixed'
+            }}
+        >
+            <header>
+                <h1>{catInfo.heading}</h1>
+                <div className="controls">
+                    <input type="text" placeholder="Search products..." />
+                </div>
+            </header>
+
+            <div className="products">
+                {items.map(item => (
+                    <div key={item.itemId} className="product-card">
+                        <img src={item.photo} alt={item.title} />
+                        <div className="product-info">
+                            <h3>{item.title}</h3>
+                            <p>{item.description}</p>
+                            <div className="product-meta">
+                                Condition: {item.itemCondition} <br />
+                                Price: ${item.price} <br />
+                                Added: {new Date(item.addedAt).toLocaleDateString()}
+                            </div>
+                            <button className="request-buy">Request Buy</button>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+export default CategoryPage;

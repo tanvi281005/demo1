@@ -13,7 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/") 
 public class StudentController {
 
     private final StudentService studentService;
@@ -22,7 +22,34 @@ public class StudentController {
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
+    public static class LoginRequest {
+    private String email;
+    private String dob; // in YYYY-MM-DD
+    
+    public LoginRequest() {}
 
+    public LoginRequest(String email, String dob) {
+        this.email = email;
+        this.dob = dob;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+    // getters & setters
+}
     // POST mapping for /register
     @PostMapping("/register")
     public ResponseEntity<?> registerStudent(@RequestBody Student student) {
@@ -34,20 +61,17 @@ public class StudentController {
         }
     }
 
-        // LOGIN endpoint
-    @PostMapping("/login")
-public ResponseEntity<String> login(@RequestParam String email, 
-                                    @RequestParam String dob, 
+ @PostMapping("/api/login")
+public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest,
                                     HttpSession session) {
-
     LocalDate dateOfBirth;
     try {
-        dateOfBirth = LocalDate.parse(dob);
+        dateOfBirth = LocalDate.parse(loginRequest.getDob());
     } catch (Exception e) {
         return ResponseEntity.badRequest().body("Invalid date format. Use YYYY-MM-DD");
     }
 
-    Student student = studentService.authenticate(email, dateOfBirth);
+    Student student = studentService.authenticate(loginRequest.getEmail(), dateOfBirth);
 
     if (student != null) {
         session.setAttribute("studentId", student.getStudentId());

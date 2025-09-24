@@ -34,7 +34,7 @@ function App() {
         
         </Route>
         <Route path="/" element={<StudentRegister />} />
-        <Route path="/login" element={<StudentLogin />} />
+        <Route path="/api/login" element={<StudentLogin />} />
         <Route path="/transport" element={<TransportServices />} />
         <Route path="/daily-commute" element={<DailyCommute />} />
         <Route path="/urgent" element={<UrgentForm />} />
