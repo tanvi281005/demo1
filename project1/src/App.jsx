@@ -22,6 +22,7 @@ import MentalWellness from "./pages/MentalWellness"
 import FindSupport from "./pages/FindSupport"
 import CounsellorDetails from "./pages/CounsellorDetails";
 import CategoryPage from "./pages/Categorypage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -53,7 +54,6 @@ function App() {
         <Route path="/support" element={<FindSupport />} />
         <Route path="/counsellor/:id" element={<CounsellorDetails />} />
         <Route path="/food" element={<RecipesPage/>} />
-        <Route path="/category/:category" element={<CategoryPage />} />
       </Routes>
     </Router>
   );
