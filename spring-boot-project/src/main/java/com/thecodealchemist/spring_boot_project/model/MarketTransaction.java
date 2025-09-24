@@ -1,16 +1,11 @@
 package com.thecodealchemist.spring_boot_project.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
-
 import java.math.BigDecimal;
 
-@Table("MarketTransaction")  // matches your SQL table name
 public class MarketTransaction {
 
-    @Id
-    private Integer serviceId;  // Primary key
-    private Integer itemId;
+    private Integer serviceId; // PK & FK to Service
+    private Integer itemId;    // FK to MarketItem
     private Boolean isApproved;
     private BigDecimal negotiatedPrice;
     private BigDecimal finalPrice;
@@ -28,7 +23,7 @@ public class MarketTransaction {
         this.originalPrice = originalPrice;
     }
 
-    // Getters and setters
+    // Getters & setters
     public Integer getServiceId() { return serviceId; }
     public void setServiceId(Integer serviceId) { this.serviceId = serviceId; }
 

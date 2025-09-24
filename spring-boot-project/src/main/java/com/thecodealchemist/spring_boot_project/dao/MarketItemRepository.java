@@ -1,19 +1,67 @@
 package com.thecodealchemist.spring_boot_project.dao;
 
 import com.thecodealchemist.spring_boot_project.model.MarketItem;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.data.jdbc.repository.query.Query;
-import java.util.List;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface MarketItemRepository extends CrudRepository<MarketItem, Integer> {
-    // Basic CRUD methods are inherited:
-    // save(), findById(), findAll(), deleteById()
-    @Query("SELECT * FROM MarketItem WHERE category_name = :categoryName")
-    List<MarketItem> findByCategoryName(String categoryName);
+public class MarketItemRepository {
 
-    @Query("SELECT * FROM MarketItem WHERE title LIKE CONCAT('%', :keyword, '%') OR description LIKE CONCAT('%', :keyword, '%')")
-    List<MarketItem> searchByKeyword(String keyword);
+    private final JdbcTemplate jdbcTemplate;
+
+    public MarketItemRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    private final RowMapper<MarketItem> rowMapper = (rs, rowNum) -> {
+        MarketItem item = new MarketItem();
+        item.setItemId(rs.getInt("item_id"));
+        item.setUserId(rs.getInt("user_id"));
+        item.setCategoryName(rs.getString("category_name"));
+        item.setTitle(rs.getString("title"));
+        item.setPrice(rs.getBigDecimal("price"));
+        item.setItemCondition(rs.getString("item_condition"));
+        item.setDescription(rs.getString("description"));
+        item.setPhoto(rs.getString("photo"));
+        return item;
+    };
+
+    public void save(MarketItem item) {
+        String sql = "INSERT INTO MarketItem(user_id, category_name, title, price, item_condition, description, photo) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        jdbcTemplate.update(sql,
+                item.getUserId(),
+                item.getCategoryName(),
+                item.getTitle(),
+                item.getPrice(),
+                item.getItemCondition(),
+                item.getDescription(),
+                item.getPhoto()
+        );
+    }
+
+    public Optional<MarketItem> findById(Integer itemId) {
+        String sql = "SELECT * FROM MarketItem WHERE item_id = ?";
+        try {
+            MarketItem item = jdbcTemplate.queryForObject(sql, rowMapper, itemId);
+            return Optional.of(item);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    public List<MarketItem> findAll() {
+        String sql = "SELECT * FROM MarketItem";
+        return jdbcTemplate.query(sql, rowMapper);
+    }
+
+    public void deleteById(Integer itemId) {
+        String sql = "DELETE FROM MarketItem WHERE item_id = ?";
+        jdbcTemplate.update(sql, itemId);
+    }
 }

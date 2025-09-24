@@ -1,7 +1,7 @@
 package com.thecodealchemist.spring_boot_project.service;
 
-import com.thecodealchemist.spring_boot_project.model.MarketItem;
 import com.thecodealchemist.spring_boot_project.dao.MarketItemRepository;
+import com.thecodealchemist.spring_boot_project.model.MarketItem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,24 +16,16 @@ public class MarketItemService {
         this.repository = repository;
     }
 
-    public MarketItem save(MarketItem item) {
-        return repository.save(item);
+    public void save(MarketItem item) {
+        repository.save(item);
     }
 
     public List<MarketItem> findAll() {
-        return (List<MarketItem>) repository.findAll();
+        return repository.findAll();
     }
 
     public Optional<MarketItem> findById(Integer id) {
         return repository.findById(id);
-    }
-
-    public List<MarketItem> findByCategory(String categoryName) {
-        return repository.findByCategoryName(categoryName);
-    }
-
-    public List<MarketItem> search(String keyword) {
-        return repository.searchByKeyword(keyword);
     }
 
     public void deleteById(Integer id) {
