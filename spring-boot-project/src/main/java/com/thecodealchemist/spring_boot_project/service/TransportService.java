@@ -3,6 +3,7 @@ package com.thecodealchemist.spring_boot_project.service;
 import com.thecodealchemist.spring_boot_project.model.TransportBooking;
 import com.thecodealchemist.spring_boot_project.model.TransportRouteTiming;
 import com.thecodealchemist.spring_boot_project.dao.TransportRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,12 +16,11 @@ public class TransportService {
     @Autowired
     private TransportRepository transportRepository;
 
-    public List<TransportRouteTiming> getAvailableBuses(String origin, String destination, LocalDate date) {
-        return transportRepository.findAvailableBuses(origin, destination, date);
+    public List<TransportRouteTiming> getAvailableBuses(String destination, LocalDate date) {
+        return transportRepository.findAvailableBuses(destination, date);
     }
 
     public int bookTransport(TransportBooking booking) {
-        // You can add wallet check logic here
         return transportRepository.saveBooking(booking);
     }
 }

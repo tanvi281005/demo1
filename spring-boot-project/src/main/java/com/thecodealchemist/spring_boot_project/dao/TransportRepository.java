@@ -1,6 +1,5 @@
 package com.thecodealchemist.spring_boot_project.dao;
 
-import com.thecodealchemist.spring_boot_project.model.TransportRoute;
 import com.thecodealchemist.spring_boot_project.model.TransportRouteTiming;
 import com.thecodealchemist.spring_boot_project.model.TransportBooking;
 
@@ -20,22 +19,22 @@ public class TransportRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    // 1️⃣ Get available routes based on origin, destination, and date
-    public List<TransportRouteTiming> findAvailableBuses(String origin, String destination, LocalDate date) {
+    // 1️⃣ Get available buses by destination + date
+    public List<TransportRouteTiming> findAvailableBuses(String destination, LocalDate date) {
         String sql = """
-            SELECT rt.route_id, t.timing
+            SELECT rt.route_id, t.timings
             FROM TransportRoute rt
             JOIN TransportRouteTimings t ON rt.route_id = t.route_id
-            WHERE rt.origin = ? AND rt.destination = ? AND t.date = ?
+            WHERE rt.destination = ? AND t.date = ?
         """;
 
-        return jdbcTemplate.query(sql, new Object[]{origin, destination, date},
+        return jdbcTemplate.query(sql, new Object[]{destination, date},
             (rs, rowNum) -> mapRouteTiming(rs, date));
     }
 
     private TransportRouteTiming mapRouteTiming(ResultSet rs, LocalDate date) throws SQLException {
         int routeId = rs.getInt("route_id");
-        LocalTime timing = rs.getTime("timing").toLocalTime();
+        LocalTime timing = rs.getTime("timings").toLocalTime();
         return new TransportRouteTiming(routeId, timing, date);
     }
 
@@ -47,19 +46,5 @@ public class TransportRepository {
                 booking.isWalletEnough(),
                 booking.getTimeChosen(),
                 booking.getDate());
-    }
-
-    // 3️⃣ Optional: fetch all bookings for a student (if you add studentId column)
-    public List<TransportBooking> getBookingsByStudentId(int studentId) {
-        String sql = "SELECT service_id, route_id, wallet_enough, time_chosen, date FROM TransportBooking WHERE student_id = ?";
-        return jdbcTemplate.query(sql, new Object[]{studentId}, (rs, rowNum) -> {
-            return new TransportBooking(
-                    rs.getInt("service_id"),
-                    rs.getInt("route_id"),
-                    rs.getBoolean("wallet_enough"),
-                    rs.getTime("time_chosen").toLocalTime(),
-                    rs.getDate("date").toLocalDate()
-            );
-        });
     }
 }
