@@ -68,4 +68,18 @@ public class StudentService {
         }
         studentRepository.update(student);
     }
+
+    public Student updateStudent2(Student student) {
+    studentRepository.update(student);
+    if (student.getStudentId() != null) {
+        return studentRepository.findById2(student.getStudentId()); // return fresh copy
+    } else {
+        return null;
+    }
+}
+
+
+
+
+
 }
