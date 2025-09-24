@@ -47,4 +47,9 @@ public class TransportRepository {
                 booking.getTimeChosen(),
                 booking.getDate());
     }
+
+    public List<String> uniquedestination(){
+        String sql= "SELECT DISTINCT destination from TransportRoute ORDER BY destination ASC";
+        return jdbcTemplate.queryForList(sql, String.class);
+    }
 }
