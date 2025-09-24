@@ -13,14 +13,35 @@ const StudentLogin = () => {
     setFormData({ ...formData, [id]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // Normally, authenticate user here
+  try {
+    const response = await fetch("http://localhost:8080/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include", // 🔑 ensures JSESSIONID cookie is stored
+      body: JSON.stringify({
+        email: formData.email,
+        dob: formData.password // since you're using DOB as password
+      })
+    });
 
-    alert("Login successful!");
-    navigate("/home"); // Redirect to Home page
-  };
+    if (response.ok) {
+      alert("Login successful!");
+      navigate("/home"); // protected page
+    } else {
+      const errorText = await response.text();
+      alert("Login failed: " + errorText);
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("Something went wrong. Please try again.");
+  }
+};
+
 
   return (
     <div className="studentPage">

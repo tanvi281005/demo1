@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./StudentRegister.css";
+
 const StudentRegister = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -24,13 +25,48 @@ const StudentRegister = () => {
     setFormData({ ...formData, [id]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Normally, send data to backend and handle errors
+    try {
+      // Map frontend keys to backend Student model
+      const payload = {
+        firstName: formData.first_name,
+        middleName: formData.middle_name,
+        lastName: formData.last_name,
+        email: formData.email,
+        phone: formData.phone,
+        year: formData.year ? parseInt(formData.year) : null,
+        branch: formData.branch,
+        gender: formData.gender ? formData.gender.charAt(0).toUpperCase() + formData.gender.slice(1) : null, 
+        hostel: formData.hostel,
+        guardianName: formData.guardian_name,
+        guardianNumber: formData.guardian_number,
+        wallet: parseFloat(formData.wallet),
+        dob: formData.dob ? formData.dob : null, // backend expects LocalDate string yyyy-MM-dd
+      };
 
-    alert("Registration successful!");
-    navigate("/home"); // Redirect to Home page
+      const response = await fetch("http://localhost:8080/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        alert("Registration failed: " + errorText);
+        return;
+      }
+
+      const data = await response.json();
+      alert("Registration successful!");
+      console.log("Saved student:", data);
+
+      // navigate("/home"); // Redirect to Home page
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -38,6 +74,7 @@ const StudentRegister = () => {
       <div className="studentPage-container">
         <h1>Student Registration</h1>
         <form onSubmit={handleSubmit}>
+          {/* Same inputs as before */}
           <label htmlFor="first_name">First Name:</label>
           <input type="text" id="first_name" value={formData.first_name} onChange={handleChange} required />
 
@@ -82,7 +119,7 @@ const StudentRegister = () => {
           <button type="submit">Register</button>
         </form>
         <div className="login-text">
-          Already have an account? <a onClick={() => navigate("/login")}>Login here</a>
+          Already have an account? <a onClick={() => navigate("/api/login")}>Login here</a>
         </div>
       </div>
     </div>
