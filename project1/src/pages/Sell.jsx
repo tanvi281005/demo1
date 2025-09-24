@@ -1,64 +1,103 @@
 import React, { useState } from "react";
-import "./Sell.css"; // Keep your existing styles here
+import "./Sell.css";
 
 const Sell = () => {
   const [formData, setFormData] = useState({
-    category: "",
-    name: "",
+    title: "",
     description: "",
+    category: "",
     price: "",
     condition: "",
-    image: null,
+    photo: "",
   });
 
   const handleChange = (e) => {
-    const { id, value, files } = e.target;
-    if (id === "sell-image") {
-      setFormData({ ...formData, image: files[0] });
-    } else {
-      setFormData({ ...formData, [id]: value });
-    }
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const { category, name, description, price, condition, image } = formData;
 
-    if (!category || !name || !description || !price || !condition || !image) {
-      alert("Please fill all the fields and upload an image.");
+    // Validate all fields
+    if (!formData.title || !formData.description || !formData.category || !formData.price || !formData.condition || !formData.photo) {
+      alert("Please fill all fields.");
       return;
     }
 
-    alert(
-      `Item "${name}" in category "${category}" uploaded successfully!\nPrice: $${price}\nCondition: ${condition}`
-    );
+    // Convert price to string for BigDecimal
+    const itemDTO = {
+      title: formData.title,
+      description: formData.description,
+      categoryName: formData.category,
+      price: formData.price.toString(), // send as string for backend BigDecimal
+      itemCondition: formData.condition,
+      photo: formData.photo,
+    };
 
-    setFormData({
-      category: "",
-      name: "",
-      description: "",
-      price: "",
-      condition: "",
-      image: null,
-    });
+    try {
+      const response = await fetch("http://localhost:8080/market-items", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(itemDTO),
+        credentials: "include", // include session if needed
+      });
 
-    e.target.reset();
+      if (response.ok) {
+        alert("Item added successfully!");
+        setFormData({
+          title: "",
+          description: "",
+          category: "",
+          price: "",
+          condition: "",
+          photo: "",
+        });
+      } else {
+        const text = await response.text();
+        alert("Failed to add item: " + text);
+      }
+    } catch (error) {
+      console.error("Error adding item:", error);
+      alert("Error adding item. See console for details.");
+    }
   };
 
   return (
     <div className="sellPage">
       {/* Video background */}
-      <video className="background-video" autoPlay loop muted>
-        <source src="https://v1.pinimg.com/videos/mc/720p/8c/1d/ed/8c1dedb16848cf25a21ef3d943796b93.mp4" type="video/mp4" />
-        {/* Your browser does not support the video tag. */}
+      <video className="background-video" autoPlay loop muted playsInline>
+        <source
+          src="https://v1.pinimg.com/videos/mc/720p/8c/1d/ed/8c1dedb16848cf25a21ef3d943796b93.mp4"
+          type="video/mp4"
+        />
       </video>
 
-      {/* Content on top of the video */}
+      {/* Form content */}
       <div className="content">
         <div className="sellPage-container">
-          <h1>Post your Ad</h1>
+          <h1>Post Your Ad</h1>
           <form onSubmit={handleSubmit}>
-            <label htmlFor="category">Select Category:</label>
+            <label htmlFor="title">Title:</label>
+            <input
+              type="text"
+              id="title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="Enter item title"
+              required
+            />
+
+            <label htmlFor="description">Description:</label>
+            <textarea
+              id="description"
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Enter description"
+              required
+            />
+
+            <label htmlFor="category">Category:</label>
             <select
               id="category"
               value={formData.category}
@@ -67,39 +106,21 @@ const Sell = () => {
             >
               <option value="">--Select Category--</option>
               <option value="electronics">Electronics</option>
-              <option value="books">Books & Stationery</option>
-              <option value="vehicles">Vehicles</option>
+              <option value="stationery">Books & Stationery</option>
               <option value="coats">Coats & Formals</option>
+              <option value="vehicles">Vehicles</option>
               <option value="miscellaneous">Miscellaneous</option>
             </select>
-
-            <label htmlFor="name">Item Name:</label>
-            <input
-              type="text"
-              id="name"
-              placeholder="Enter item name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-
-            <label htmlFor="description">Description:</label>
-            <textarea
-              id="description"
-              placeholder="Enter item description"
-              value={formData.description}
-              onChange={handleChange}
-              required
-            ></textarea>
 
             <label htmlFor="price">Price:</label>
             <input
               type="number"
               id="price"
-              placeholder="Enter price"
-              min="0"
               value={formData.price}
               onChange={handleChange}
+              placeholder="Enter price"
+              min="0"
+              step="0.01"
               required
             />
 
@@ -115,16 +136,17 @@ const Sell = () => {
               <option value="used">Used</option>
             </select>
 
-            <label htmlFor="sell-image">Upload Image:</label>
+            <label htmlFor="photo">Image URL:</label>
             <input
-              type="file"
-              id="sell-image"
-              accept="image/*"
+              type="text"
+              id="photo"
+              value={formData.photo}
               onChange={handleChange}
+              placeholder="Enter image URL"
               required
             />
 
-            <button type="submit">Upload Item</button>
+            <button type="submit">Add Item</button>
           </form>
         </div>
       </div>

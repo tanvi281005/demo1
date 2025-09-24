@@ -14,7 +14,11 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> {})
             .authorizeHttpRequests(auth -> auth
+<<<<<<< HEAD
                 .requestMatchers("/api/login", "/register", "/profile", "/profile/update").permitAll()
+=======
+                .requestMatchers("/api/login", "/register", "/profile", "/profile/update", "/market-items", "/market-items/{id}", "market-items/category/{category}").permitAll()
+>>>>>>> a804cf10fe8195aa9f8926960c35ac84a6269200
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form.disable()) // disable default form login
@@ -24,4 +28,3 @@ public class SecurityConfig {
         return http.build();
     }
 }
-
