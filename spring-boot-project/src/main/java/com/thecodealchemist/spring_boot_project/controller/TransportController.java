@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/transport")
@@ -49,4 +52,10 @@ public class TransportController {
         int rows = transportService.bookTransport(booking);
         return rows > 0 ? "Booking successful" : "Booking failed";
     }
+
+    @GetMapping("/fetchdestination")
+    public List<String> getdestination() {
+        return transportService.fetchuniquedestination();
+    }
+    
 }

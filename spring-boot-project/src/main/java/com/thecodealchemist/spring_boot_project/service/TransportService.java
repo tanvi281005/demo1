@@ -23,4 +23,8 @@ public class TransportService {
     public int bookTransport(TransportBooking booking) {
         return transportRepository.saveBooking(booking);
     }
+
+    public List<String> fetchuniquedestination(){
+        return transportRepository.uniquedestination();
+    }
 }
