@@ -104,12 +104,13 @@ const Sell = () => {
               onChange={handleChange}
               required
             >
-              <option value="">--Select Category--</option>
-              <option value="electronics">Electronics</option>
-              <option value="stationery">Books & Stationery</option>
-              <option value="coats">Coats & Formals</option>
-              <option value="vehicles">Vehicles</option>
-              <option value="miscellaneous">Miscellaneous</option>
+             <option value="">--Select Category--</option>
+<option value="Electronic Devices">Electronic Devices</option>
+<option value="Stationery & Books">Stationery & Books</option>
+<option value="Coats & Formals">Coats & Formals</option>
+<option value="Vehicles">Vehicles</option>
+<option value="Miscellaneous">Miscellaneous</option>
+
             </select>
 
             <label htmlFor="price">Price:</label>

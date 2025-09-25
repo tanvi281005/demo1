@@ -2,44 +2,47 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import './Electronics.css'; // keep your existing CSS
 
-// Map category to heading, API path, and background image
+// Map friendly keys to DB category strings, headings, and images
 const categoryData = {
   electronics: {
     heading: "Electronic Devices",
-    apiPath: "/market-items/category/electronics",
+    apiCategory: "Electronic Devices",
     bgImage: "https://i.pinimg.com/736x/7b/b8/12/7bb812007991708f413fb44c36f4ffd1.jpg"
   },
   stationery: {
     heading: "Stationery & Books",
-    apiPath: "/market-items/category/stationery",
+    apiCategory: "Stationery & Books",
     bgImage: "https://i.pinimg.com/736x/88/71/17/887117d90c4932905617a247eab26fd5.jpg"
   },
   coats: {
     heading: "Coats & Formals",
-    apiPath: "/market-items/category/coats",
+    apiCategory: "Coats & Formals",
     bgImage: "https://i.pinimg.com/1200x/d7/86/98/d7869880338da7c29e9716033c651af0.jpg"
   },
   vehicles: {
     heading: "Vehicles",
-    apiPath: "/market-items/category/vehicles",
+    apiCategory: "Vehicles",
     bgImage: "https://i.pinimg.com/736x/5e/1d/44/5e1d44ff80203d654a6178c30eecaa63.jpg"
   },
   miscellaneous: {
     heading: "Miscellaneous",
-    apiPath: "/market-items/category/miscellaneous",
+    apiCategory: "Miscellaneous",
     bgImage: "https://i.pinimg.com/736x/e1/a0/76/e1a076e18bcc62751c9bc4ec0cb81fe8.jpg"
   }
 };
 
 const CategoryPage = () => {
-  const { category } = useParams();  // e.g., /category/electronics
+  const { category } = useParams();  // friendly key
   const [items, setItems] = useState([]);
   const catInfo = categoryData[category];
 
   useEffect(() => {
     if (!catInfo) return;
 
-    fetch(`http://localhost:8080${catInfo.apiPath}`)
+    // encode category for URL
+    const apiCategory = encodeURIComponent(catInfo.apiCategory);
+
+    fetch(`http://localhost:8080/market-items/category/${apiCategory}`)
       .then(res => res.json())
       .then(data => setItems(data))
       .catch(err => console.error("Error fetching category items:", err));
@@ -75,7 +78,7 @@ const CategoryPage = () => {
               <div className="product-meta">
                 Condition: {item.itemCondition} <br />
                 Price: ${item.price} <br />
-                Added: {new Date(item.addedAt).toLocaleDateString()}
+                Added: {item.addedAt ? new Date(item.addedAt).toLocaleDateString() : 'N/A'}
               </div>
               <button className="request-buy">Request Buy</button>
             </div>
