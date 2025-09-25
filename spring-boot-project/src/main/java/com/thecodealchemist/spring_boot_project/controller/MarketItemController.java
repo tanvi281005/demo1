@@ -2,8 +2,11 @@ package com.thecodealchemist.spring_boot_project.controller;
 
 import com.thecodealchemist.spring_boot_project.model.MarketItem;
 import com.thecodealchemist.spring_boot_project.service.MarketItemService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,8 +20,20 @@ public class MarketItemController {
         this.service = service;
     }
 
+    // DTO class to receive data from frontend
+    public static class MarketItemRequestDTO {
+        public String title;
+        public String description;
+        public String categoryName;
+        public String price; // receive as string from frontend
+        public String itemCondition;
+        public String photo;
+    }
+
     @GetMapping
-    public List<MarketItem> getAllItems() {
+    public List<MarketItem> getAllItems(HttpSession session) {
+        Integer studentId = (Integer) session.getAttribute("studentId");
+        if (studentId == null) return null;
         return service.findAll();
     }
 
@@ -27,23 +42,42 @@ public class MarketItemController {
         return service.findById(id);
     }
 
-    @GetMapping("/category/{categoryName}")
-    public List<MarketItem> getItemsByCategory(@PathVariable String categoryName) {
-        return service.findByCategory(categoryName);
-    }
-
-    @GetMapping("/search")
-    public List<MarketItem> searchItems(@RequestParam String q) {
-        return service.search(q);
+    @GetMapping("/category/{category}")
+    public List<MarketItem> getItemsByCategory(@PathVariable String category) {
+        return service.findByCategory(category);
     }
 
     @PostMapping
-    public MarketItem createItem(@RequestBody MarketItem item) {
-        return service.save(item);
+    public ResponseEntity<MarketItem> createItem(@RequestBody MarketItemRequestDTO dto, HttpSession session) {
+        Integer studentId = (Integer) session.getAttribute("studentId");
+        if (studentId == null) {
+            return ResponseEntity.status(401).build(); // Unauthorized if not logged in
+        }
+
+        MarketItem item = new MarketItem();
+        item.setTitle(dto.title);
+        item.setDescription(dto.description);
+        item.setCategoryName(dto.categoryName);
+
+        // Convert string to BigDecimal safely
+        try {
+            item.setPrice(new BigDecimal(dto.price));
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        item.setItemCondition(dto.itemCondition);
+        item.setPhoto(dto.photo);
+        item.setUserId(studentId);
+
+        service.save(item);
+        return ResponseEntity.ok(item);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteItem(@PathVariable Integer id) {
+    public void deleteItem(@PathVariable Integer id, HttpSession session) {
+        Integer studentId = (Integer) session.getAttribute("studentId");
+        if (studentId == null) throw new RuntimeException("Login required");
         service.deleteById(id);
     }
 }

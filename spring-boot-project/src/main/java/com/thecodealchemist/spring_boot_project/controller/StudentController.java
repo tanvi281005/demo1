@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/") 
@@ -82,20 +83,33 @@ public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest,
 }
 
 @GetMapping("/profile")
-public ResponseEntity<?> getProfile(HttpSession session) {
+public ResponseEntity<Student> getProfile(HttpSession session) {
     Integer studentId = (Integer) session.getAttribute("studentId");
-    
     if (studentId == null) {
-        return ResponseEntity.status(401).body("You are not logged in.");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     Student student = studentService.getStudentById(studentId);
     if (student == null) {
-        return ResponseEntity.status(404).body("Student not found.");
+        return ResponseEntity.notFound().build();
     }
 
     return ResponseEntity.ok(student);
 }
+
+@PutMapping("/profile/update")
+public Student updateProfile(@RequestBody Student updatedStudent, HttpSession session) {
+    Integer studentId = (Integer) session.getAttribute("studentId");
+    if (studentId == null) {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+    }
+
+    // Ensure user only updates their own profile
+    updatedStudent.setStudentId(studentId);
+
+    return studentService.updateStudent2(updatedStudent);
+}
+
 
 // POST endpoint to logout
 @PostMapping("/logout")

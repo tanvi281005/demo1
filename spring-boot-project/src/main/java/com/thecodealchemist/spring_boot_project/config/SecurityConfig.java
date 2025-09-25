@@ -19,7 +19,13 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity
             .cors(cors -> {})             // Enable CORS
             .authorizeHttpRequests(auth -> auth
+<<<<<<< HEAD
                 .requestMatchers("/api/login", "/register", "/profile", "/transport/fetchdestination", "/transport/book", "/transport/daily-commute").permitAll()
+=======
+
+                .requestMatchers("/api/login", "/register", "/profile", "/profile/update", "/market-items", "/market-items/{id}", "market-items/category/{category}").permitAll()
+ 
+>>>>>>> a9912d0846a69e3d8f5c19eb90697e7e345c3551
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -33,6 +39,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+<<<<<<< HEAD
 
     // @Bean
     // public CorsConfigurationSource corsConfigurationSource() {
@@ -47,3 +54,6 @@ public class SecurityConfig {
     //     return source;
     //}
 }
+=======
+}
+>>>>>>> a9912d0846a69e3d8f5c19eb90697e7e345c3551
