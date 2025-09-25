@@ -46,16 +46,12 @@ public class TransportController {
     // }
     @GetMapping("/fetchdestination")
 public ResponseEntity<List<String>> getDestinations(HttpSession session) {
-    Integer studentId = (Integer) session.getAttribute("studentId");
-    if (studentId == null) {
-        // return 401 with no JSON body
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
-
+    System.out.println("/fetchdestination called; session id: " + session.getId()
+                       + ", studentId: " + session.getAttribute("studentId"));
     List<String> destinations = transportService.fetchuniquedestination();
-    // always return an array (never null)
     return ResponseEntity.ok(destinations != null ? destinations : List.of());
 }
+
 
 
 
