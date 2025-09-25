@@ -1,13 +1,11 @@
 package com.thecodealchemist.spring_boot_project.service;
 
+import com.thecodealchemist.spring_boot_project.dao.TransportRepository;
 import com.thecodealchemist.spring_boot_project.model.TransportBooking;
 import com.thecodealchemist.spring_boot_project.model.TransportRouteTiming;
-import com.thecodealchemist.spring_boot_project.dao.TransportRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,7 +22,7 @@ public class TransportService {
         return transportRepository.saveBooking(booking);
     }
 
-    public List<String> fetchuniquedestination(){
+    public List<String> fetchuniquedestination() {
         return transportRepository.uniquedestination();
     }
 }

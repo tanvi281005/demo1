@@ -37,11 +37,29 @@ const ProfilePage = () => {
     setEditMode(!editMode);
   };
 
-  const handleSave = () => {
-    // Call backend API to save updated student data
-    console.log("Saving student data:", student);
-    setEditMode(false);
-  };
+ const handleSave = async () => {
+  try {
+    const response = await fetch("http://localhost:8080/profile/update", {
+      method: "PUT", // or POST if you prefer
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include", // keep session cookies
+      body: JSON.stringify(student),
+    });
+
+    if (response.ok) {
+      const updatedStudent = await response.json();
+      setStudent(updatedStudent); // refresh UI with updated data
+      setEditMode(false);
+    } else {
+      console.error("Failed to update profile");
+    }
+  } catch (error) {
+    console.error("Error updating profile:", error);
+  }
+};
+
 
   return (
     <div className="profile-container">

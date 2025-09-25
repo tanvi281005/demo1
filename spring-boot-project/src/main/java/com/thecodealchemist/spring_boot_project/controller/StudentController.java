@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/") 
@@ -94,6 +95,19 @@ public ResponseEntity<Student> getProfile(HttpSession session) {
     }
 
     return ResponseEntity.ok(student);
+}
+
+@PutMapping("/profile/update")
+public Student updateProfile(@RequestBody Student updatedStudent, HttpSession session) {
+    Integer studentId = (Integer) session.getAttribute("studentId");
+    if (studentId == null) {
+        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+    }
+
+    // Ensure user only updates their own profile
+    updatedStudent.setStudentId(studentId);
+
+    return studentService.updateStudent2(updatedStudent);
 }
 
 
