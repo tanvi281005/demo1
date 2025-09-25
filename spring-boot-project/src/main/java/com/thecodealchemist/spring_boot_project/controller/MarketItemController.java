@@ -31,11 +31,11 @@ public class MarketItemController {
     }
 
     @GetMapping
-    public List<MarketItem> getAllItems(HttpSession session) {
-        Integer studentId = (Integer) session.getAttribute("studentId");
-        if (studentId == null) return null;
-        return service.findAll();
-    }
+public List<MarketItem> getAllItems() {
+    return service.findAll();
+}
+
+
 
     @GetMapping("/{id}")
     public Optional<MarketItem> getItem(@PathVariable Integer id) {
