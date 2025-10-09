@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.thecodealchemist.spring_boot_project.model.TransportRouteWithTimings;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,17 +34,6 @@ public class TransportController {
     }
     
 
-    // Fetch all unique destinations (only for logged-in students)
-    // @GetMapping("/fetchdestination")
-    // public List<String> getDestinations(HttpSession session) {
-    //     Integer studentId = (Integer) session.getAttribute("studentId");
-    //     if (studentId == null) {
-    //         return null;
-    //     }
-
-    //     List<String> destinations = transportService.fetchuniquedestination();
-    //     return destinations;
-    // }
     @GetMapping("/fetchdestination")
 public ResponseEntity<List<String>> getDestinations(HttpSession session) {
     System.out.println("/fetchdestination called; session id: " + session.getId()
@@ -56,21 +45,15 @@ public ResponseEntity<List<String>> getDestinations(HttpSession session) {
 
 
 
-    // Get available buses (POST, only for logged-in students)
     @GetMapping("/daily-commute")
 public ResponseEntity<?> getDailyCommute(@RequestParam("destination") String destination,
                                          HttpSession session) {
-    System.out.println("/daily-commute called; session id: " + session.getId()
-                       + ", studentId: " + session.getAttribute("studentId"));
-
     Integer studentId = (Integer) session.getAttribute("studentId");
     if (studentId == null) {
         return ResponseEntity.status(401).body("You must be logged in.");
     }
-
-    List<TransportRouteTiming> buses = transportService.getAvailableBuses(destination);
-    // Prevent client/proxy caching if you prefer fresh data:
-    // return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(buses);
+    List<TransportRouteWithTimings> buses = transportService.getAvailableBuses(destination);
+    System.out.println(buses);
     return ResponseEntity.ok(buses);
 }
 

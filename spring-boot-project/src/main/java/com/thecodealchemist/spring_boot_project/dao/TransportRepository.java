@@ -2,6 +2,8 @@ package com.thecodealchemist.spring_boot_project.dao;
 
 import com.thecodealchemist.spring_boot_project.model.TransportBooking;
 import com.thecodealchemist.spring_boot_project.model.TransportRouteTiming;
+import com.thecodealchemist.spring_boot_project.model.TransportRouteWithTimings;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -9,8 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalTime;
-import java.util.List;
-
+import java.util.*;
 @Repository
 public class TransportRepository {
 
@@ -18,22 +19,31 @@ public class TransportRepository {
     private JdbcTemplate jdbcTemplate;
 
     // Fetch available buses by destination (only routeId + timings)
-    public List<TransportRouteTiming> findAvailableBuses(String destination) {
+    public List<TransportRouteWithTimings> findAvailableBuses(String destination) {
         String sql = """
-            SELECT rt.route_id, t.timings
-            FROM TransportRoute rt
-            JOIN TransportRouteTimings t ON rt.route_id = t.route_id
-            WHERE rt.destination = ?
-            ORDER BY t.timings ASC
-        """;
+    SELECT r.route_id, r.origin, r.name, r.destination, t.timings
+    FROM transportroute r
+    JOIN transportroutetimings t ON r.route_id = t.route_id
+    WHERE r.destination = ?
+    ORDER BY r.route_id, t.timings
+""";
 
-        return jdbcTemplate.query(sql, new Object[]{destination}, (rs, rowNum) -> mapRouteTiming(rs));
-    }
+Map<Integer, TransportRouteWithTimings> routeMap = new LinkedHashMap<>();
 
-    private TransportRouteTiming mapRouteTiming(ResultSet rs) throws SQLException {
-        int routeId = rs.getInt("route_id");
-        String timing = rs.getTime("timings").toLocalTime().toString(); // convert to string
-        return new TransportRouteTiming(routeId, timing);
+jdbcTemplate.query(sql, new Object[]{destination}, rs -> {
+    int routeId = rs.getInt("route_id");
+    String origin = rs.getString("origin");
+    String name = rs.getString("name");
+    String dest = rs.getString("destination");
+    String timing = rs.getTime("timings").toLocalTime().toString();
+
+   routeMap.computeIfAbsent(routeId, id ->
+            new TransportRouteWithTimings(routeId, origin, name, dest, new ArrayList<>())
+        ).getTimings().add(timing); // Add timing to the list
+});
+
+return new ArrayList<>(routeMap.values());
+    
     }
 
     // Save a booking

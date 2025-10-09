@@ -104,17 +104,14 @@ public Student updateProfile(@RequestBody Student updatedStudent, HttpSession se
         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
     }
 
-    // Ensure user only updates their own profile
     updatedStudent.setStudentId(studentId);
 
     return studentService.updateStudent2(updatedStudent);
 }
 
-
-// POST endpoint to logout
 @PostMapping("/logout")
 public ResponseEntity<String> logout(HttpSession session) {
-    session.invalidate(); // destroys the session
+    session.invalidate(); 
     return ResponseEntity.ok("Logout successful.");
 }
 
