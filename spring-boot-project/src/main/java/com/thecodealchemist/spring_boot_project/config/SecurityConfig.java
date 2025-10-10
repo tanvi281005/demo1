@@ -16,7 +16,7 @@ public class SecurityConfig {
             .cors(cors -> {})             // Enable CORS
             .authorizeHttpRequests(auth -> auth
 
-                .requestMatchers("/api/login", "/register", "/profile", "/profile/update", "/market-items", "/market-items/{id}", "market-items/category/{category}","/transport/fetchdestination", "/transport/book", "/transport/daily-commute","/urgent").permitAll()
+                .requestMatchers("/api/login", "/register", "/profile", "/profile/update", "/market-items", "/market-items/{id}", "market-items/category/{category}","/transport/fetchdestination", "/transport/book", "/transport/daily-commute","/urgent","/resources/upload").permitAll()
                 .anyRequest().authenticated()
             )
               .formLogin(form -> form.disable()) // disable default form login
