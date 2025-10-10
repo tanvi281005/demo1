@@ -35,7 +35,7 @@ public class TransportRepository {
         String timing = rs.getTime("timings").toLocalTime().toString(); // convert to string
         return new TransportRouteTiming(routeId, timing);
     }
-
+        
     // Save a booking
     public int saveBooking(TransportBooking booking) {
         String sql = "INSERT INTO TransportBooking(route_id, wallet_enough, time_chosen, date) VALUES (?, ?, ?, ?)";

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/urgent")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class AmbulanceController {
 
     private final AmbulanceService ambulanceService;
@@ -27,6 +28,10 @@ public class AmbulanceController {
     @PostMapping
     public ResponseEntity<String> urgentRequest(@RequestBody AmbulanceRequestDTO requestDTO,
                                                 HttpSession session) {
+
+        // debug log: show incoming session id and stored studentId attribute
+        System.out.println("[URGENT] incoming sessionId=" + session.getId() +
+                " studentIdAttr=" + session.getAttribute("studentId"));
 
         Integer studentId = (Integer) session.getAttribute("studentId");
         if (studentId == null) {
