@@ -22,16 +22,16 @@ const StudentLogin = () => {
       headers: {
         "Content-Type": "application/json"
       },
-      credentials: "include", // 🔑 ensures JSESSIONID cookie is stored
+      credentials: "include", 
       body: JSON.stringify({
         email: formData.email,
-        dob: formData.password // since you're using DOB as password
+        dob: formData.password 
       })
     });
 
     if (response.ok) {
       alert("Login successful!");
-      navigate("/home"); // protected page
+      navigate("/home"); 
     } else {
       const errorText = await response.text();
       alert("Login failed: " + errorText);

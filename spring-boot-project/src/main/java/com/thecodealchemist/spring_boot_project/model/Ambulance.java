@@ -11,8 +11,6 @@ public class Ambulance {
     private String ambulanceNo;
     private Boolean nurseRequired;
     private String necessity;
-
-    // Constructors
     public Ambulance() {}
 
     public Ambulance(Integer serviceId, Services service, String fromPos, String toPos,

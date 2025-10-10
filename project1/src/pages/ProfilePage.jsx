@@ -40,17 +40,17 @@ const ProfilePage = () => {
  const handleSave = async () => {
   try {
     const response = await fetch("http://localhost:8080/profile/update", {
-      method: "PUT", // or POST if you prefer
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include", // keep session cookies
+      credentials: "include",
       body: JSON.stringify(student),
     });
 
     if (response.ok) {
       const updatedStudent = await response.json();
-      setStudent(updatedStudent); // refresh UI with updated data
+      setStudent(updatedStudent);
       setEditMode(false);
     } else {
       console.error("Failed to update profile");

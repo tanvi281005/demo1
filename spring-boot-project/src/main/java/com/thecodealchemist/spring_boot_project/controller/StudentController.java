@@ -116,10 +116,25 @@ public class StudentController {
         return studentService.updateStudent2(updatedStudent);
     }
 
+<<<<<<< HEAD
     // POST endpoint to logout
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         session.invalidate(); // destroys the session
         return ResponseEntity.ok("Logout successful.");
     }
+=======
+    updatedStudent.setStudentId(studentId);
+
+    return studentService.updateStudent2(updatedStudent);
+}
+
+@PostMapping("/logout")
+public ResponseEntity<String> logout(HttpSession session) {
+    session.invalidate(); 
+    return ResponseEntity.ok("Logout successful.");
+}
+
+
+>>>>>>> 0c27a5551c86ce0877be5c1dfbceac6666720ed1
 }
