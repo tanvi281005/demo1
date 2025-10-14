@@ -3,10 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const StudentLogin = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: ""
-  });
+  const [formData, setFormData] = useState({ email: "", dob: "" });
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -14,34 +11,28 @@ const StudentLogin = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  try {
-    const response = await fetch("http://localhost:8080/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      credentials: "include", // 🔑 ensures JSESSIONID cookie is stored
-      body: JSON.stringify({
-        email: formData.email,
-        dob: formData.password // since you're using DOB as password
-      })
-    });
+    try {
+      const response = await fetch("http://localhost:8080/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include", // ✅ include cookies
+        body: JSON.stringify({ email: formData.email, dob: formData.dob })
+      });
 
-    if (response.ok) {
-      alert("Login successful!");
-      navigate("/home"); // protected page
-    } else {
-      const errorText = await response.text();
-      alert("Login failed: " + errorText);
+      if (response.ok) {
+        alert("Login successful!");
+        navigate("/home"); // navigate to protected page
+      } else {
+        const errorText = await response.text();
+        alert("Login failed: " + errorText);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Something went wrong. Please try again.");
     }
-  } catch (error) {
-    console.error("Login error:", error);
-    alert("Something went wrong. Please try again.");
-  }
-};
-
+  };
 
   return (
     <div className="studentPage">
@@ -51,8 +42,8 @@ const StudentLogin = () => {
           <label htmlFor="email">Email:</label>
           <input type="email" id="email" value={formData.email} onChange={handleChange} required />
 
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" value={formData.password} onChange={handleChange} required />
+          <label htmlFor="dob">Password:</label>
+          <input type="text" id="dob" value={formData.dob} onChange={handleChange} required />
 
           <button type="submit">Login</button>
         </form>

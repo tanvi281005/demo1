@@ -4,12 +4,17 @@ import java.math.BigDecimal;
 
 public class MarketTransaction {
 
-    private Integer serviceId; // PK & FK to Service
-    private Integer itemId;    // FK to MarketItem
+    private Integer serviceId;
+    private Integer itemId;  
     private Boolean isApproved;
     private BigDecimal negotiatedPrice;
     private BigDecimal finalPrice;
     private BigDecimal originalPrice;
+
+    // New fields for frontend display
+    private String title;       // item title
+    private String buyerName;   // buyer's name for seller view
+    private String sellerName;  // seller's name for buyer view
 
     public MarketTransaction() {}
 
@@ -23,7 +28,7 @@ public class MarketTransaction {
         this.originalPrice = originalPrice;
     }
 
-    // Getters & setters
+    // Getters & Setters
     public Integer getServiceId() { return serviceId; }
     public void setServiceId(Integer serviceId) { this.serviceId = serviceId; }
 
@@ -41,4 +46,13 @@ public class MarketTransaction {
 
     public BigDecimal getOriginalPrice() { return originalPrice; }
     public void setOriginalPrice(BigDecimal originalPrice) { this.originalPrice = originalPrice; }
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public String getBuyerName() { return buyerName; }
+    public void setBuyerName(String buyerName) { this.buyerName = buyerName; }
+
+    public String getSellerName() { return sellerName; }
+    public void setSellerName(String sellerName) { this.sellerName = sellerName; }
 }

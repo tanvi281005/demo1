@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
 @RestController
 @RequestMapping("/transactions")
 public class MarketTransactionController {
@@ -20,23 +22,22 @@ public class MarketTransactionController {
     }
 
     public static class TransactionRequest {
-        public int itemId;
-        public BigDecimal negotiatedPrice;
-        public BigDecimal originalPrice;
+        public int itemId; // frontend sends only itemId
+        public BigDecimal negotiatedPrice; // optional
     }
 
     @PostMapping("/request")
-    public ResponseEntity<String> requestTransaction(@RequestBody TransactionRequest request,
-                                                     HttpSession session) {
-        try {
-            Integer studentId = (Integer) session.getAttribute("studentId");
-            if (studentId == null) return ResponseEntity.status(401).body("Login required");
+    public ResponseEntity<String> requestTransaction(@RequestBody TransactionRequest request, HttpSession session) {
+        Integer buyerId = (Integer) session.getAttribute("studentId");
+        if (buyerId == null) return ResponseEntity.status(401).body("Login required");
 
-            MarketTransaction mt = service.createTransaction(request.itemId, request.negotiatedPrice, request.originalPrice);
+        System.out.println("Buyer ID from session: " + buyerId); // ✅ debug
+
+        try {
+            MarketTransaction mt = service.createTransaction(buyerId, request.itemId, request.negotiatedPrice);
             return ResponseEntity.ok("Transaction requested! Service ID: " + mt.getServiceId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(500).body("Internal Server Error: " + e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
@@ -44,7 +45,18 @@ public class MarketTransactionController {
     public List<MarketTransaction> getSellerTransactions(HttpSession session) {
         Integer sellerId = (Integer) session.getAttribute("studentId");
         if (sellerId == null) throw new RuntimeException("Login required");
+
+        System.out.println("Seller ID from session: " + sellerId); // ✅ debug
         return service.getTransactionsForSeller(sellerId);
+    }
+
+    @GetMapping("/buyer")
+    public List<MarketTransaction> getBuyerTransactions(HttpSession session) {
+        Integer buyerId = (Integer) session.getAttribute("studentId");
+        if (buyerId == null) throw new RuntimeException("Login required");
+
+        System.out.println("Buyer ID from session: " + buyerId); // ✅ debug
+        return service.getTransactionsForBuyer(buyerId);
     }
 
     @PutMapping("/{serviceId}/final-price")

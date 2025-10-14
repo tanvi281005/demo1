@@ -25,7 +25,6 @@ public class TransportController {
     @Autowired
     private StudentService studentService;
 
-    // DTO for search request
     public static class CommuteRequest {
         private String destination;
         public String getDestination() { return destination; }
@@ -48,18 +47,13 @@ public class TransportController {
 public ResponseEntity<List<String>> getDestinations(HttpSession session) {
     Integer studentId = (Integer) session.getAttribute("studentId");
     if (studentId == null) {
-        // return 401 with no JSON body
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
     List<String> destinations = transportService.fetchuniquedestination();
-    // always return an array (never null)
     return ResponseEntity.ok(destinations != null ? destinations : List.of());
 }
 
-
-
-    // Get available buses (POST, only for logged-in students)
     @GetMapping("/daily-commute")
 public ResponseEntity<?> getDailyCommute(@RequestParam("destination") String destination,
                                          HttpSession session) {
@@ -72,14 +66,9 @@ public ResponseEntity<?> getDailyCommute(@RequestParam("destination") String des
     }
 
     List<TransportRouteTiming> buses = transportService.getAvailableBuses(destination);
-    // Prevent client/proxy caching if you prefer fresh data:
-    // return ResponseEntity.ok().cacheControl(CacheControl.noStore()).body(buses);
     return ResponseEntity.ok(buses);
 }
 
-
-
-    // Book a bus (POST, only for logged-in students)
     @PostMapping("/book")
     public ResponseEntity<?> bookTransport(@RequestBody TransportBooking booking,
                                            HttpSession session) {

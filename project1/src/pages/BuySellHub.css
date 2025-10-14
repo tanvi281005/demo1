@@ -1,5 +1,5 @@
 .buysell-container {
-    
+    position: relative; /* Needed for absolute positioning of the profile button */
     margin: 0;
     font-family: 'Poppins', Arial, sans-serif;
     background-image: url('https://i.pinimg.com/1200x/e3/70/a1/e370a15754ce87aa55225ed16be6afa2.jpg');
@@ -18,7 +18,7 @@ h1 {
     margin-top: 40px;
     margin-bottom: 60px;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-    color: white; /* Ensure heading stays white */
+    color: white;
 }
 
 .buttons-container {
@@ -29,8 +29,8 @@ h1 {
 .button {
     width: 100px;
     height: 100px;
-    background-color: #f5f5dc; /* Beige base */
-    border: 3px solid #800000; /* Maroon border */
+    background-color: #f5f5dc;
+    border: 3px solid #800000;
     border-radius: 50%;
     box-shadow: 3px 3px 8px rgba(0,0,0,0.5);
     cursor: pointer;
@@ -46,21 +46,21 @@ h1 {
 }
 
 .buy {
-    background-color: #800000; /* Maroon */
-    border-color: #660000; /* Darker maroon */
+    background-color: #800000;
+    border-color: #660000;
 }
 
 .buy:hover {
-    background-color: #a00000; /* Slightly lighter on hover */
+    background-color: #a00000;
 }
 
 .sell {
-    background-color: #f5f5dc; /* Beige */
-    border-color: #d4b87a; /* Darker beige accent */
+    background-color: #f5f5dc;
+    border-color: #d4b87a;
 }
 
 .sell:hover {
-    background-color: #e0d5b0; /* Slightly darker beige hover */
+    background-color: #e0d5b0;
 }
 
 .icon {
@@ -70,11 +70,32 @@ h1 {
 }
 
 .icon.buy {
-    color: #f5f5dc; /* Beige icon for Buy */
+    color: #f5f5dc;
 }
 
 .icon.sell {
-    color: #800000; /* Maroon icon for Sell */
+    color: #800000;
+}
+
+/* Top-right BuySell Profile button */
+.buysell-profile-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 12px;
+    background-color: #800000;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.buysell-profile-btn:hover {
+    background-color: #a00000;
+    transform: scale(1.05);
 }
 
 @media (max-width: 600px) {

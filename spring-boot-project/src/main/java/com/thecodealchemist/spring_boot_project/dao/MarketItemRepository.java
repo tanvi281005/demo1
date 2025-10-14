@@ -25,7 +25,7 @@ public class MarketItemRepository {
         item.setUserId(rs.getInt("user_id"));
         item.setCategoryName(rs.getString("category_name"));
         item.setTitle(rs.getString("title"));
-        item.setPrice(rs.getBigDecimal("price")); // BigDecimal
+        item.setPrice(rs.getBigDecimal("price"));
         item.setItemCondition(rs.getString("item_condition"));
         item.setDescription(rs.getString("description"));
         item.setPhoto(rs.getString("photo"));
@@ -39,7 +39,7 @@ public class MarketItemRepository {
                 item.getUserId(),
                 item.getCategoryName(),
                 item.getTitle(),
-                item.getPrice(), // BigDecimal
+                item.getPrice(), 
                 item.getItemCondition(),
                 item.getDescription(),
                 item.getPhoto(),
