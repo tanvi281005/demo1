@@ -22,7 +22,7 @@ const StudentLogin = () => {
       credentials: "include", 
       body: JSON.stringify({
         email: formData.email,
-        dob: formData.password 
+        dob: formData.dob
       })
     });
 
