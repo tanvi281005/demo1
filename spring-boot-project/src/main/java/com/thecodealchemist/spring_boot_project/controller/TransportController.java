@@ -1,5 +1,6 @@
 package com.thecodealchemist.spring_boot_project.controller;
 
+import com.thecodealchemist.spring_boot_project.model.BookRequest;
 import com.thecodealchemist.spring_boot_project.model.TransportBooking;
 import com.thecodealchemist.spring_boot_project.model.TransportRouteTiming;
 import com.thecodealchemist.spring_boot_project.service.TransportService;
@@ -11,8 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import com.thecodealchemist.spring_boot_project.model.TransportRouteWithTimings;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/transport")
@@ -32,56 +34,66 @@ public class TransportController {
     }
     
 
-    // Fetch all unique destinations (only for logged-in students)
-    // @GetMapping("/fetchdestination")
-    // public List<String> getDestinations(HttpSession session) {
-    //     Integer studentId = (Integer) session.getAttribute("studentId");
-    //     if (studentId == null) {
-    //         return null;
-    //     }
-
-    //     List<String> destinations = transportService.fetchuniquedestination();
-    //     return destinations;
-    // }
     @GetMapping("/fetchdestination")
 public ResponseEntity<List<String>> getDestinations(HttpSession session) {
-    Integer studentId = (Integer) session.getAttribute("studentId");
-    if (studentId == null) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
-
+    System.out.println("/fetchdestination called; session id: " + session.getId()
+                       + ", studentId: " + session.getAttribute("studentId"));
     List<String> destinations = transportService.fetchuniquedestination();
     return ResponseEntity.ok(destinations != null ? destinations : List.of());
 }
 
+
+
+
     @GetMapping("/daily-commute")
 public ResponseEntity<?> getDailyCommute(@RequestParam("destination") String destination,
                                          HttpSession session) {
-    System.out.println("/daily-commute called; session id: " + session.getId()
-                       + ", studentId: " + session.getAttribute("studentId"));
-
     Integer studentId = (Integer) session.getAttribute("studentId");
     if (studentId == null) {
         return ResponseEntity.status(401).body("You must be logged in.");
     }
-
-    List<TransportRouteTiming> buses = transportService.getAvailableBuses(destination);
+    List<TransportRouteWithTimings> buses = transportService.getAvailableBuses(destination);
+    System.out.println(buses);
     return ResponseEntity.ok(buses);
 }
 
-    @PostMapping("/book")
-    public ResponseEntity<?> bookTransport(@RequestBody TransportBooking booking,
-                                           HttpSession session) {
-        Integer studentId = (Integer) session.getAttribute("studentId");
-        if (studentId == null) {
-            return ResponseEntity.status(401).body("You must be logged in to book a bus.");
-        }
 
-        int rows = transportService.bookTransport(booking);
-        if (rows > 0) {
-            return ResponseEntity.ok("Booking successful");
-        } else {
-            return ResponseEntity.status(500).body("Booking failed");
+
+
+
+    // // Book a bus (POST, only for logged-in students)
+    // @PostMapping("/book")
+    // public ResponseEntity<?> bookTransport(@RequestBody TransportBooking booking,
+    //                                        HttpSession session) {
+    //     Integer studentId = (Integer) session.getAttribute("studentId");
+    //     if (studentId == null) {
+    //         return ResponseEntity.status(401).body("You must be logged in to book a bus.");
+    //     }
+
+    //     int rows = transportService.bookTransport(booking);
+    //     if (rows > 0) {
+    //         return ResponseEntity.ok("Booking successful");
+    //     } else {
+    //         return ResponseEntity.status(500).body("Booking failed");
+    //     }
+    // }
+
+    @PostMapping("/book")
+    public ResponseEntity<String> bookTransport(@RequestBody BookRequest request,
+                                                @SessionAttribute(value = "studentId", required = false) Integer studentId) {
+        try {
+            if (studentId == null) {
+                return ResponseEntity.status(401).body("Unauthorized — Please log in first.");
+            }
+
+            transportService.bookTransport(studentId, request);
+            return ResponseEntity.ok("Booking successful.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError()
+                    .body("Error during booking: " + e.getMessage());
         }
     }
 }

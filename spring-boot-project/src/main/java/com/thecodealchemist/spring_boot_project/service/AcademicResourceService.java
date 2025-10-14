@@ -16,6 +16,7 @@ public class AcademicResourceService {
         this.resourceRepository = resourceRepository;
     }
 
+    // Upload PDF resource
     public void uploadResource(Integer studentId, String course, AcademicResource.ResourceType type, MultipartFile file) throws IOException {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("PDF file must be provided");
@@ -26,7 +27,7 @@ public class AcademicResourceService {
         }
 
         AcademicResource resource = new AcademicResource();
-        resource.setStudentId(studentId);
+        resource.setStudentId(studentId);  // From session
         resource.setCourse(course);
         resource.setResourceType(type);
         resource.setContent(file.getBytes());

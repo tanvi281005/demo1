@@ -43,10 +43,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // allow POST/PUT/DELETE from frontend
             .cors(cors -> {})             // enable CORS
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/api/login", "/register", "/user/profile", "/market-items/**",
-                    "/transactions/**", "/transport/**"
-                ).permitAll()
+
+                .requestMatchers("/api/login", "/register", "/profile", "/profile/update", "/market-items", "/market-items/{id}", "market-items/category/{category}","/transport/fetchdestination", "/transport/book", "/transport/daily-commute","/urgent","/resources/upload").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form.disable())
@@ -55,4 +53,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }

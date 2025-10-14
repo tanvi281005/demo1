@@ -13,26 +13,32 @@ const StudentLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:8080/api/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include", // ✅ include cookies
-        body: JSON.stringify({ email: formData.email, dob: formData.dob })
-      });
+  try {
+    const response = await fetch("http://localhost:8080/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      credentials: "include", 
+      body: JSON.stringify({
+        email: formData.email,
+        dob: formData.password 
+      })
+    });
 
-      if (response.ok) {
-        alert("Login successful!");
-        navigate("/home"); // navigate to protected page
-      } else {
-        const errorText = await response.text();
-        alert("Login failed: " + errorText);
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-      alert("Something went wrong. Please try again.");
+    if (response.ok) {
+      alert("Login successful!");
+      navigate("/home"); // protected page
+    } else {
+      const errorText = await response.text();
+      alert("Login failed: " + errorText);
     }
-  };
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("Something went wrong. Please try again.");
+  }
+};
+
 
   return (
     <div className="studentPage">
