@@ -7,6 +7,7 @@ function DailyCommute() {
   const [buses, setBuses] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [selectedTimings, setSelectedTimings] = useState({}); 
 
   // Fetch destinations when page loads
   useEffect(() => {
@@ -33,8 +34,13 @@ function DailyCommute() {
       });
   }, []);
 
-  const handleChange = (e) => {
+ const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // update selected timing for a route
+  const handleTimingChange = (routeId, timing) => {
+    setSelectedTimings(prev => ({ ...prev, [routeId]: timing }));
   };
 
   // Fetch buses by destination
@@ -70,6 +76,37 @@ function DailyCommute() {
       setError(err.message || "Network error");
     } finally {
       setLoading(false);
+    }
+  };
+
+   const handleBook = async (bus) => {
+    const timing = selectedTimings[bus.routeId];
+    if (!timing) {
+      alert("Please select a timing before booking.");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:8080/transport/book", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          routeId: bus.routeId,
+          timeChosen: timing
+        })
+      });
+
+      if (res.status === 401) throw new Error("Unauthorized — please log in.");
+      if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        throw new Error(`Failed to book: ${text}`);
+      }
+
+      alert(`Successfully booked route ${bus.name || bus.routeId} at ${timing}`);
+    } catch (err) {
+      console.error("Booking error:", err);
+      alert(err.message || "Network error while booking");
     }
   };
 
@@ -118,7 +155,7 @@ function DailyCommute() {
               </p>
 
               <label><strong>Select Timing:</strong></label>
-              <select className="timing-dropdown">
+              {/* <select className="timing-dropdown">
   {Array.isArray(bus.timings)
     ? bus.timings.map((time, i) => (
         <option key={i} value={time}>{time}</option>
@@ -128,7 +165,24 @@ function DailyCommute() {
         <option key={i} value={time.trim()}>{time.trim()}</option>
       ))
     : <option disabled>No timings available</option>}
-</select>
+</select> */}
+<select
+                className="timing-dropdown"
+                value={selectedTimings[bus.routeId] || ""}
+                onChange={(e) => handleTimingChange(bus.routeId, e.target.value)}
+              >
+                <option value="" disabled>Select Timing</option>
+                {Array.isArray(bus.timings) && bus.timings.map((time, i) => (
+                  <option key={i} value={time}>{time}</option>
+                ))}
+              </select>
+              <button
+                className="daily-button"
+                style={{ marginTop: "8px" }}
+                onClick={() => handleBook(bus)}
+              >
+                Book
+              </button>
 
             </div>
           ))}

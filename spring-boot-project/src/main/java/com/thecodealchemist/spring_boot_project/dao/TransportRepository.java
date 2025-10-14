@@ -48,12 +48,11 @@ return new ArrayList<>(routeMap.values());
 
     // Save a booking
     public int saveBooking(TransportBooking booking) {
-        String sql = "INSERT INTO TransportBooking(route_id, wallet_enough, time_chosen, date) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO TransportBooking(route_id, wallet_enough, time_chosen) VALUES (?, ?, ?)";
         return jdbcTemplate.update(sql,
                 booking.getRouteId(),
                 booking.isWalletEnough(),
-                booking.getTimeChosen(),
-                booking.getDate());
+                booking.getTimeChosen());
     }
 
     // Fetch unique destinations
