@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("/") 
+@RequestMapping("/")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
 public class StudentController {
 
     private final StudentService studentService;
@@ -23,34 +25,24 @@ public class StudentController {
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
+
     public static class LoginRequest {
-    private String email;
-    private String dob; // in YYYY-MM-DD
-    
-    public LoginRequest() {}
+        private String email;
+        private String dob; // in YYYY-MM-DD
 
-    public LoginRequest(String email, String dob) {
-        this.email = email;
-        this.dob = dob;
+        public LoginRequest() {}
+
+        public LoginRequest(String email, String dob) {
+            this.email = email;
+            this.dob = dob;
+        }
+
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+        public String getDob() { return dob; }
+        public void setDob(String dob) { this.dob = dob; }
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDob() {
-        return dob;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
-    }
-    // getters & setters
-}
     // POST mapping for /register
     @PostMapping("/register")
     public ResponseEntity<?> registerStudent(@RequestBody Student student) {
@@ -62,58 +54,72 @@ public class StudentController {
         }
     }
 
- @PostMapping("/api/login")
-public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest,
-                                    HttpSession session) {
-    LocalDate dateOfBirth;
-    try {
-        dateOfBirth = LocalDate.parse(loginRequest.getDob());
-    } catch (Exception e) {
-        return ResponseEntity.badRequest().body("Invalid date format. Use YYYY-MM-DD");
+    @PostMapping("/api/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest,
+                                        HttpSession session) {
+        LocalDate dateOfBirth;
+        try {
+            dateOfBirth = LocalDate.parse(loginRequest.getDob());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Invalid date format. Use YYYY-MM-DD");
+        }
+
+        Student student = studentService.authenticate(loginRequest.getEmail(), dateOfBirth);
+
+        if (student != null) {
+            // set session attribute and extend session timeout for dev
+            session.setAttribute("studentId", student.getStudentId());
+            session.setMaxInactiveInterval(60 * 60); // 1 hour for testing
+
+            // debug log: prints session id and student id
+            System.out.println("[LOGIN] sessionId=" + session.getId() + " studentId=" + student.getStudentId());
+
+            return ResponseEntity.ok("Login successful! Access granted.");
+        } else {
+            return ResponseEntity.status(401).body("Invalid email or date of birth.");
+        }
     }
 
-    Student student = studentService.authenticate(loginRequest.getEmail(), dateOfBirth);
-
-    if (student != null) {
-        session.setAttribute("studentId", student.getStudentId());
-        return ResponseEntity.ok("Login successful! Access granted.");
-    } else {
-        return ResponseEntity.status(401).body("Invalid email or date of birth.");
-    }
-}
-
-@GetMapping("/profile")
-public ResponseEntity<Student> getProfile(HttpSession session) {
-    Integer studentId = (Integer) session.getAttribute("studentId");
-    if (studentId == null) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    // Helper endpoint to quickly verify session presence & studentId
+    @GetMapping("/check-session")
+    public ResponseEntity<String> checkSession(HttpSession session) {
+        Integer studentId = (Integer) session.getAttribute("studentId");
+        String msg = "sessionId=" + session.getId() + " studentId=" + studentId;
+        return studentId == null ? ResponseEntity.status(401).body(msg) : ResponseEntity.ok(msg);
     }
 
-    Student student = studentService.getStudentById(studentId);
-    if (student == null) {
-        return ResponseEntity.notFound().build();
+    @GetMapping("/profile")
+    public ResponseEntity<Student> getProfile(HttpSession session) {
+        Integer studentId = (Integer) session.getAttribute("studentId");
+        if (studentId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        Student student = studentService.getStudentById(studentId);
+        if (student == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(student);
     }
 
-    return ResponseEntity.ok(student);
-}
+    @PutMapping("/profile/update")
+    public Student updateProfile(@RequestBody Student updatedStudent, HttpSession session) {
+        Integer studentId = (Integer) session.getAttribute("studentId");
+        if (studentId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+        }
 
-@PutMapping("/profile/update")
-public Student updateProfile(@RequestBody Student updatedStudent, HttpSession session) {
-    Integer studentId = (Integer) session.getAttribute("studentId");
-    if (studentId == null) {
-        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Not logged in");
+        // Ensure user only updates their own profile
+        updatedStudent.setStudentId(studentId);
+
+        return studentService.updateStudent2(updatedStudent);
     }
 
-    updatedStudent.setStudentId(studentId);
-
-    return studentService.updateStudent2(updatedStudent);
-}
-
-@PostMapping("/logout")
-public ResponseEntity<String> logout(HttpSession session) {
-    session.invalidate(); 
-    return ResponseEntity.ok("Logout successful.");
-}
-
-
+    // POST endpoint to logout
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpSession session) {
+        session.invalidate(); // destroys the session
+        return ResponseEntity.ok("Logout successful.");
+    }
 }

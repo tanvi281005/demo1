@@ -22,48 +22,41 @@ public class AmbulanceService {
         this.serviceRepository = serviceRepository;
         this.studentRepository = studentRepository;
     }
+
+    // ✅ REPLACE your old method with this one
     @Transactional
-public void createAmbulanceRequest(Integer studentId,
-                                   String fromPos,
-                                   String toPos,
-                                   String patientCondition,
-                                   String ambulanceNo,
-                                   Boolean nurseRequired,
-                                   String necessity) {
+    public void createAmbulanceRequest(Integer studentId,
+                                       String fromPos,
+                                       String toPos,
+                                       String patientCondition,
+                                       String ambulanceNo,
+                                       Boolean nurseRequired,
+                                       String necessity) {
 
-    Student student = studentRepository.findById(studentId)
-            .orElseThrow(() -> new RuntimeException("Student not found"));
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("Student not found"));
 
-    // Optionally, reuse existing Transport Service
-    Services transportService = serviceRepository
-        .findByServiceName(Services.ServiceType.TRANSPORT_SERVICES)
-        .orElseGet(() -> {
-            Services s = new Services();
-            s.setServiceName(Services.ServiceType.TRANSPORT_SERVICES);
-            serviceRepository.save(s);
-            return s;
-        });
+        // Create a new Service entry for each ambulance request
+        Services newService = new Services();
+        newService.setServiceName(Services.ServiceType.TRANSPORT_SERVICES);
+        serviceRepository.save(newService);
 
+        // Create a new Request linked to student and service
+        Request request = new Request();
+        request.setStudent(student);
+        request.setService(newService);
+        request.setStatus(Request.Status.Pending);
+        requestRepository.save(request);
 
-    // Create request linked to student and service
-    Request request = new Request();
-    request.setStudent(student);
-    request.setService(transportService);
-    request.setStatus(Request.Status.Pending);
-    requestRepository.save(request);
-
-    // Create ambulance linked to service
-    Ambulance ambulance = new Ambulance();
-    ambulance.setService(transportService); // PK & FK
-    ambulance.setFromPos(fromPos);
-    ambulance.setToPos(toPos);
-    ambulance.setPatientCondition(patientCondition);
-    ambulance.setAmbulanceNo(ambulanceNo);
-    ambulance.setNurseRequired(nurseRequired);
-    ambulance.setNecessity(necessity);
-
-    ambulanceRepository.save(ambulance);
-}
-
-
+        // Create a new Ambulance linked to that same service
+        Ambulance ambulance = new Ambulance();
+        ambulance.setService(newService);
+        ambulance.setFromPos(fromPos);
+        ambulance.setToPos(toPos);
+        ambulance.setPatientCondition(patientCondition);
+        ambulance.setAmbulanceNo(ambulanceNo);
+        ambulance.setNurseRequired(nurseRequired);
+        ambulance.setNecessity(necessity);
+        ambulanceRepository.save(ambulance);
+    }
 }

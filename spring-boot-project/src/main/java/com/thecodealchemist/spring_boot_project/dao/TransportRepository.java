@@ -45,7 +45,7 @@ jdbcTemplate.query(sql, new Object[]{destination}, rs -> {
 return new ArrayList<>(routeMap.values());
     
     }
-
+        
     // Save a booking
     public int saveBooking(TransportBooking booking) {
         String sql = "INSERT INTO TransportBooking(route_id, wallet_enough, time_chosen) VALUES (?, ?, ?)";
