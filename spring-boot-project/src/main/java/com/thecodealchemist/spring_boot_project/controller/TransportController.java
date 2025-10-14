@@ -1,5 +1,6 @@
 package com.thecodealchemist.spring_boot_project.controller;
 
+import com.thecodealchemist.spring_boot_project.model.BookRequest;
 import com.thecodealchemist.spring_boot_project.model.TransportBooking;
 import com.thecodealchemist.spring_boot_project.model.TransportRouteTiming;
 import com.thecodealchemist.spring_boot_project.service.TransportService;
@@ -61,20 +62,39 @@ public ResponseEntity<?> getDailyCommute(@RequestParam("destination") String des
 
 
 
-    // Book a bus (POST, only for logged-in students)
-    @PostMapping("/book")
-    public ResponseEntity<?> bookTransport(@RequestBody TransportBooking booking,
-                                           HttpSession session) {
-        Integer studentId = (Integer) session.getAttribute("studentId");
-        if (studentId == null) {
-            return ResponseEntity.status(401).body("You must be logged in to book a bus.");
-        }
+    // // Book a bus (POST, only for logged-in students)
+    // @PostMapping("/book")
+    // public ResponseEntity<?> bookTransport(@RequestBody TransportBooking booking,
+    //                                        HttpSession session) {
+    //     Integer studentId = (Integer) session.getAttribute("studentId");
+    //     if (studentId == null) {
+    //         return ResponseEntity.status(401).body("You must be logged in to book a bus.");
+    //     }
 
-        int rows = transportService.bookTransport(booking);
-        if (rows > 0) {
-            return ResponseEntity.ok("Booking successful");
-        } else {
-            return ResponseEntity.status(500).body("Booking failed");
+    //     int rows = transportService.bookTransport(booking);
+    //     if (rows > 0) {
+    //         return ResponseEntity.ok("Booking successful");
+    //     } else {
+    //         return ResponseEntity.status(500).body("Booking failed");
+    //     }
+    // }
+
+    @PostMapping("/book")
+    public ResponseEntity<String> bookTransport(@RequestBody BookRequest request,
+                                                @SessionAttribute(value = "studentId", required = false) Integer studentId) {
+        try {
+            if (studentId == null) {
+                return ResponseEntity.status(401).body("Unauthorized — Please log in first.");
+            }
+
+            transportService.bookTransport(studentId, request);
+            return ResponseEntity.ok("Booking successful.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError()
+                    .body("Error during booking: " + e.getMessage());
         }
     }
 }

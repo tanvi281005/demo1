@@ -61,4 +61,28 @@ return new ArrayList<>(routeMap.values());
         List<String> destinations = jdbcTemplate.queryForList(sql, String.class);
         return destinations != null ? destinations : List.of();
     }
+
+    public int insertService(String serviceName) {
+        String sql = "INSERT INTO service (service_name) VALUES (?)";
+        jdbcTemplate.update(sql, serviceName);
+        return jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+    }
+
+    /** Insert into transportbooking */
+    public void insertTransportBooking(int serviceId, int routeId, boolean walletEnough, String timeChosen) {
+        String sql = """
+            INSERT INTO transportbooking (service_id, route_id, wallet_enough, time_chosen)
+            VALUES (?, ?, ?, ?)
+        """;
+        jdbcTemplate.update(sql, serviceId, routeId, walletEnough ? 1 : 0, timeChosen);
+    }
+
+    /** Insert into request */
+    public void insertRequest(int studentId, int serviceId) {
+        String sql = """
+            INSERT INTO request (student_id, service_id, created_at, status)
+            VALUES (?, ?, NOW(), 'Pending')
+        """;
+        jdbcTemplate.update(sql, studentId, serviceId);
+    }
 }
