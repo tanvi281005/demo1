@@ -18,12 +18,12 @@ import FindSupport from "./pages/FindSupport"
 import CounsellorDetails from "./pages/CounsellorDetails";
 import CategoryPage from "./pages/Categorypage";
 import ProfilePage from "./pages/ProfilePage"
-<<<<<<< HEAD
+
 import AcademicResources from "./pages/FindResources";
-=======
+
 import ProductDetail from "./pages/ProductDetail";
 import BuySellProfile from "./pages/BuySellProfile";
->>>>>>> 6a82f94207dfe3077401c7d0f78bc591f1c632c6
+
 
 function App() {
   return (
@@ -52,13 +52,12 @@ function App() {
         <Route path="/food" element={<RecipesPage/>} />
         <Route path="/category/:category" element={<CategoryPage />} />
         <Route path="/profile" element={<ProfilePage/>}/>
-<<<<<<< HEAD
+
         <Route path="/find-resources" element={<AcademicResources/>}/>
-=======
+
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/buysellprofile" element={<BuySellProfile />} />
 
->>>>>>> 6a82f94207dfe3077401c7d0f78bc591f1c632c6
       </Routes>
     </Router>
   );
