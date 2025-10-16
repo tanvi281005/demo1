@@ -22,6 +22,12 @@ import AcademicResources from "./pages/FindResources";
 import ProductDetail from "./pages/ProductDetail";
 import BuySellProfile from "./pages/BuySellProfile";
 
+import AcademicResources from "./pages/FindResources";
+
+import ProductDetail from "./pages/ProductDetail";
+import BuySellProfile from "./pages/BuySellProfile";
+
+
 function App() {
   return (
     <Router>
@@ -49,7 +55,9 @@ function App() {
         <Route path="/food" element={<RecipesPage/>} />
         <Route path="/category/:category" element={<CategoryPage />} />
         <Route path="/profile" element={<ProfilePage/>}/>
+
         <Route path="/find-resources" element={<AcademicResources/>}/>
+
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/buysellprofile" element={<BuySellProfile />} />
 

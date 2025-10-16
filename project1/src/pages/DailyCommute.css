@@ -69,6 +69,7 @@
 /* Individual Bus Card */
 .bus-card {
   background: #ffffff;
+  color: #000000; /* <-- add this line */
   border-radius: 12px;
   padding: 20px;
   display: flex;
