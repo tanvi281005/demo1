@@ -18,6 +18,7 @@ import FindSupport from "./pages/FindSupport"
 import CounsellorDetails from "./pages/CounsellorDetails";
 import CategoryPage from "./pages/Categorypage";
 import ProfilePage from "./pages/ProfilePage"
+import AcademicResources from "./pages/FindResources";
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route path="/food" element={<RecipesPage/>} />
         <Route path="/category/:category" element={<CategoryPage />} />
         <Route path="/profile" element={<ProfilePage/>}/>
+        <Route path="/find-resources" element={<AcademicResources/>}/>
       </Routes>
     </Router>
   );

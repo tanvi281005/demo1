@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @Service
 public class AcademicResourceService {
@@ -17,7 +18,7 @@ public class AcademicResourceService {
     }
 
     // Upload PDF resource
-    public void uploadResource(Integer studentId, String course, AcademicResource.ResourceType type, MultipartFile file) throws IOException {
+    public void uploadResource(Integer studentId, String course,  String subjectCode,AcademicResource.ResourceType type, MultipartFile file) throws IOException {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("PDF file must be provided");
         }
@@ -29,9 +30,15 @@ public class AcademicResourceService {
         AcademicResource resource = new AcademicResource();
         resource.setStudentId(studentId);  // From session
         resource.setCourse(course);
+        resource.setSubjectCode(subjectCode); 
+
         resource.setResourceType(type);
         resource.setContent(file.getBytes());
 
         resourceRepository.save(resource);
+    }
+    public List<String> fetchuniquesubjects() {
+
+        return resourceRepository.fetchuniquesubjects();
     }
 }

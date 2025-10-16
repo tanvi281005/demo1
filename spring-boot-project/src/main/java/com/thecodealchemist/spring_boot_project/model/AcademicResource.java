@@ -5,7 +5,8 @@ import java.time.LocalDateTime;
 public class AcademicResource {
 
     private Integer resourceId;
-    private Integer studentId; // storing student_id as FK
+    private Integer studentId; 
+    private String subjectcode;
     private String course;
     private ResourceType resourceType;
     private LocalDateTime uploadDate = LocalDateTime.now();
@@ -21,6 +22,9 @@ public class AcademicResource {
 
     public Integer getStudentId() { return studentId; }
     public void setStudentId(Integer studentId) { this.studentId = studentId; }
+
+    public String getSubjectCode() { return subjectcode; }
+    public void setSubjectCode(String subjectcode) { this.subjectcode = subjectcode; }
 
     public String getCourse() { return course; }
     public void setCourse(String course) { this.course = course; }

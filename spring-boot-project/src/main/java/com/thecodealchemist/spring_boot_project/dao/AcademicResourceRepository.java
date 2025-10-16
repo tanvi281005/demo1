@@ -30,13 +30,15 @@ public class AcademicResourceRepository {
     };
 
     public void save(AcademicResource resource) {
-        String sql = "INSERT INTO AcademicResource (user_id, course, resource_type, content) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-                resource.getStudentId(),
-                resource.getCourse(),
-                resource.getResourceType().name(),
-                resource.getContent());
-    }
+    String sql = "INSERT INTO AcademicResource (user_id, course, subjectcode, resource_type, content) VALUES (?, ?, ?, ?, ?)";
+    jdbcTemplate.update(sql,
+            resource.getStudentId(),
+            resource.getCourse(),
+            resource.getSubjectCode(),     // NEW
+            resource.getResourceType().name(),
+            resource.getContent());
+}
+
 
     public List<AcademicResource> findAllByStudentId(int studentId) {
         String sql = "SELECT * FROM AcademicResource WHERE user_id = ?";
@@ -46,5 +48,11 @@ public class AcademicResourceRepository {
     public AcademicResource findById(int resourceId) {
         String sql = "SELECT * FROM AcademicResource WHERE resource_id = ?";
         return jdbcTemplate.queryForObject(sql, resourceMapper, resourceId);
+    }
+
+    public List<String> fetchuniquesubjects(){
+        String sql="SELECT DISTINCT subjectcode FROM AcademicResource ORDER BY subjectcode ASC";
+        List<String> subjects = jdbcTemplate.queryForList(sql, String.class);
+        return subjects ;
     }
 }
