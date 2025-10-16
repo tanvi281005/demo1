@@ -38,7 +38,7 @@ const Buy = () => {
       <div className="search-container">
         <input
           type="text"
-          placeholder="Search items by category..."
+          placeholder="Search items by name..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}

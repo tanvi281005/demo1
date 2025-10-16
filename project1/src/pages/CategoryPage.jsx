@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import './Electronics.css'; // keep your existing CSS
+import { useParams, useNavigate } from "react-router-dom";
+import './Electronics.css'; 
 
-// Map friendly keys to DB category strings, headings, and images
 const categoryData = {
   electronics: {
     heading: "Electronic Devices",
@@ -32,20 +31,21 @@ const categoryData = {
 };
 
 const CategoryPage = () => {
-  const { category } = useParams();  // friendly key
+  const { category } = useParams();
   const [items, setItems] = useState([]);
   const catInfo = categoryData[category];
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!catInfo) return;
-
-    // encode category for URL
     const apiCategory = encodeURIComponent(catInfo.apiCategory);
 
-    fetch(`http://localhost:8080/market-items/category/${apiCategory}`)
-      .then(res => res.json())
-      .then(data => setItems(data))
-      .catch(err => console.error("Error fetching category items:", err));
+    fetch(`http://localhost:8080/market-items/category/${apiCategory}`, {
+  credentials: "include" // ✅ add this line
+})
+  .then(res => res.json())
+  .then(data => setItems(data))
+  .catch(err => console.error(err));
   }, [category]);
 
   if (!catInfo) return <p>Category not found</p>;
@@ -68,9 +68,14 @@ const CategoryPage = () => {
       </header>
 
       <div className="products">
-        {items.length === 0 && <p>No items available in this category.</p>}
+        {items.length === 0 && <p>No items available.</p>}
         {items.map(item => (
-          <div key={item.itemId} className="product-card">
+          <div
+            key={item.itemId}
+            className="product-card"
+            onClick={() => navigate(`/product/${item.itemId}`)}
+            style={{ cursor: "pointer" }}
+          >
             <img src={item.photo} alt={item.title} />
             <div className="product-info">
               <h3>{item.title}</h3>
@@ -80,7 +85,6 @@ const CategoryPage = () => {
                 Price: ${item.price} <br />
                 Added: {item.addedAt ? new Date(item.addedAt).toLocaleDateString() : 'N/A'}
               </div>
-              <button className="request-buy">Request Buy</button>
             </div>
           </div>
         ))}

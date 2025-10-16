@@ -1,7 +1,9 @@
 package com.thecodealchemist.spring_boot_project.service;
 
 import com.thecodealchemist.spring_boot_project.dao.MarketTransactionRepository;
+import com.thecodealchemist.spring_boot_project.dao.MarketItemRepository;
 import com.thecodealchemist.spring_boot_project.model.MarketTransaction;
+import com.thecodealchemist.spring_boot_project.model.MarketItem;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,35 +15,52 @@ import java.util.List;
 public class MarketTransactionService {
 
     private final MarketTransactionRepository repository;
+    private final MarketItemRepository itemRepository;
 
-    public MarketTransactionService(MarketTransactionRepository repository) {
+    public MarketTransactionService(MarketTransactionRepository repository, MarketItemRepository itemRepository) {
         this.repository = repository;
+        this.itemRepository = itemRepository;
     }
 
     @Transactional
-    public MarketTransaction createTransaction(int itemId, BigDecimal negotiatedPrice, BigDecimal originalPrice) {
-        if (!repository.itemExists(itemId)) {
-            throw new RuntimeException("Item does not exist");
-        }
+public MarketTransaction createTransaction(int buyerId, int itemId, BigDecimal negotiatedPrice) {
+    MarketItem item = itemRepository.findById(itemId)
+            .orElseThrow(() -> new RuntimeException("Item does not exist"));
 
-        // Auto-generate service name
-        String serviceName = "Service for item " + itemId + " at " + LocalDateTime.now();
-        int serviceId = repository.createService(serviceName);
-
-        repository.createMarketTransaction(serviceId, itemId, negotiatedPrice, originalPrice);
-
-        MarketTransaction mt = new MarketTransaction();
-        mt.setServiceId(serviceId);
-        mt.setItemId(itemId);
-        mt.setNegotiatedPrice(negotiatedPrice);
-        mt.setOriginalPrice(originalPrice);
-        mt.setFinalPrice(BigDecimal.ZERO);
-        mt.setIsApproved(false);
-        return mt;
+    if (item.getUserId().equals(buyerId)) {
+        throw new RuntimeException("You cannot buy your own item");
     }
+
+    // 1️⃣ Create service
+    String serviceName = "Service for item " + itemId + " at " + LocalDateTime.now();
+    int serviceId = repository.createService(serviceName);
+
+    // 2️⃣ Create market transaction immediately
+    BigDecimal originalPrice = item.getPrice();
+    BigDecimal negotiated = negotiatedPrice != null ? negotiatedPrice : originalPrice;
+    repository.createMarketTransaction(serviceId, itemId, negotiated, originalPrice);
+
+    // 3️⃣ Create request linked to that transaction
+    repository.createRequest(buyerId, serviceId);
+
+    MarketTransaction mt = new MarketTransaction();
+    mt.setServiceId(serviceId);
+    mt.setItemId(itemId);
+    mt.setNegotiatedPrice(negotiated);
+    mt.setOriginalPrice(originalPrice);
+    mt.setFinalPrice(BigDecimal.ZERO); // default
+    mt.setIsApproved(false);
+
+    return mt;
+}
+
 
     public List<MarketTransaction> getTransactionsForSeller(int sellerId) {
         return repository.findTransactionsBySeller(sellerId);
+    }
+
+    public List<MarketTransaction> getTransactionsForBuyer(int buyerId) {
+        return repository.findTransactionsByBuyer(buyerId);
     }
 
     public void updateFinalPrice(int serviceId, BigDecimal finalPrice) {

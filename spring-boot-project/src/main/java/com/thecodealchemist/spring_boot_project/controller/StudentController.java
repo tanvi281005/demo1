@@ -1,17 +1,14 @@
 package com.thecodealchemist.spring_boot_project.controller;
-
 import com.thecodealchemist.spring_boot_project.model.Student;
 import com.thecodealchemist.spring_boot_project.service.StudentService;
-
 import jakarta.servlet.http.HttpSession;
-
 import java.time.LocalDate;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
 
 @RestController
 @RequestMapping("/")

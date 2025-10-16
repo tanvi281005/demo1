@@ -27,7 +27,6 @@ public class TransportController {
     @Autowired
     private StudentService studentService;
 
-    // DTO for search request
     public static class CommuteRequest {
         private String destination;
         public String getDestination() { return destination; }

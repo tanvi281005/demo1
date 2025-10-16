@@ -10,6 +10,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+
 @RestController
 @RequestMapping("/market-items")
 public class MarketItemController {
@@ -25,7 +27,7 @@ public class MarketItemController {
         public String title;
         public String description;
         public String categoryName;
-        public String price; // receive as string from frontend
+        public String price; 
         public String itemCondition;
         public String photo;
     }
@@ -51,15 +53,13 @@ public List<MarketItem> getAllItems() {
     public ResponseEntity<MarketItem> createItem(@RequestBody MarketItemRequestDTO dto, HttpSession session) {
         Integer studentId = (Integer) session.getAttribute("studentId");
         if (studentId == null) {
-            return ResponseEntity.status(401).build(); // Unauthorized if not logged in
+            return ResponseEntity.status(401).build(); 
         }
 
         MarketItem item = new MarketItem();
         item.setTitle(dto.title);
         item.setDescription(dto.description);
         item.setCategoryName(dto.categoryName);
-
-        // Convert string to BigDecimal safely
         try {
             item.setPrice(new BigDecimal(dto.price));
         } catch (NumberFormatException e) {
