@@ -54,5 +54,45 @@ public class AcademicResourceController {
     List<String> subjects = resourceService.fetchuniquesubjects();
     return ResponseEntity.ok(subjects != null ? subjects : List.of());
     }
-    
+
+    @GetMapping("/fetch")
+public ResponseEntity<?> fetchResources(
+        @RequestParam String subject,
+        @RequestParam AcademicResource.ResourceType type,
+        HttpSession session) {
+
+    Integer studentId = (Integer) session.getAttribute("studentId");
+    if (studentId == null) {
+        return ResponseEntity.status(401).body("You must be logged in.");
+    }
+
+    try {
+        var resources = resourceService.findResourcesBySubjectAndType(subject, type);
+        return ResponseEntity.ok(resources);
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body("Error fetching resources: " + e.getMessage());
+    }
 }
+
+@GetMapping("/download/{id}")
+public ResponseEntity<byte[]> downloadResource(@PathVariable int id) {
+    try {
+        AcademicResource resource = resourceService.getResourceById(id);
+        if (resource == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok()
+                .header("Content-Type", "application/pdf")
+                .header("Content-Disposition", "attachment; filename=resource_" + id + ".pdf")
+                .body(resource.getContent());
+    } catch (Exception e) {
+        return ResponseEntity.status(500).body(null);
+    }
+}
+
+
+}
+
+    
+

@@ -23,6 +23,7 @@ public class AcademicResourceRepository {
         res.setResourceId(rs.getInt("resource_id"));
         res.setStudentId(rs.getInt("user_id"));
         res.setCourse(rs.getString("course"));
+        res.setSubjectCode(rs.getString("subjectcode"));
         res.setResourceType(AcademicResource.ResourceType.valueOf(rs.getString("resource_type")));
         res.setUploadDate(rs.getTimestamp("upload_date").toLocalDateTime());
         res.setContent(rs.getBytes("content"));
@@ -55,4 +56,10 @@ public class AcademicResourceRepository {
         List<String> subjects = jdbcTemplate.queryForList(sql, String.class);
         return subjects ;
     }
+
+    public List<AcademicResource> findBySubjectcodeAndResourceType(String subjectcode, AcademicResource.ResourceType resourceType) {
+    String sql = "SELECT * FROM AcademicResource WHERE subjectcode = ? AND resource_type = ?";
+    return jdbcTemplate.query(sql, resourceMapper, subjectcode, resourceType.name());
+}
+
 }

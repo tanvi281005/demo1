@@ -41,4 +41,15 @@ public class AcademicResourceService {
 
         return resourceRepository.fetchuniquesubjects();
     }
+
+    public List<AcademicResource> findResourcesBySubjectAndType(String subject, AcademicResource.ResourceType type) {
+    return resourceRepository.findBySubjectcodeAndResourceType(subject, type);
 }
+public AcademicResource getResourceById(int id) {
+    return resourceRepository.findById(id);
+}
+
+
+}
+
+

@@ -120,26 +120,20 @@ function AcademicResources() {
       {!loadingResources && resources.length > 0 && (
         <div className="results-container">
           {resources.map((res) => (
-            <div key={res.id} className="resource-card">
-              <h3>{res.title}</h3>
-              <p>
-                <strong>Subject:</strong> {res.subjectCode}
-              </p>
-              <p>
-                <strong>Type:</strong> {res.type}
-              </p>
-              {res.link && (
-                <a
-                  href={res.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="resource-link"
-                >
-                  View / Download
-                </a>
-              )}
-            </div>
-          ))}
+  <div key={res.resourceId} className="resource-card">
+    <p><strong>Subject:</strong> {res.subjectCode || "N/A"}</p>
+    <p><strong>Type:</strong> {res.resourceType}</p>
+    <a
+      href={`http://localhost:8080/resources/download/${res.resourceId}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="resource-link"
+    >
+      View / Download PDF
+    </a>
+  </div>
+))}
+
         </div>
       )}
 
