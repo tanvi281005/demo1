@@ -89,7 +89,7 @@ body::before {
 .resource-link {
   display: inline-block;
   margin-top: 8px;
-  color: #1976d2;
+  color: maroon;
   text-decoration: none;
 }
 
@@ -102,3 +102,17 @@ body::before {
   color: #555;
   margin-top: 20px;
 }
+.notify-button {
+  background-color:maroon;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.notify-button:hover {
+  background-color:maroon;
+}
+

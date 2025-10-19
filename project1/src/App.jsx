@@ -22,10 +22,6 @@ import AcademicResources from "./pages/FindResources";
 import ProductDetail from "./pages/ProductDetail";
 import BuySellProfile from "./pages/BuySellProfile";
 
-import AcademicResources from "./pages/FindResources";
-
-import ProductDetail from "./pages/ProductDetail";
-import BuySellProfile from "./pages/BuySellProfile";
 
 
 function App() {
