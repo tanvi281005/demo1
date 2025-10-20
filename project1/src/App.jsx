@@ -18,8 +18,11 @@ import FindSupport from "./pages/FindSupport"
 import CounsellorDetails from "./pages/CounsellorDetails";
 import CategoryPage from "./pages/Categorypage";
 import ProfilePage from "./pages/ProfilePage"
+import AcademicResources from "./pages/FindResources";
 import ProductDetail from "./pages/ProductDetail";
 import BuySellProfile from "./pages/BuySellProfile";
+
+
 
 function App() {
   return (
@@ -48,6 +51,9 @@ function App() {
         <Route path="/food" element={<RecipesPage/>} />
         <Route path="/category/:category" element={<CategoryPage />} />
         <Route path="/profile" element={<ProfilePage/>}/>
+
+        <Route path="/find-resources" element={<AcademicResources/>}/>
+
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/buysellprofile" element={<BuySellProfile />} />
 

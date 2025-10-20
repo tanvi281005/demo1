@@ -25,13 +25,8 @@ public class TransportService {
 
     @Transactional
     public void bookTransport(int studentId, BookRequest request) {
-        // 1️⃣ Insert service record
         int serviceId = transportRepository.insertService("Bus Transport");
-
-        // 2️⃣ Insert into transportbooking
         transportRepository.insertTransportBooking(serviceId, request.getRouteId(), true, request.getTimeChosen());
-
-        // 3️⃣ Insert into request
         transportRepository.insertRequest(studentId, serviceId);
     }
     public List<String> fetchuniquedestination() {

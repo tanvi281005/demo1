@@ -10,7 +10,7 @@ export default function Resources() {
       {/* Background image */}
       <div
         className="background-image"
-        style={{ backgroundImage: "url(/images/ar.jpg)" }}
+        style={{ backgroundImage: "url(/images/backgroundar.jpg)" }}
       />
 
       {/* Foreground overlay */}

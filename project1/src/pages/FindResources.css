@@ -1,0 +1,118 @@
+/* Full-page background */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-image: url("/images/girl.jpg"); /* full page image */
+  background-size: cover;      /* cover entire page */
+  background-position: center; /* center the image */
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  color: #fff; /* default text color */
+}
+
+/* Optional overlay for readability */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4); /* semi-transparent dark overlay */
+  z-index: -1;
+}
+
+.resources-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 16px;
+  background-color: beige; /* white transparent card */
+  color: #000; /* override text color for readability */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Keep rest of your styles unchanged */
+.resources-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.resources-input {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 180px;
+}
+
+.resources-button {
+  padding: 8px 16px;
+  background-color: maroon;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.resources-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error-text {
+  color: red;
+  margin-bottom: 16px;
+}
+
+.results-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.resource-card {
+  border: 1px solid #ccc;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.resource-card h3 {
+  margin-top: 0;
+}
+
+.resource-link {
+  display: inline-block;
+  margin-top: 8px;
+  color: maroon;
+  text-decoration: none;
+}
+
+.resource-link:hover {
+  text-decoration: underline;
+}
+
+.no-data-text {
+  text-align: center;
+  color: #555;
+  margin-top: 20px;
+}
+.notify-button {
+  background-color:maroon;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.notify-button:hover {
+  background-color:maroon;
+}
+
