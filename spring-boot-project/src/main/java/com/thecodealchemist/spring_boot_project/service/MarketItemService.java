@@ -35,4 +35,9 @@ public class MarketItemService {
     public void deleteById(Integer id) {
         repository.deleteById(id);
     }
+
+    // ✅ New service method for search
+    public List<MarketItem> searchByTitle(String keyword) {
+        return repository.searchByTitle(keyword);
+    }
 }

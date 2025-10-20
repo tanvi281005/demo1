@@ -1,10 +1,13 @@
 package com.thecodealchemist.spring_boot_project.dao;
 
 import com.thecodealchemist.spring_boot_project.model.Student;
+import com.thecodealchemist.spring_boot_project.model.TransactionViewDTO;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -124,6 +127,27 @@ public class StudentRepository {
     List<Student> students = jdbcTemplate.query(sql, new StudentRowMapper(), id);
     return students.isEmpty() ? null : students.get(0);
 }
+    private TransactionViewDTO mapRowToDTO(ResultSet rs, int rowNum) throws SQLException {
+        Integer serviceId = rs.getInt("service_id");
+        Integer itemId = rs.getInt("item_id");
+        BigDecimal negotiatedPrice = rs.getBigDecimal("negotiated_price");
+        BigDecimal finalPrice = rs.getBigDecimal("final_price");
+        BigDecimal originalPrice = rs.getBigDecimal("original_price");
+        Boolean isApproved = rs.getBoolean("is_approved");
+        String title = null;
+        String buyerName = null;
+        String sellerName = null;
 
+        // Use columns that exist in each query
+        try { title = rs.getString("title"); } catch (SQLException ignored) {}
+        try { buyerName = rs.getString("buyer_name"); } catch (SQLException ignored) {}
+        try { sellerName = rs.getString("seller_name"); } catch (SQLException ignored) {}
+
+        return new TransactionViewDTO(serviceId, itemId,
+                negotiatedPrice, finalPrice, originalPrice,isApproved,
+                title, buyerName, sellerName);
+    }
+
+    
     
 }
