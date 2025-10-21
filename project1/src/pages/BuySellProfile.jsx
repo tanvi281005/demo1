@@ -8,8 +8,8 @@ const BuySellProfile = () => {
   const [sellingItems, setSellingItems] = useState([]);
   const [buyRequests, setBuyRequests] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [finalPriceInputs, setFinalPriceInputs] = useState({});
 
-  // Fetch profile, seller, and buyer transactions
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -20,8 +20,10 @@ const BuySellProfile = () => {
       ]);
 
       if (profileRes.ok) {
+        
         const data = await profileRes.json();
-        setUserName(data.name);
+        console.log("Profile response:", data);
+        setUserName(data.firstName);
       }
 
       if (sellerRes.ok) {
@@ -44,23 +46,21 @@ const BuySellProfile = () => {
     fetchData();
   }, []);
 
-  // Seller sets final price
   const handleSetFinalPrice = async (serviceId, price) => {
-    if (!price) return;
+    if (!price || isNaN(price)) return;
     try {
       const res = await fetch(`http://localhost:8080/transactions/${serviceId}/final-price?finalPrice=${price}`, {
         method: "PUT",
         credentials: "include",
       });
       if (!res.ok) throw new Error(`Failed to set final price: ${res.status}`);
-      await fetchData(); // refresh both seller and buyer views
+      await fetchData();
     } catch (err) {
       console.error(err);
       alert("Failed to set final price");
     }
   };
 
-  // Buyer approves/rejects
   const handleApprovePurchase = async (serviceId, approve) => {
     try {
       const res = await fetch(`http://localhost:8080/transactions/${serviceId}/approve?isApproved=${approve}`, {
@@ -68,7 +68,7 @@ const BuySellProfile = () => {
         credentials: "include",
       });
       if (!res.ok) throw new Error(`Failed to approve: ${res.status}`);
-      await fetchData(); // refresh data
+      await fetchData();
     } catch (err) {
       console.error(err);
       alert("Failed to approve/reject purchase");
@@ -77,14 +77,6 @@ const BuySellProfile = () => {
 
   return (
     <div className="buysellprofile-container">
-      <div style={{ textAlign: "right", marginBottom: "20px" }}>
-        <button 
-          style={{ padding: "10px 15px", borderRadius: "8px", cursor: "pointer", backgroundColor: "#800000", color: "white", border: "none" }}
-          onClick={() => navigate("/buysellpage")}
-        >
-          Back to Hub
-        </button>
-      </div>
 
       <h2>Welcome, {userName}!</h2>
       {loading && <p>Loading...</p>}
@@ -100,16 +92,37 @@ const BuySellProfile = () => {
               <p><strong>{item.title}</strong></p>
               <p>Buyer: {item.buyerName}</p>
               <p>Negotiated Price: ${item.negotiatedPrice}</p>
-              <p>Final Price: ${item.finalPrice ?? "Not set"}</p>
 
-              {/* Input only if final price not set yet */}
-              {item.finalPrice === 0 && (
-                <input 
-                  type="number" 
-                  placeholder="Set final price" 
-                  defaultValue={item.finalPrice || ""} 
-                  onBlur={(e) => handleSetFinalPrice(item.serviceId, e.target.value)}
-                />
+              {item.finalPrice === 0 ? (
+                <div className="price-input-group">
+  <input
+    type="number"
+    placeholder="Set final price"
+    value={finalPriceInputs[item.serviceId] || ""}
+    onChange={(e) =>
+      setFinalPriceInputs({
+        ...finalPriceInputs,
+        [item.serviceId]: e.target.value,
+      })
+    }
+  />
+  <button
+    className="save-price-button"
+    onClick={() =>
+      handleSetFinalPrice(item.serviceId, finalPriceInputs[item.serviceId])
+    }
+  >
+    Save
+  </button>
+</div>
+
+              ) : (
+                <>
+                  <p>Final Price: ${item.finalPrice}</p>
+                  {item.isApproved === null && <p>Status: Pending ⏳</p>}
+                  {item.isApproved === true && <p>Status: Approved ✅</p>}
+                  {item.isApproved === false && <p>Status: Rejected ❌</p>}
+                </>
               )}
             </div>
           ))}
@@ -124,18 +137,23 @@ const BuySellProfile = () => {
               <p><strong>{item.title}</strong></p>
               <p>Seller: {item.sellerName}</p>
               <p>Negotiated Price: ${item.negotiatedPrice}</p>
-              <p>Final Price: {item.finalPrice ? `$${item.finalPrice}` : "Pending"}</p>
 
-              {/* Show approve/reject only if final price exists and not approved yet */}
-              {item.finalPrice && item.isApproved === false && (
-                <div className="approve-buttons">
-                  <button onClick={() => handleApprovePurchase(item.serviceId, true)}>Approve</button>
-                  <button onClick={() => handleApprovePurchase(item.serviceId, false)}>Reject</button>
-                </div>
+              {/* Final price hidden until seller sets it */}
+              {item.finalPrice === 0 || item.finalPrice === null ? (
+                <p>Status: Pending ⏳</p>
+              ) : (
+                <>
+                  <p>Final Price: ${item.finalPrice}</p>
+                  {item.isApproved === null && (
+                    <div className="approve-buttons">
+                      <button onClick={() => handleApprovePurchase(item.serviceId, true)}>Approve</button>
+                      <button onClick={() => handleApprovePurchase(item.serviceId, false)}>Reject</button>
+                    </div>
+                  )}
+                  {item.isApproved === true && <p>Status: Approved ✅</p>}
+                  {item.isApproved === false && <p>Status: Rejected ❌</p>}
+                </>
               )}
-
-              {item.isApproved && <p>Status: Approved ✅</p>}
-              {item.isApproved === false && item.finalPrice && <p>Status: Rejected ❌</p>}
             </div>
           ))}
         </div>
