@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
-
 @RestController
 @RequestMapping("/market-items")
 public class MarketItemController {
@@ -27,17 +26,15 @@ public class MarketItemController {
         public String title;
         public String description;
         public String categoryName;
-        public String price; 
+        public String price;
         public String itemCondition;
         public String photo;
     }
 
     @GetMapping
-public List<MarketItem> getAllItems() {
-    return service.findAll();
-}
-
-
+    public List<MarketItem> getAllItems() {
+        return service.findAll();
+    }
 
     @GetMapping("/{id}")
     public Optional<MarketItem> getItem(@PathVariable Integer id) {
@@ -49,11 +46,17 @@ public List<MarketItem> getAllItems() {
         return service.findByCategory(category);
     }
 
+    // ✅ New endpoint: Search items by title
+    @GetMapping("/search")
+    public List<MarketItem> searchItems(@RequestParam("q") String query) {
+        return service.searchByTitle(query);
+    }
+
     @PostMapping
     public ResponseEntity<MarketItem> createItem(@RequestBody MarketItemRequestDTO dto, HttpSession session) {
         Integer studentId = (Integer) session.getAttribute("studentId");
         if (studentId == null) {
-            return ResponseEntity.status(401).build(); 
+            return ResponseEntity.status(401).build();
         }
 
         MarketItem item = new MarketItem();

@@ -39,7 +39,7 @@ public class MarketItemRepository {
                 item.getUserId(),
                 item.getCategoryName(),
                 item.getTitle(),
-                item.getPrice(), 
+                item.getPrice(),
                 item.getItemCondition(),
                 item.getDescription(),
                 item.getPhoto(),
@@ -75,5 +75,16 @@ public class MarketItemRepository {
     public void deleteById(Integer itemId) {
         String sql = "DELETE FROM MarketItem WHERE item_id = ?";
         jdbcTemplate.update(sql, itemId);
+    }
+
+    // ✅ New method: Search items by title (case-insensitive)
+    public List<MarketItem> searchByTitle(String keyword) {
+        String sql = "SELECT * FROM MarketItem WHERE LOWER(title) LIKE LOWER(?)";
+        try {
+            return jdbcTemplate.query(sql, new Object[]{"%" + keyword + "%"}, rowMapper);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 }

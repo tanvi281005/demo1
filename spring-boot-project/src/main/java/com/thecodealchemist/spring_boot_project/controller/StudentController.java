@@ -1,8 +1,11 @@
 package com.thecodealchemist.spring_boot_project.controller;
 import com.thecodealchemist.spring_boot_project.model.Student;
+import com.thecodealchemist.spring_boot_project.model.TransactionViewDTO;
 import com.thecodealchemist.spring_boot_project.service.StudentService;
 import jakarta.servlet.http.HttpSession;
 import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,14 +80,16 @@ public class StudentController {
         }
     }
 
-    // Helper endpoint to quickly verify session presence & studentId
-    @GetMapping("/check-session")
-    public ResponseEntity<String> checkSession(HttpSession session) {
-        Integer studentId = (Integer) session.getAttribute("studentId");
-        String msg = "sessionId=" + session.getId() + " studentId=" + studentId;
-        return studentId == null ? ResponseEntity.status(401).body(msg) : ResponseEntity.ok(msg);
-    }
+    // // Helper endpoint to quickly verify session presence & studentId
+    // @GetMapping("/check-session")
+    // public ResponseEntity<String> checkSession(HttpSession session) {
+    //     Integer studentId = (Integer) session.getAttribute("studentId");
+    //     String msg = "sessionId=" + session.getId() + " studentId=" + studentId;
+    //     return studentId == null ? ResponseEntity.status(401).body(msg) : ResponseEntity.ok(msg);
+    // }
 
+    
+    
     @GetMapping("/profile")
     public ResponseEntity<Student> getProfile(HttpSession session) {
         Integer studentId = (Integer) session.getAttribute("studentId");
@@ -119,4 +124,14 @@ public class StudentController {
         session.invalidate(); // destroys the session
         return ResponseEntity.ok("Logout successful.");
     }
+
+    @GetMapping("/user/buysellprofile")
+    public ResponseEntity<Student> getBuySellprofile(HttpSession session){
+        Integer studentId=(Integer) session.getAttribute("studentId");
+        if(studentId==null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        Student student=studentService.getStudentById(studentId);
+        return student!= null? ResponseEntity.ok(student): ResponseEntity.notFound().build();
+    }
+
+   
 }
