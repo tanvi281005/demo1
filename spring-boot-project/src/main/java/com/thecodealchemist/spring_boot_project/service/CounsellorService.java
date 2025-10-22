@@ -23,12 +23,10 @@ public class CounsellorService {
     public Map<String, Object> getCounsellorDetails(int counsellorId) {
         Counsellor counsellor = counsellorRepository.findById(counsellorId);
         List<CounsellorTimings> timings = counsellorRepository.findAvailableTimings(counsellorId);
-        List<CounsellingSession> sessions = counsellorRepository.findSessionsByCounsellor(counsellorId);
-
+        
         Map<String, Object> result = new HashMap<>();
         result.put("counsellor", counsellor);
         result.put("availableTimings", timings);
-        result.put("sessions", sessions);
 
         return result;
     }

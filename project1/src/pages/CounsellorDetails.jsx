@@ -4,10 +4,11 @@ import "./CounsellorDetails.css";
 
 const CounsellorDetails = () => {
   const navigate = useNavigate();
-  const { id } = useParams();
+  const { id } = useParams(); // counsellorId
 
   const [counsellorData, setCounsellorData] = useState(null);
   const [selectedSlot, setSelectedSlot] = useState("");
+  const [counsellingMode, setCounsellingMode] = useState("");
   const [confirmationMsg, setConfirmationMsg] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -15,7 +16,9 @@ const CounsellorDetails = () => {
   useEffect(() => {
     const fetchCounsellorDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/counsellor/${id}`);
+        const response = await fetch(`http://localhost:8080/counsellor/${id}`, {
+          credentials: "include",
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch counsellor details");
         }
@@ -31,35 +34,41 @@ const CounsellorDetails = () => {
     fetchCounsellorDetails();
   }, [id]);
 
-  const handleBooking = () => {
+  const handleBooking = async () => {
     if (!selectedSlot) {
       alert("Please select a time slot.");
       return;
     }
+    if (!counsellingMode) {
+      alert("Please select counselling mode (Online or Offline).");
+      return;
+    }
 
-    const today = new Date();
-    const dateStr = today.toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    try {
+      const response = await fetch("http://localhost:8080/counsellingbook/book", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        credentials: "include", // to pass session cookies
+        body: new URLSearchParams({
+          counsellorId: id,
+          slot: selectedSlot,
+          mode: counsellingMode,
+        }),
+      });
 
-    setConfirmationMsg(
-      `Your slot with ${counsellorData.counsellor.specialization} counsellor on ${dateStr} at ${selectedSlot} has been booked! 🎉`
-    );
+      const data = await response.text();
+      setConfirmationMsg(data);
+    } catch (err) {
+      alert("Error booking slot: " + err.message);
+    }
   };
 
-  if (loading) {
-    return <div className="text-center text-lg p-8">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-center text-red-600 p-8">Error: {error}</div>;
-  }
-
-  if (!counsellorData || !counsellorData.counsellor) {
+  if (loading) return <div className="text-center text-lg p-8">Loading...</div>;
+  if (error) return <div className="text-center text-red-600 p-8">Error: {error}</div>;
+  if (!counsellorData || !counsellorData.counsellor)
     return <div className="text-center text-red-600 p-8">Counsellor not found.</div>;
-  }
 
   const { counsellor, availableTimings } = counsellorData;
 
@@ -99,24 +108,40 @@ const CounsellorDetails = () => {
 
         <p className="counsellor-description">{counsellor.selfDescription}</p>
 
+        {/* Mode Selection */}
+        <div className="mode-selection">
+          <h3>Select Counselling Mode</h3>
+          <div className="mode-buttons">
+            <button
+              className={`mode-button ${counsellingMode === "Online" ? "selected" : ""}`}
+              onClick={() => setCounsellingMode("Online")}
+            >
+              Online
+            </button>
+            <button
+              className={`mode-button ${counsellingMode === "Offline" ? "selected" : ""}`}
+              onClick={() => setCounsellingMode("Offline")}
+            >
+              Offline
+            </button>
+          </div>
+        </div>
+
+        {/* Slot Selection */}
         <h3 className="slots-title">Available Time Slots</h3>
         <div className="slot-buttons">
           {availableTimings && availableTimings.length > 0 ? (
             availableTimings.map((slot, index) => (
               <button
                 key={index}
-                className={`slot-button ${
-                  selectedSlot === slot.timing ? "selected" : ""
-                }`}
+                className={`slot-button ${selectedSlot === slot.timing ? "selected" : ""}`}
                 onClick={() => setSelectedSlot(slot.timing)}
               >
                 {slot.timing}
               </button>
             ))
           ) : (
-            <p className="text-gray-500 text-center w-full">
-              No slots available
-            </p>
+            <p className="text-gray-500 text-center w-full">No slots available</p>
           )}
         </div>
 

@@ -1,15 +1,14 @@
 package com.thecodealchemist.spring_boot_project.model;
 
-import java.sql.Timestamp;
+import java.sql.Time;
 
 public class CounsellingSession {
 
     private Integer counsellorId;
     private Integer serviceId;
     private Boolean isApproved;
-    private String timeOptions; // Stored as JSON in DB, represented as String in Java
     private CounsellingMode counsellingMode;
-    private Timestamp finalTime;
+    private Time timeapproved;
 
     public enum CounsellingMode {
         Online,
@@ -41,13 +40,7 @@ public class CounsellingSession {
         this.isApproved = isApproved;
     }
 
-    public String getTimeOptions() {
-        return timeOptions;
-    }
-
-    public void setTimeOptions(String timeOptions) {
-        this.timeOptions = timeOptions;
-    }
+   
 
     public CounsellingMode getCounsellingMode() {
         return counsellingMode;
@@ -57,11 +50,11 @@ public class CounsellingSession {
         this.counsellingMode = counsellingMode;
     }
 
-    public Timestamp getFinalTime() {
-        return finalTime;
+    public Time gettimeapproved() {
+        return timeapproved;
     }
 
-    public void setFinalTime(Timestamp finalTime) {
-        this.finalTime = finalTime;
+    public void settimeapproved(Time finalTime) {
+        this.timeapproved = finalTime;
     }
 }

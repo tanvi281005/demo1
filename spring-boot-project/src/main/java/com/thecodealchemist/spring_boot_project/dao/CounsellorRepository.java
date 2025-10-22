@@ -43,10 +43,7 @@ public class CounsellorRepository {
         return jdbcTemplate.query(sql, new Object[]{counsellorId}, new CounsellorTimingRowMapper());
     }
 
-    public List<CounsellingSession> findSessionsByCounsellor(int counsellorId) {
-        String sql = "SELECT * FROM CounsellingSession WHERE counsellor_id = ?";
-        return jdbcTemplate.query(sql, new Object[]{counsellorId}, new CounsellingSessionRowMapper());
-    }
+    
 
     // --- Save methods ---
     public void saveCounsellor(Counsellor counsellor, int counsellorId) {
@@ -110,17 +107,5 @@ public void saveCounsellorWithId(Counsellor counsellor) {
         }
     }
 
-    private static class CounsellingSessionRowMapper implements RowMapper<CounsellingSession> {
-        @Override
-        public CounsellingSession mapRow(ResultSet rs, int rowNum) throws SQLException {
-            CounsellingSession s = new CounsellingSession();
-            s.setCounsellorId(rs.getInt("counsellor_id"));
-            s.setServiceId(rs.getInt("service_id"));
-            s.setIsApproved(rs.getBoolean("is_approved"));
-            s.setTimeOptions(rs.getString("time_options"));
-            s.setCounsellingMode(CounsellingSession.CounsellingMode.valueOf(rs.getString("counselling_mode")));
-            s.setFinalTime(rs.getTimestamp("final_time"));
-            return s;
-        }
-    }
+    
 }
