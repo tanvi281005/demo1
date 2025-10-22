@@ -1,26 +1,45 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './FindSupport.css';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import "./FindSupport.css";
 
-const counsellors = [
-  { id: 1, name: "Dr. Priya Sharma", specialization: "Substance Use", slot: "10:00 AM - 12:00 PM", icon: "🛠️" },
-  { id: 2, name: "Mr. Rohan Verma", specialization: "Relationships", slot: "2:00 PM - 4:00 PM", icon: "🎁" },
-  { id: 3, name: "Ms. Anjali Rao", specialization: "Anxiety", slot: "11:00 AM - 1:00 PM", icon: "🧃" },
-  { id: 4, name: "Dr. Sameer Gupta", specialization: "Depression", slot: "3:00 PM - 5:00 PM", icon: "⚪" },
-  { id: 5, name: "Ms. Kavya Iyer", specialization: "Relationships", slot: "9:00 AM - 11:00 AM", icon: "👩‍⚕️" },
-  { id: 6, name: "Dr. Arjun Menon", specialization: "Career Guidance", slot: "1:00 PM - 3:00 PM", icon: "🌼" },
-  { id: 7, name: "Ms. Nidhi Sharma", specialization: "Anxiety", slot: "4:00 PM - 6:00 PM", icon: "🧸" },
-  { id: 8, name: "Dr. Meera Iyer", specialization: "Substance Use", slot: "10:00 AM - 12:00 PM", icon: "🦊" }
+const filters = [
+  { label: "All", value: "all" },
+  { label: "Academics", value: "Academics" },
+  { label: "Substance Addiction", value: "SubstanceAddiction" },
+  { label: "Stress & Anxiety", value: "StressAndAnxiety" },
+  { label: "Grief & Loss", value: "GriefAndLoss" },
+  { label: "Personal Relationships", value: "PersonalRelationships" },
 ];
 
-const filters = ["All", "Substance Use", "Relationships", "Anxiety", "Career Guidance", "Depression"];
-
 const FindSupport = () => {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState("all");
+  const [counsellors, setCounsellors] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const filteredCounsellors = activeFilter === "All"
-    ? counsellors
-    : counsellors.filter(c => c.specialization === activeFilter);
+  // Fetch counsellors from backend
+  const fetchCounsellors = async (category) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`http://localhost:8080/counsellor/fetch/${category}`);
+      if (!response.ok) throw new Error("Failed to fetch counsellors");
+
+      const data = await response.json();
+      setCounsellors(data);
+    } catch (err) {
+      setError(err.message);
+      setCounsellors([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch on mount & whenever filter changes
+  useEffect(() => {
+    fetchCounsellors(activeFilter);
+  }, [activeFilter]);
 
   return (
     <div className="support-page-body">
@@ -29,24 +48,32 @@ const FindSupport = () => {
       <div className="filter-container">
         {filters.map((filter) => (
           <button
-            key={filter}
-            className={`filter-btn ${activeFilter === filter ? "active" : ""}`}
-            onClick={() => setActiveFilter(filter)}
+            key={filter.value}
+            className={`filter-btn ${activeFilter === filter.value ? "active" : ""}`}
+            onClick={() => setActiveFilter(filter.value)}
           >
-            {filter}
+            {filter.label}
           </button>
         ))}
       </div>
 
+      {loading && <p className="loading-text">Loading counsellors...</p>}
+      {error && <p className="error-text">❌ {error}</p>}
+
       <div className="counsellor-grid">
-        {filteredCounsellors.map(c => (
-          <Link key={c.id} to={`/counsellor/${c.id}`} className="counsellor-card-link">
+        {counsellors.length === 0 && !loading && (
+          <p className="no-data-text">No counsellors found for this category.</p>
+        )}
+
+        {counsellors.map((c) => (
+          <Link key={c.counsellorId} to={`/counsellor/${c.counsellorId}`} className="counsellor-card-link">
             <div className="counsellor-card">
-              <div className="counsellor-avatar">{c.icon}</div>
+              <div className="counsellor-avatar">👩‍⚕️</div>
               <div className="counsellor-info">
-                <h2 className="counsellor-name">{c.name}</h2>
-                <p><strong>Slot:</strong> {c.slot}</p>
-                <p><strong>Specialization:</strong> {c.specialization}</p>
+                <h2 className="counsellor-name">{c.selfDescription?.split(".")[0] || "Counsellor"}</h2>
+                <p><strong>Specialization:</strong> {c.specialization.replace(/([A-Z])/g, " $1").trim()}</p>
+                <p><strong>Students Counselled:</strong> {c.noOfStudentsCounselled}</p>
+                <p><strong>Rating:</strong> ⭐ {c.rating?.toFixed(2) || "N/A"}</p>
               </div>
             </div>
           </Link>
