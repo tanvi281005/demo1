@@ -51,13 +51,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable()) // allow POST/PUT/DELETE from frontend
             .cors(cors -> {})             // enable CORS
             .authorizeHttpRequests(auth -> auth
-<<<<<<< HEAD
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/api/login", "/register", "/profile", "/profile/update", "/market-items", "/market-items/{id}", "/market-items/category/{category}","/market-items/search","/transport/fetchdestination", "/transport/book", "/transport/daily-commute","/urgent","/resources/upload", "/resources/fetch-subjects","/resources/fetch","/resources/download/**","/resources/notify-me","/resources/notifications/fetch", "/transactions/buyer","/transactions/seller","/user/buysellprofile", "/transactions/request", "/transactions/**").permitAll()
-=======
-
-                .requestMatchers("/api/login", "/register", "/profile", "/profile/update", "/market-items", "/market-items/{id}", "market-items/category/{category}","/transport/fetchdestination", "/transport/book", "/transport/daily-commute","/urgent","/resources/upload", "/resources/fetch-subjects","/resources/fetch","/resources/download/**","/resources/notify-me","/resources/notifications/fetch").permitAll()
->>>>>>> 45e7719a032acac2bbf8c9beae02ec22317cecb3
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form.disable())
