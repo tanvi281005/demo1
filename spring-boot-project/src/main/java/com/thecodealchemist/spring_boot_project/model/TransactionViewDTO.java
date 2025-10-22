@@ -14,12 +14,14 @@ public class TransactionViewDTO {
     private String title;
     private String buyerName;
     private String sellerName;
+    private String sellerEmail;
+    private String sellerContact;
 
     public TransactionViewDTO() {}
 
     public TransactionViewDTO(Integer serviceId, Integer itemId,
                               BigDecimal negotiatedPrice, BigDecimal finalPrice, BigDecimal originalPrice,Boolean isApproved, 
-                              String title, String buyerName, String sellerName) {
+                              String title, String buyerName, String sellerName, String sellerEmail, String sellerContact) {
         this.serviceId = serviceId;
         this.itemId = itemId;
         this.negotiatedPrice = negotiatedPrice;
@@ -29,6 +31,8 @@ public class TransactionViewDTO {
         this.title = title;
         this.buyerName = buyerName;
         this.sellerName = sellerName;
+        this.sellerEmail = sellerEmail;
+        this.sellerContact = sellerContact;
     }
 
     // getters / setters (generate with IDE)
@@ -58,4 +62,10 @@ public class TransactionViewDTO {
 
     public String getSellerName() { return sellerName; }
     public void setSellerName(String sellerName) { this.sellerName = sellerName; }
+
+    public String getSellerEmail() { return sellerEmail; }
+    public void setSellerEmail(String sellerEmail) { this.sellerEmail = sellerEmail; }
+
+    public String getSellerContact() { return sellerContact; }
+    public void setSellerContact(String sellerContact) { this.sellerContact = sellerContact; }
 }

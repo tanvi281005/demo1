@@ -120,7 +120,14 @@ const BuySellProfile = () => {
                 <>
                   <p>Final Price: ${item.finalPrice}</p>
                   {item.isApproved === null && <p>Status: Pending ⏳</p>}
-                  {item.isApproved === true && <p>Status: Approved ✅</p>}
+                  {/* {item.isApproved === true && (
+                    <>
+                      <p>Status: Approved ✅</p>
+                      <p className="wallet-message seller">
+                        💰 Final price of ${item.finalPrice} added to your wallet.
+                      </p>
+                    </>
+                  )} */}
                   {item.isApproved === false && <p>Status: Rejected ❌</p>}
                 </>
               )}
@@ -150,7 +157,22 @@ const BuySellProfile = () => {
                       <button onClick={() => handleApprovePurchase(item.serviceId, false)}>Reject</button>
                     </div>
                   )}
-                  {item.isApproved === true && <p>Status: Approved ✅</p>}
+                  {/* {item.isApproved === true && (
+                <>
+                  <p>Status: Approved ✅</p>
+                  <p className="wallet-message buyer">
+                    💸 Final price of ${item.finalPrice} deducted from your wallet.
+                  </p>
+                </>
+              )} */}
+                  {item.isApproved === true && (
+                    <div className="counterparty-box">
+                      <h4>Seller Details</h4>
+                      <p><strong>Name:</strong> {item.sellerName}</p>
+                      <p><strong>Email:</strong> {item.sellerEmail}</p>
+                      <p><strong>Contact:</strong> {item.sellerContact}</p>
+                    </div>
+                  )}
                   {item.isApproved === false && <p>Status: Rejected ❌</p>}
                 </>
               )}

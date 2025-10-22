@@ -108,3 +108,19 @@
 .price-input-group input {
   flex: 1;
 }
+.counterparty-box {
+  margin-top: 10px;
+  padding: 12px 15px;
+  border: 1px solid #800000; /* maroon border */
+  border-radius: 8px;
+  background-color: #fffbe6;
+  box-shadow: 2px 2px 6px rgba(128,0,0,0.25);
+  font-size: 0.95rem;
+}
+
+.counterparty-box h4 {
+  margin: 0 0 8px 0;
+  font-size: 1rem;
+  color: #800000;
+  text-align: left;
+}

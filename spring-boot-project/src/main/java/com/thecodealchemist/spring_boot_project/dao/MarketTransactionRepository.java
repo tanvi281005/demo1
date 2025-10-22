@@ -49,6 +49,8 @@ public class MarketTransactionRepository {
         String title = null;
         String buyerName = null;
         String sellerName = null;
+        String sellerEmail = null;
+        String sellerContact = null;
 
         try {
             title = rs.getString("title");
@@ -62,10 +64,12 @@ public class MarketTransactionRepository {
             sellerName = rs.getString("seller_name");
         } catch (SQLException ignored) {
         }
+        try { sellerEmail = rs.getString("seller_email"); } catch (SQLException ignored) {}
+    try { sellerContact = rs.getString("seller_contact"); } catch (SQLException ignored) {}
 
         return new TransactionViewDTO(serviceId, itemId,
                 negotiatedPrice, finalPrice, originalPrice, isApproved,
-                title, buyerName, sellerName);
+                title, buyerName, sellerName, sellerEmail, sellerContact);
     }
 
     public List<TransactionViewDTO> findTransactionsBySeller(int sellerId) {
@@ -85,7 +89,7 @@ public class MarketTransactionRepository {
     public List<TransactionViewDTO> findTransactionsByBuyer(int buyerId) {
         String sql = """
                             SELECT mt.service_id, mt.item_id, mt.negotiated_price, mt.final_price, mt.original_price, mt.is_approved,
-                       mi.title AS title, NULL AS buyer_name, u.first_name AS seller_name
+                       mi.title AS title, NULL AS buyer_name, u.first_name AS seller_name,u.email AS seller_email, u.phone AS seller_contact
                 FROM market_transaction mt
                 JOIN MarketItem mi ON mt.item_id = mi.item_id
                 JOIN Student u ON mi.user_id = u.student_id
