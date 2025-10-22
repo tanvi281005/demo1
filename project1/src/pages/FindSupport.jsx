@@ -70,7 +70,10 @@ const FindSupport = () => {
             <div className="counsellor-card">
               <div className="counsellor-avatar">👩‍⚕️</div>
               <div className="counsellor-info">
-                <h2 className="counsellor-name">{c.selfDescription?.split(".")[0] || "Counsellor"}</h2>
+                <h2 className="counsellor-name">
+  {c.selfDescription?.split(" ").slice(0, 3).join(" ") || "Counsellor"}
+</h2>
+
                 <p><strong>Specialization:</strong> {c.specialization.replace(/([A-Z])/g, " $1").trim()}</p>
                 <p><strong>Students Counselled:</strong> {c.noOfStudentsCounselled}</p>
                 <p><strong>Rating:</strong> ⭐ {c.rating?.toFixed(2) || "N/A"}</p>
