@@ -153,6 +153,9 @@ function DailyCommute() {
               <p>
                 <strong>Destination:</strong> {bus.destination}
               </p>
+              <p>
+                <strong>Price:</strong> {bus.price}
+              </p>
 
               <label><strong>Select Timing:</strong></label>
               {/* <select className="timing-dropdown">

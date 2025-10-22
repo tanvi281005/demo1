@@ -5,16 +5,18 @@ public class TransportRouteWithTimings {
     private String origin;
     private String name;
     private String destination;
+    private Integer price;
     private List<String> timings;
 
     public TransportRouteWithTimings() {}
 
-    public TransportRouteWithTimings(int routeId, String origin, String name, String destination, List<String> timings) {
+    public TransportRouteWithTimings(int routeId, String origin, String name, String destination, Integer price, List<String> timings) {
         this.routeId = routeId;
         this.origin = origin;
         this.name = name;
         this.destination = destination;
         this.timings = timings;
+        this.price= price;
     }
 
     public int getRouteId() { return routeId; }
@@ -31,4 +33,7 @@ public class TransportRouteWithTimings {
 
     public List<String> getTimings() { return timings; }
     public void setTimings(List<String> timings) { this.timings = timings; }
+
+    public int getprice() { return price; }
+    public void setprice(int price) { this.price = price; }
 }
