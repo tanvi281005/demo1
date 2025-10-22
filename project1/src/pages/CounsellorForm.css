@@ -1,0 +1,113 @@
+/* Global reset + safer box-sizing */
+
+
+
+
+
+.counsellor-form {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  background-image: url("/images/morning.jpg");
+  background-size: cover;       /* scale the image to cover form */
+  background-position: center;  /* center the image */
+  background-repeat: no-repeat; /* prevent tiling */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  padding: 28px 32px;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  border-top: 6px solid maroon;
+  margin: 0 auto;
+}
+.inside {
+  width: 50%;                  /* half the page width */
+  height: 70%;                 /* 70% of form height */
+  margin: auto;                /* center horizontally & vertically */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;     /* center content vertically */
+  gap: 18px;                   /* spacing between form elements */
+  background: rgba(255, 255, 255, 0.95); /* subtle white box */
+  padding: 24px 32px;          /* inner spacing */
+  border-radius: 16px;         /* rounded corners */
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* subtle shadow */
+  backdrop-filter: blur(5px);  /* optional soft blur effect behind box */
+}
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .inside {
+    width: 80%;                /* more responsive on smaller screens */
+    height: auto;              /* let height adjust */
+    padding: 20px;
+  }
+}
+
+/* Title */
+.counsellor-title {
+  font-size: 1.9rem;
+  font-weight: bold;
+  color: maroon;
+  margin: 0 0 6px 0;
+  text-align: center;
+  letter-spacing: 0.5px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #c4a484;
+}
+
+/* Inputs */
+.counsellor-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #c4a484;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  background: rgba(255, 255, 255, 0.95);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.counsellor-input:focus {
+  border-color: maroon;
+  box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.12);
+}
+
+/* Buttons */
+.counsellor-button {
+  width: 100%;
+  padding: 12px;
+  background-color: maroon;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.counsellor-button:hover {
+  transform: translateY(-2px);
+  background-color: #6f0000;
+}
+
+.counsellor-button.small-btn {
+  width: auto;
+  padding: 10px;
+  font-size: 0.95rem;
+  background-color: #a0522d;
+}
+
+.counsellor-button.small-btn:hover {
+  background-color: #7b3f1d;
+}
+
+/* Timing label */
+.timing-label { font-weight: 600; color: maroon; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .counsellor-form { padding: 20px; }
+  .counsellor-title { font-size: 1.5rem; }
+}

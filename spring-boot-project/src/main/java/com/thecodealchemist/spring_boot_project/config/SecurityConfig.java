@@ -52,7 +52,7 @@ public class SecurityConfig {
             .cors(cors -> {})             // enable CORS
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/api/login", "/register", "/profile", "/profile/update", "/market-items", "/market-items/{id}", "/market-items/category/{category}","/market-items/search","/transport/fetchdestination", "/transport/book", "/transport/daily-commute","/urgent","/resources/upload", "/resources/fetch-subjects","/resources/fetch","/resources/download/**","/resources/notify-me","/resources/notifications/fetch", "/transactions/buyer","/transactions/seller","/user/buysellprofile", "/transactions/request", "/transactions/**","/api/counsellors/**").permitAll()
+                .requestMatchers("/api/login", "/register", "/profile", "/profile/update", "/market-items", "/market-items/{id}", "/market-items/category/{category}","/market-items/search","/transport/fetchdestination", "/transport/book", "/transport/daily-commute","/urgent","/resources/upload", "/resources/fetch-subjects","/resources/fetch","/resources/download/**","/resources/notify-me","/resources/notifications/fetch", "/transactions/buyer","/transactions/seller","/user/buysellprofile", "/transactions/request", "/transactions/**", "/counsellor/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form.disable())

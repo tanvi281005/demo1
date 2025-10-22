@@ -21,7 +21,7 @@ import ProfilePage from "./pages/ProfilePage"
 import AcademicResources from "./pages/FindResources";
 import ProductDetail from "./pages/ProductDetail";
 import BuySellProfile from "./pages/BuySellProfile";
-
+import CounsellorForm from "./pages/CounsellorForm";
 
 
 function App() {
@@ -56,7 +56,8 @@ function App() {
 
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/buysellprofile" element={<BuySellProfile />} />
-
+        
+        <Route path="/register-counsellor" element={<CounsellorForm />} />
       </Routes>
     </Router>
   );
