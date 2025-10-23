@@ -1,199 +1,255 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./RecipesPage.css";
 
 const categories = [
-  "All",
-  "Appetisers",
-  "Starters",
-  "Main Courses",
-  "Side Dishes",
-  "Desserts",
-];
-
-const recipes = [
-  {
-    id: 1,
-    title: "Suzi's Crabcakes Inspired",
-    author: "Suzi Perry",
-    category: "Starters",
-    img: "/images/food1.jpg",
-  },
-  {
-    id: 2,
-    title: "Creamy Prawn, Bacon & Broccoli Pasta",
-    author: "Ricky Alberta",
-    category: "Starters",
-    img: "/images/food2.jpeg",
-  },
-  {
-    id: 3,
-    title: "Creamy Chicken & Pasta Bake",
-    author: "Suzi Perry",
-    category: "Starters",
-    img: "/images/food3.jpeg",
-  },
-  {
-    id: 4,
-    title: "Italian Veggie Delight",
-    author: "Maria Rossi",
-    category: "Main Courses",
-    img: "/images/food4.jpeg",
-  },
-  {
-    id: 5,
-    title: "Classic Spaghetti Pomodoro",
-    author: "Luigi Romano",
-    category: "Main Courses",
-    img: "/images/food5.jpeg",
-  }
-
+  "All","Punjabi","Rajasthani","Gujarati","South Indian","Bengali","Maharashtrian",
 ];
 
 function RecipesPage() {
-  const [activeCategory, setActiveCategory] = useState("Starters");
-  const [quantities, setQuantities] = useState({});
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [recipes, setRecipes] = useState([]); // normalized items: { itemId, name, price, photo, description }
+  const [quantities, setQuantities] = useState({}); // keyed by itemId (string)
   const [showPopup, setShowPopup] = useState(false);
   const [formData, setFormData] = useState({ name: "", hostel: "", room: "", time: "" });
-
   const navigate = useNavigate();
 
-  // Quantity handlers
-  const handleIncrease = (id) => {
-    setQuantities((prev) => ({ ...prev, [id]: (prev[id] || 0) + 1 }));
-  };
-
-  const handleDecrease = (id) => {
-    setQuantities((prev) => ({
-      ...prev,
-      [id]: Math.max((prev[id] || 0) - 1, 0),
+  // Normalize function: converts server shape into stable front-end shape
+  const normalizeMenu = (raw) =>
+    raw.map((r) => ({
+      itemId: r.item_id ?? r.itemId ?? r.itemId,      // support both
+      name: r.item_name ?? r.itemName ?? r.name,
+      price: r.price ?? 0,
+      photo: r.photo ?? r.image ?? r.photoUrl ?? null,
+      description: r.description ?? "",
+      extras: r.extras ?? "",
+      instructions: r.instructions ?? "",
     }));
+
+  // Fetch menu
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        const culture = activeCategory === "All" ? "" : activeCategory;
+        const url = `http://localhost:8080/food/menu${culture ? `?culture=${culture}` : ""}`;
+        const res = await fetch(url, { credentials: "include" });
+        if (!res.ok) {
+          console.error("Menu fetch failed:", res.status, await res.text());
+          throw new Error("Failed to fetch menu");
+        }
+        const raw = await res.json();
+        const normalized = normalizeMenu(raw);
+
+        // Init quantities only for the returned items; keep previous quantities for others
+        const init = { ...quantities };
+        normalized.forEach((it) => {
+          const key = String(it.itemId);
+          if (!(key in init)) init[key] = 0;
+        });
+
+        setRecipes(normalized);
+        setQuantities(init);
+      } catch (err) {
+        console.error("fetchMenu error:", err);
+        setRecipes([]);
+        setQuantities({});
+      }
+    };
+    fetchMenu();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeCategory]);
+
+  const updateCartBackend = async (payload) => {
+    // payload must match CartItemDTO: itemId, quantity, price, extras, instructions, photo
+    try {
+      const res = await fetch("http://localhost:8080/food/cart/add", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        // log body for debugging
+        const text = await res.text();
+        console.error("cart/add failed:", res.status, text);
+      } else {
+        // optional: receive updated Cart from server
+        const updatedCart = await res.json();
+        console.log("cart/add ok, cart:", updatedCart);
+      }
+    } catch (err) {
+      console.error("updateCartBackend error:", err);
+    }
   };
 
-  const filteredRecipes =
-    activeCategory === "All"
-      ? recipes
-      : recipes.filter((r) => r.category === activeCategory);
+  const changeQty = async (itemId, delta) => {
+    const key = String(itemId);
+    setQuantities((prev) => {
+      const newQty = Math.max((prev[key] || 0) + delta, 0);
+      const next = { ...prev, [key]: newQty };
+      return next;
+    });
 
-  // Popup form handlers
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    // find item details to send required fields to backend
+    const item = recipes.find((r) => String(r.itemId) === key);
+    const payload = {
+      itemId: Number(itemId),
+      quantity: Math.max((quantities[String(itemId)] || 0) + delta, 0),
+      price: item?.price ?? 0,
+      extras: item?.extras ?? "",
+      instructions: item?.instructions ?? "",
+      photo: item?.photo ?? null
+    };
+
+    await updateCartBackend(payload);
   };
 
-  const handleSubmit = (e) => {
+  const handleIncrease = (itemId) => changeQty(itemId, 1);
+  const handleDecrease = (itemId) => changeQty(itemId, -1);
+
+  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+
+  const handleSubmitWater = async (e) => {
     e.preventDefault();
-    alert(
-      `✅ Water booked!\nName: ${formData.name}\nHostel: ${formData.hostel}\nRoom: ${formData.room}\nTime: ${formData.time}`
-    );
-    setShowPopup(false);
-    setFormData({ name: "", hostel: "", room: "", time: "" });
+    const waterOrder = {
+      itemId: 122,
+      quantity: 1,
+      extras: "",
+      instructions: `Booked by ${formData.name}, Hostel: ${formData.hostel}, Room: ${formData.room}, Time: ${formData.time}`,
+      price: 40,
+      cutleryRequired: false
+    };
+    try {
+      const res = await fetch("http://localhost:8080/food/order/water", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(waterOrder),
+      });
+      if (!res.ok) throw new Error("water order failed: " + res.status);
+      await res.json();
+      alert("Water booked!");
+      setShowPopup(false);
+    } catch (err) {
+      console.error(err);
+      alert("Water booking failed");
+    }
+  };
+
+  const placeOrder = async () => {
+    const orders = Object.entries(quantities)
+      .filter(([_, q]) => q > 0)
+      .map(([k, q]) => ({ itemId: Number(k), quantity: q }));
+    if (!orders.length) { alert("Add items"); return; }
+    try {
+      const res = await fetch("http://localhost:8080/food/order", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orders }),
+      });
+      if (!res.ok) {
+        console.error("place order failed:", res.status, await res.text());
+        throw new Error("Order failed");
+      }
+      alert("Order placed");
+      // reset quantities
+      const reset = {};
+      recipes.forEach(r => reset[String(r.itemId)] = 0);
+      setQuantities(reset);
+    } catch (err) {
+      console.error(err);
+      alert("Order failed");
+    }
   };
 
   return (
     <div className="recipes-wrapper">
-      {/* 🔹 Top Right Menu */}
       <div className="top-menu">
-        <button onClick={() => setShowPopup(true)} className="top-btn">
-          Book Water
-        </button>
-        <button onClick={() => navigate("/cart")} className="top-btn">
-          Cart
-        </button>
+        <button onClick={() => setShowPopup(true)} className="top-btn">Book Water</button>
+        <button onClick={() => navigate("/cart")} className="top-btn">Cart</button>
       </div>
 
-      {/* 🔹 Title with background video */}
       <div className="recipes-title-container">
         <video className="recipes-video" autoPlay loop muted playsInline>
           <source src="/images/food_video.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
         </video>
         <h1 className="recipes-title">Explore Recipes</h1>
       </div>
 
-      {/* 🔹 Categories */}
-      <div className="categories">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            className={`category-btn ${activeCategory === cat ? "active" : ""}`}
-            onClick={() => setActiveCategory(cat)}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
+      <div className="categories">{categories.map(c => (
+        <button key={c} className={`category-btn ${activeCategory === c ? "active" : ""}`}
+          onClick={() => setActiveCategory(c)}>{c}</button>
+      ))}</div>
 
-      <p className="recipe-count">
-        You have <strong>{recipes.length}</strong> recipes to explore
-      </p>
+      <p>You have <strong>{recipes.length}</strong> recipes</p>
 
-      {/* 🔹 Recipes grid */}
       <div className="recipes-grid">
-        {filteredRecipes.map((r) => (
-          <div className="recipe-card" key={r.id}>
-            <img src={r.img} alt={r.title} className="recipe-img" />
+        {recipes.map(r => (
+          <div className="recipe-card" key={String(r.itemId)}>
+            <img src={r.photo || "/images/default_food.jpg"} alt={r.name} className="recipe-img" />
             <div className="recipe-content">
-              <h3 className="recipe-title">{r.title}</h3>
-              <p className="recipe-author">{r.author}</p>
-
-              {/* Quantity Controls */}
+              <h3>{r.name}</h3>
+              <p>{r.description}</p>
+              <p>Price: ₹{r.price}</p>
               <div className="quantity-controls">
-                <button onClick={() => handleDecrease(r.id)}>-</button>
-                <span>{quantities[r.id] || 0}</span>
-                <button onClick={() => handleIncrease(r.id)}>+</button>
+                <button onClick={() => handleDecrease(r.itemId)}>-</button>
+                <span>{quantities[String(r.itemId)] ?? 0}</span>
+                <button onClick={() => handleIncrease(r.itemId)}>+</button>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* 🔹 Popup Form for Water Booking */}
+      <button onClick={placeOrder} className="place-order-btn">Place Order</button>
+
       {showPopup && (
-        <div className="popup-overlay">
-          <div className="popup">
-            <h2>Book Water</h2>
-            <form onSubmit={handleSubmit} className="popup-form">
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter your name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="text"
-                name="hostel"
-                placeholder="Hostel Name"
-                value={formData.hostel}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="text"
-                name="room"
-                placeholder="Room No."
-                value={formData.room}
-                onChange={handleChange}
-                required
-              />
-              <input
-                type="time"
-                name="time"
-                value={formData.time}
-                onChange={handleChange}
-                required
-              />
-              <div className="popup-buttons">
-                <button type="submit">Submit</button>
-                <button type="button" onClick={() => setShowPopup(false)}>
-                  Cancel
-                </button>
-              </div>
-            </form>
-          </div>
+  <div className="popup-overlay">
+    <div className="popup">
+      <h2>Book Water</h2>
+      <form className="popup-form" onSubmit={handleSubmitWater}>
+        <input
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          placeholder="Name"
+        />
+        <input
+          name="hostel"
+          value={formData.hostel}
+          onChange={handleChange}
+          required
+          placeholder="Hostel"
+        />
+        <input
+          name="room"
+          value={formData.room}
+          onChange={handleChange}
+          required
+          placeholder="Room"
+        />
+        <input
+          name="time"
+          type="time"
+          value={formData.time}
+          onChange={handleChange}
+          required
+        />
+
+        <div className="popup-buttons">
+          <button type="submit">Submit</button>
+          <button type="button" onClick={() => setShowPopup(false)}>
+            Cancel
+          </button>
         </div>
-      )}
+      </form>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

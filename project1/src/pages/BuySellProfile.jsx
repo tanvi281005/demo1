@@ -120,14 +120,14 @@ const BuySellProfile = () => {
                 <>
                   <p>Final Price: ${item.finalPrice}</p>
                   {item.isApproved === null && <p>Status: Pending ⏳</p>}
-                  {/* {item.isApproved === true && (
+                  {item.isApproved === true && (
                     <>
                       <p>Status: Approved ✅</p>
-                      <p className="wallet-message seller">
+                      {/* <p className="wallet-message seller">
                         💰 Final price of ${item.finalPrice} added to your wallet.
-                      </p>
+                      </p> */}
                     </>
-                  )} */}
+                  )}
                   {item.isApproved === false && <p>Status: Rejected ❌</p>}
                 </>
               )}

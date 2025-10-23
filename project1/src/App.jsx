@@ -20,6 +20,7 @@ import CategoryPage from "./pages/Categorypage";
 import ProfilePage from "./pages/ProfilePage"
 import ProductDetail from "./pages/ProductDetail";
 import BuySellProfile from "./pages/BuySellProfile";
+import CartPage from "./pages/CartPage";
 
 function App() {
   return (
@@ -43,14 +44,14 @@ function App() {
         <Route path="/academic" element={<Resources />} />
         <Route path="/upload" element={<UploadResourceForm />} />
         <Route path="/wellness" element={<MentalWellness />} />
-        <Route path="/support" element={<FindSupport />} />
+        <Route path="/support" element={<FindSupport />} />     
         <Route path="/counsellor/:id" element={<CounsellorDetails />} />
         <Route path="/food" element={<RecipesPage/>} />
         <Route path="/category/:category" element={<CategoryPage />} />
         <Route path="/profile" element={<ProfilePage/>}/>
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/buysellprofile" element={<BuySellProfile />} />
-
+        <Route path="/cart" element={<CartPage />} />
       </Routes>
     </Router>
   );
