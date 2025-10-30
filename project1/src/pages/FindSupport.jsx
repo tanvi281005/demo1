@@ -21,6 +21,9 @@ const FindSupport = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const pollRef = useRef(null);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotification, setShowNotification] = useState(true);
+
 
   // 🔔 Toast helper
   const pushToast = (message) => {
@@ -50,10 +53,34 @@ const FindSupport = () => {
       setLoading(false);
     }
   };
+// 🔔 Fetch unread student notifications
+const fetchNotifications = async () => {
+  try {
+    const res = await fetch("http://localhost:8080/student/notification/unread", {
+      credentials: "include",
+    });
+    if (!res.ok) return;
+    const data = await res.json();
+    setNotifications(data);
+
+    // ✅ Mark first notification as read automatically
+    if (data.length > 0) {
+      const id = data[0].id;
+      await fetch(`http://localhost:8080/student/notification/mark-read?notificationId=${id}`, {
+        method: "POST",
+        credentials: "include",
+      });
+    }
+  } catch (err) {
+    console.error("Error fetching notifications:", err);
+  }
+};
 
   useEffect(() => {
-    fetchCounsellors(activeFilter);
-  }, [activeFilter]);
+  fetchCounsellors(activeFilter);
+  fetchNotifications(); // 👈 Added here
+}, [activeFilter]);
+
 
   // ✅ Approve / Reject booking
   const handleDecision = async (serviceId, isApproved) => {
@@ -110,6 +137,47 @@ const FindSupport = () => {
 
   return (
     <div className="support-page-body">
+      {/* 🔔 Notification Bar */}
+{notifications.length > 0 && showNotification && (
+  <div
+    style={{
+      position: "fixed",
+      top: "20px",
+      right: "20px",
+      backgroundColor: "#111",
+      color: "white",
+      padding: "15px 20px",
+      borderRadius: "8px",
+      boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
+      zIndex: 1000,
+      maxWidth: "350px",
+      fontSize: "15px",
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+    }}
+  >
+    <span style={{ flex: 1, marginRight: "10px" }}>
+      {notifications[0].message}
+    </span>
+    <button
+      onClick={() => setShowNotification(false)}
+      style={{
+        background: "transparent",
+        border: "none",
+        color: "#fff",
+        fontSize: "16px",
+        cursor: "pointer",
+        marginLeft: "10px",
+      }}
+      title="Close"
+    >
+      ✕
+    </button>
+  </div>
+)}
+
+
       <h1 className="support-header">🌿 Find the Right Support for You</h1>
 
       <div className="filter-container">
