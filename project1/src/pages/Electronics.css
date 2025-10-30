@@ -141,4 +141,110 @@ header h1 {
     }
 }
 
+/* ---------------- Glassy Sort Dropdown ---------------- */
+.sort-dropdown-glassy {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 10px 15px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2); /* light translucent background */
+  backdrop-filter: blur(10px);          /* subtle blur */
+  -webkit-backdrop-filter: blur(10px);  /* Safari support */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+}
 
+.sort-dropdown-glassy select {
+  background: transparent;
+  border: none;
+  color: #1f2937; /* dark text for visibility */
+  font-weight: 500;
+  font-size: 1rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  padding: 5px 10px;
+}
+
+
+
+/* Ensure container is positioned relative */
+.electronics-container {
+    position: relative;
+}
+
+/* ---------------- Floating Sort Panel ---------------- */
+.sort-panel {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 14px 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #000; /* ✅ black text */
+}
+
+.sort-panel label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #000; /* ✅ black label text */
+}
+
+.sort-panel select {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000; /* ✅ black dropdown text */
+  outline: none;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2);
+}
+/* ---------------- Inline Sort Panel ---------------- */
+.sort-panel-inline {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+}
+
+.sort-panel-inline label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #000;
+}
+
+.sort-panel-inline select {
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #000;
+  outline: none;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.2);
+}

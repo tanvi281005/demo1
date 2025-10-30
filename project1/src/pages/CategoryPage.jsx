@@ -33,6 +33,7 @@ const categoryData = {
 const CategoryPage = () => {
   const { category } = useParams();
   const [items, setItems] = useState([]);
+  const [sortOption, setSortOption] = useState("");
   const catInfo = categoryData[category];
   const navigate = useNavigate();
 
@@ -41,14 +42,22 @@ const CategoryPage = () => {
     const apiCategory = encodeURIComponent(catInfo.apiCategory);
 
     fetch(`http://localhost:8080/market-items/category/${apiCategory}`, {
-  credentials: "include" // ✅ add this line
-})
-  .then(res => res.json())
-  .then(data => setItems(data))
-  .catch(err => console.error(err));
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(data => setItems(data))
+      .catch(err => console.error(err));
   }, [category]);
 
   if (!catInfo) return <p>Category not found</p>;
+
+  const sortedItems = [...items].sort((a, b) => {
+    if (sortOption === "price-high") return b.price - a.price;
+    if (sortOption === "price-low") return a.price - b.price;
+    if (sortOption === "date-new") return new Date(b.addedAt) - new Date(a.addedAt);
+    if (sortOption === "date-old") return new Date(a.addedAt) - new Date(b.addedAt);
+    return 0;
+  });
 
   return (
     <div
@@ -62,14 +71,30 @@ const CategoryPage = () => {
     >
       <header>
         <h1>{catInfo.heading}</h1>
-        <div className="controls">
-          <input type="text" placeholder="Search products..." />
-        </div>
       </header>
 
+      {items.length > 0 && (
+  <div className="sort-panel-inline">
+    <label htmlFor="sortSelect">Sort Items:</label>
+    <select
+      id="sortSelect"
+      value={sortOption}
+      onChange={(e) => setSortOption(e.target.value)}
+    >
+      <option value="">Select</option>
+      <option value="price-high">Price: High to Low</option>
+      <option value="price-low">Price: Low to High</option>
+      <option value="date-new">Date: Newest First</option>
+      <option value="date-old">Date: Oldest First</option>
+    </select>
+  </div>
+)}
+
+
+
       <div className="products">
-        {items.length === 0 && <p>No items available.</p>}
-        {items.map(item => (
+        {sortedItems.length === 0 && <p>No items available.</p>}
+        {sortedItems.map(item => (
           <div
             key={item.itemId}
             className="product-card"

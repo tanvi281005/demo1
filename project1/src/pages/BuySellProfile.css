@@ -83,3 +83,28 @@
   background-color: #ef4444; /* Reject: red */
   color: white;
 }
+.save-price-button {
+  margin-top: 8px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  background-color: #800000; /* Maroon */
+  color: white;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.save-price-button:hover {
+  background-color: #a00000; /* Slightly lighter maroon on hover */
+}
+
+.price-input-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.price-input-group input {
+  flex: 1;
+}

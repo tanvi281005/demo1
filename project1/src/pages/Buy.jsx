@@ -5,28 +5,22 @@ import './Buy.css';
 const Buy = () => {
   const headingText = "Hey, what are you looking for today?";
   const [searchQuery, setSearchQuery] = useState("");
+  const [searchTriggered, setSearchTriggered] = useState(false);
   const navigate = useNavigate();
 
-  // Redirect to category page
   const handleCategoryClick = (categoryKey) => {
     navigate(`/category/${categoryKey}`);
   };
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
+      setSearchTriggered(true);
       navigate(`/category/${searchQuery.toLowerCase()}`);
     }
   };
 
   return (
     <div className="buy-container">
-      <div className="profile-icon" onClick={() => navigate('/profile')}>
-        <img
-          src="https://i.pinimg.com/736x/41/cc/e0/41cce034558636ad974ee86800a5508c.jpg"
-          alt="Profile"
-        />
-      </div>
-
       <div className="animated-heading">
         {headingText.split("").map((char, index) => (
           <span key={index} style={{ animationDelay: `${index * 0.05}s` }}>
@@ -43,7 +37,20 @@ const Buy = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
         />
+        <button className="search-button" onClick={handleSearch}>Search</button>
       </div>
+
+      {searchTriggered && (
+        <div className="sort-dropdown-inline">
+          <select onChange={(e) => navigate(`/sort/${e.target.value}`)}>
+            <option value="">Sort By</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="date-new">Date: Newest First</option>
+            <option value="date-old">Date: Oldest First</option>
+          </select>
+        </div>
+      )}
 
       {/* Category buttons */}
       <div className="categories-row">
