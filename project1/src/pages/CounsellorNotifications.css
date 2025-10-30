@@ -1,0 +1,41 @@
+.notif-overlay {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.notif-popup {
+  background-color: #fff;
+  color: #000;
+  border: 2px solid #4caf50;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 10px;
+  width: 300px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.2);
+}
+
+.notif-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.notif-actions button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.notif-actions button:first-child {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.notif-actions button:last-child {
+  background-color: #f44336;
+  color: #fff;
+}

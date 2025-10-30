@@ -21,10 +21,17 @@ const MentalWellness = () => {
           <h1>Mental Wellness</h1>
           <p>Choose how you would like to engage with our mental health resources.</p>
           <div className="button-group">
-            <button className="btn btn-primary">Register as Counsellor</button>
+            {/* ✅ Navigates to Counsellor Form */}
             <button 
-              className="btn btn-secondary" 
-              onClick={() => navigate('/support')}
+              className="btn btn-primary"
+              onClick={() => navigate("/register-counsellor")}
+            >
+              Register as Counsellor
+            </button>
+
+            <button 
+              className="btn btn-secondary"
+              onClick={() => navigate("/support")}
             >
               Take Counselling
             </button>

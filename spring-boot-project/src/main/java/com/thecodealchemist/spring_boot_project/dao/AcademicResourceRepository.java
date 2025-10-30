@@ -23,6 +23,7 @@ public class AcademicResourceRepository {
         res.setResourceId(rs.getInt("resource_id"));
         res.setStudentId(rs.getInt("user_id"));
         res.setCourse(rs.getString("course"));
+        res.setSubjectCode(rs.getString("subjectcode"));
         res.setResourceType(AcademicResource.ResourceType.valueOf(rs.getString("resource_type")));
         res.setUploadDate(rs.getTimestamp("upload_date").toLocalDateTime());
         res.setContent(rs.getBytes("content"));
@@ -30,13 +31,15 @@ public class AcademicResourceRepository {
     };
 
     public void save(AcademicResource resource) {
-        String sql = "INSERT INTO AcademicResource (user_id, course, resource_type, content) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql,
-                resource.getStudentId(),
-                resource.getCourse(),
-                resource.getResourceType().name(),
-                resource.getContent());
-    }
+    String sql = "INSERT INTO AcademicResource (user_id, course, subjectcode, resource_type, content) VALUES (?, ?, ?, ?, ?)";
+    jdbcTemplate.update(sql,
+            resource.getStudentId(),
+            resource.getCourse(),
+            resource.getSubjectCode(),     // NEW
+            resource.getResourceType().name(),
+            resource.getContent());
+}
+
 
     public List<AcademicResource> findAllByStudentId(int studentId) {
         String sql = "SELECT * FROM AcademicResource WHERE user_id = ?";
@@ -47,4 +50,16 @@ public class AcademicResourceRepository {
         String sql = "SELECT * FROM AcademicResource WHERE resource_id = ?";
         return jdbcTemplate.queryForObject(sql, resourceMapper, resourceId);
     }
+
+    public List<String> fetchuniquesubjects(){
+        String sql="SELECT DISTINCT subjectcode FROM AcademicResource ORDER BY subjectcode ASC";
+        List<String> subjects = jdbcTemplate.queryForList(sql, String.class);
+        return subjects ;
+    }
+
+    public List<AcademicResource> findBySubjectcodeAndResourceType(String subjectcode, AcademicResource.ResourceType resourceType) {
+    String sql = "SELECT * FROM AcademicResource WHERE subjectcode = ? AND resource_type = ?";
+    return jdbcTemplate.query(sql, resourceMapper, subjectcode, resourceType.name());
+}
+
 }

@@ -23,17 +23,25 @@ public class TransportService {
         return transportRepository.findAvailableBuses(destination);
     }
 
-    @Transactional
-    public void bookTransport(int studentId, BookRequest request) {
-        // 1️⃣ Insert service record
-        int serviceId = transportRepository.insertService("Bus Transport");
+   @Transactional
+public void bookTransport(int studentId, BookRequest request) {
+    double walletBalance = transportRepository.getWalletBalance(studentId);
+    double routePrice = transportRepository.getRoutePrice(request.getRouteId());
 
-        // 2️⃣ Insert into transportbooking
-        transportRepository.insertTransportBooking(serviceId, request.getRouteId(), true, request.getTimeChosen());
-
-        // 3️⃣ Insert into request
-        transportRepository.insertRequest(studentId, serviceId);
+    if (walletBalance < routePrice) {
+        throw new RuntimeException("Not enough money in wallet.");
     }
+
+    // Deduct price and update wallet
+    double newBalance = walletBalance - routePrice;
+    transportRepository.updateWalletBalance(studentId, newBalance);
+
+    // Continue with normal booking flow
+    int serviceId = transportRepository.insertService("Bus Transport");
+    transportRepository.insertTransportBooking(serviceId, request.getRouteId(), true, request.getTimeChosen());
+    transportRepository.insertRequest(studentId, serviceId);
+}
+
     public List<String> fetchuniquedestination() {
         return transportRepository.uniquedestination();
     }

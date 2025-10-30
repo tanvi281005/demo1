@@ -26,6 +26,7 @@ function UploadResourceForm() {
     }
 
     const formData = new FormData();
+    formData.append("subjectCode", form.subjectCode);
     formData.append("course", form.subjectName);
     formData.append("resourceType", form.materialType);
     formData.append("file", form.file);
@@ -33,7 +34,7 @@ function UploadResourceForm() {
     try {
       const response = await fetch("http://localhost:8080/resources/upload", {
         method: "POST",
-        credentials: "include", // 🔑 sends session cookie
+        credentials: "include",
         body: formData,
       });
 

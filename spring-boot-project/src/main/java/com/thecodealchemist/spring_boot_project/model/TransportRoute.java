@@ -5,14 +5,16 @@ public class TransportRoute {
     private String origin;
     private String name;
     private String destination;
+    private Integer price;
 
     public TransportRoute() {}
 
-    public TransportRoute(int routeId, String origin, String name, String destination) {
+    public TransportRoute(int routeId, String origin, String name, String destination, Integer price) {
         this.routeId = routeId;
         this.origin = origin;
         this.name = name;
         this.destination = destination;
+        this.price= price;
     }
 
     public int getRouteId() { return routeId; }
@@ -26,4 +28,7 @@ public class TransportRoute {
 
     public String getDestination() { return destination; }
     public void setDestination(String destination) { this.destination = destination; }
+
+    public int getPrice() { return price; }
+    public void setPrice(int price) { this.price = price; }
 }

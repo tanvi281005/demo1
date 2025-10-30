@@ -21,7 +21,7 @@ public class TransportRepository {
     // Fetch available buses by destination (only routeId + timings)
     public List<TransportRouteWithTimings> findAvailableBuses(String destination) {
         String sql = """
-    SELECT r.route_id, r.origin, r.name, r.destination, t.timings
+    SELECT r.route_id, r.origin, r.name, r.destination, r.price, t.timings
     FROM transportroute r
     JOIN transportroutetimings t ON r.route_id = t.route_id
     WHERE r.destination = ?
@@ -36,9 +36,10 @@ jdbcTemplate.query(sql, new Object[]{destination}, rs -> {
     String name = rs.getString("name");
     String dest = rs.getString("destination");
     String timing = rs.getTime("timings").toLocalTime().toString();
+    int price= rs.getInt("price");
 
    routeMap.computeIfAbsent(routeId, id ->
-            new TransportRouteWithTimings(routeId, origin, name, dest, new ArrayList<>())
+            new TransportRouteWithTimings(routeId, origin, name, dest, price, new ArrayList<>())
         ).getTimings().add(timing); // Add timing to the list
 });
 
@@ -85,4 +86,24 @@ return new ArrayList<>(routeMap.values());
         """;
         jdbcTemplate.update(sql, studentId, serviceId);
     }
+    // Fetch wallet balance for student
+public double getWalletBalance(int studentId) {
+    String sql = "SELECT wallet FROM student WHERE student_id = ?";
+    Double balance = jdbcTemplate.queryForObject(sql, Double.class, studentId);
+    return balance != null ? balance : 0.0;
+}
+
+// Fetch price for a route
+public double getRoutePrice(int routeId) {
+    String sql = "SELECT price FROM transportroute WHERE route_id = ?";
+    Double price = jdbcTemplate.queryForObject(sql, Double.class, routeId);
+    return price != null ? price : 0.0;
+}
+
+// Deduct price from wallet
+public void updateWalletBalance(int studentId, double newBalance) {
+    String sql = "UPDATE student SET wallet = ? WHERE student_id = ?";
+    jdbcTemplate.update(sql, newBalance, studentId);
+}
+
 }
