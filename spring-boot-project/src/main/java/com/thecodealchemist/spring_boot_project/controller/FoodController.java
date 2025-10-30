@@ -34,21 +34,21 @@ public class FoodController {
         return ResponseEntity.ok(menu);
     }
 
-   @GetMapping("/cart")
-    public ResponseEntity<Cart> getCart(HttpSession session) {
-        Integer studentId = (Integer) session.getAttribute("studentId");
-        if (studentId == null) return ResponseEntity.status(401).build();
-        return ResponseEntity.ok(service.getCart(studentId));
-    }
+//    @GetMapping("/cart")
+//     public ResponseEntity<Cart> getCart(HttpSession session) {
+//         Integer studentId = (Integer) session.getAttribute("studentId");
+//         if (studentId == null) return ResponseEntity.status(401).build();
+//         return ResponseEntity.ok(service.getCart(studentId));
+    // }
 
     @PostMapping("/cart/add")
-    public ResponseEntity<Cart> addToCart(@RequestBody CartItemDTO item, HttpSession session) {
+    public ResponseEntity<?> addToCart(@RequestBody CartItemDTO item, HttpSession session) {
         Integer studentId = (Integer) session.getAttribute("studentId");
         System.out.println("addToCart called; session studentId=" + studentId + " payload=" + item);
         if (studentId == null) return ResponseEntity.status(401).build();
 
         service.addToCart(studentId, item);
-        return ResponseEntity.ok(service.getCart(studentId));
+        return ResponseEntity.ok("yea");
     }
 
     @PostMapping("/order")

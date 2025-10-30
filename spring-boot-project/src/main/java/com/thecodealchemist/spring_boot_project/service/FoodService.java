@@ -31,9 +31,9 @@ public class FoodService {
         return repository.getMenuByCulture(culture);
     }
 
-    public Cart getCart(int studentId) {
-        return repository.getCartByStudent(studentId);
-    }
+    // public Cart getCart(int studentId) {
+    //     return repository.getCartByStudent(studentId);
+    // }
 
     @Transactional
     public void addToCart(int studentId, CartItemDTO item) {

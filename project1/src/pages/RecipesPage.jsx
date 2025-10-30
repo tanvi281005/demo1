@@ -75,8 +75,8 @@ function RecipesPage() {
         console.error("cart/add failed:", res.status, text);
       } else {
         // optional: receive updated Cart from server
-        const updatedCart = await res.json();
-        console.log("cart/add ok, cart:", updatedCart);
+        // const updatedCart = await res.json();
+        console.log("cart/add ok, cart:");
       }
     } catch (err) {
       console.error("updateCartBackend error:", err);
