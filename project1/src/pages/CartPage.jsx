@@ -65,19 +65,24 @@ const CartPage = () => {
   };
 
   const changeQty = (itemId, delta) => {
-    setCartItems(prev => {
-      const next = prev.map(it => {
+  setCartItems(prev => {
+    const next = prev
+      .map(it => {
         if (it.itemId === itemId) {
           const newQ = Math.max(0, (it.quantity || 0) + delta);
           const updated = { ...it, quantity: newQ };
+          // send update to backend
           updateBackend(updated);
           return updated;
         }
         return it;
-      });
-      return next;
-    });
-  };
+      })
+      // remove any item whose quantity just became 0
+      .filter(it => it.quantity > 0);
+    return next;
+  });
+};
+
 
   const removeItem = (itemId) => {
     setCartItems(prev => prev.filter(it => it.itemId !== itemId));

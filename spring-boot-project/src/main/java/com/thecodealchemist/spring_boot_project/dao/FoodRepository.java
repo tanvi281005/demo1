@@ -99,35 +99,36 @@ jdbcTemplate.update(insert, studentId, itemId, quantity, price, extras, instruct
         }
     }
 
-//     public List<CartItemDTO> getCartItems(int studentId) {
-//    String sql = """
-//     SELECT
-//     c.item_id AS itemId,
-//     f.item_name AS itemName,
-//     c.price AS price,
-//     c.quantity AS quantity,
-//     c.extras AS extras,
-//     c.instructions AS instructions,
-//     c.photo AS photo
-// FROM CartItem c
-// JOIN FoodMenu f ON c.item_id = f.item_id
-// WHERE c.student_id = ?
+    public List<CartItemDTO> getCartItems(int studentId) {
+   String sql = """
+    SELECT
+    c.item_id AS itemId,
+    f.item_name AS itemName,
+    c.price AS price,
+    c.quantity AS quantity,
+    c.extras AS extras,
+    c.instructions AS instructions,
+    c.photo AS photo
+FROM CartItem c
+JOIN FoodMenu f ON c.item_id = f.item_id
+WHERE c.student_id = ?
 
-// """;
+""";
 
 
-//     return jdbcTemplate.query(sql, (ResultSet rs, int rowNum) -> {
-//         CartItemDTO item = new CartItemDTO();
-//         item.setItemId(rs.getInt("item_id"));
-//         item.setItemName(rs.getString("item_name"));
-//         item.setPrice(rs.getBigDecimal("price"));
-//         item.setQuantity(rs.getInt("quantity"));
-//         item.setExtras(rs.getString("extras"));
-//         item.setInstructions(rs.getString("instructions"));
-//         item.setPhoto(rs.getString("photo"));  // ✅ properly maps the photo
-//         return item;
-//     }, studentId);
-// }
+    return jdbcTemplate.query(sql, (ResultSet rs, int rowNum) -> {
+    CartItemDTO item = new CartItemDTO();
+    item.setItemId(rs.getInt("itemId"));         // ✅ match alias
+    item.setItemName(rs.getString("itemName"));
+    item.setPrice(rs.getBigDecimal("price"));
+    item.setQuantity(rs.getInt("quantity"));
+    item.setExtras(rs.getString("extras"));
+    item.setInstructions(rs.getString("instructions"));
+    item.setPhoto(rs.getString("photo"));
+    return item;
+}, studentId);
+
+}
 
 
     public void updateCartTotals(int studentId) {
@@ -140,17 +141,46 @@ jdbcTemplate.update(insert, studentId, itemId, quantity, price, extras, instruct
         }, studentId);
     }
 
-    // public Cart getCartByStudent(int studentId) {
-    //     String sql = "SELECT * FROM Cart WHERE student_id=?";
-    //     List<Cart> carts = jdbcTemplate.query(sql, (ResultSet rs, int rowNum) -> {
-    //         Cart cart = new Cart();
-    //         cart.setStudentId(rs.getInt("student_id"));
-    //         cart.setTotalPrice(rs.getBigDecimal("total_price"));
-    //         cart.setNoOfItems(rs.getInt("no_of_items"));
-    //         cart.setCutleryRequired(rs.getBoolean("cutlery_required"));
-    //         cart.setItems(getCartItems(studentId));
-    //         return cart;
-    //     }, studentId);
-    //     return carts.isEmpty() ? new Cart() : carts.get(0);
-    // }
+    public Cart getCartByStudent(int studentId) {
+    String sql = "SELECT * FROM Cart WHERE student_id=?";
+    List<Cart> carts = jdbcTemplate.query(sql, (ResultSet rs, int rowNum) -> {
+        Cart cart = new Cart();
+        cart.setStudentId(rs.getInt("student_id"));
+        cart.setTotalPrice(rs.getBigDecimal("total_price"));
+        cart.setNoOfItems(rs.getInt("no_of_items"));
+        cart.setCutleryRequired(rs.getBoolean("cutlery_required"));
+        cart.setItems(getCartItems(studentId));
+        return cart;
+    }, studentId);
+
+    if (carts.isEmpty()) {
+        // 🟢 auto-create a new empty cart for this student
+        String insert = """
+            INSERT INTO Cart (student_id, total_price, no_of_items, is_empty, cutlery_required)
+            VALUES (?, 0, 0, TRUE, FALSE)
+        """;
+        jdbcTemplate.update(insert, studentId);
+
+        Cart newCart = new Cart();
+        newCart.setStudentId(studentId);
+        newCart.setTotalPrice(BigDecimal.ZERO);
+        newCart.setNoOfItems(0);
+        newCart.setCutleryRequired(false);
+        newCart.setItems(List.of());
+        return newCart;
+    }
+
+    return carts.get(0);
+}
+
+
+//     public void clearCartItems(int studentId) {
+//     String sql = "DELETE FROM CartItem WHERE student_id = ?";
+//     jdbcTemplate.update(sql, studentId);
+
+//     // reset cart summary
+//     String reset = "UPDATE Cart SET total_price = 0, no_of_items = 0, is_empty = TRUE WHERE student_id = ?";
+//     jdbcTemplate.update(reset, studentId);
+// }
+
 }

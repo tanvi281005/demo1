@@ -34,12 +34,12 @@ public class FoodController {
         return ResponseEntity.ok(menu);
     }
 
-//    @GetMapping("/cart")
-//     public ResponseEntity<Cart> getCart(HttpSession session) {
-//         Integer studentId = (Integer) session.getAttribute("studentId");
-//         if (studentId == null) return ResponseEntity.status(401).build();
-//         return ResponseEntity.ok(service.getCart(studentId));
-    // }
+   @GetMapping("/cart")
+    public ResponseEntity<Cart> getCart(HttpSession session) {
+        Integer studentId = (Integer) session.getAttribute("studentId");
+        if (studentId == null) return ResponseEntity.status(401).build();
+        return ResponseEntity.ok(service.getCart(studentId));
+    }
 
     @PostMapping("/cart/add")
     public ResponseEntity<?> addToCart(@RequestBody CartItemDTO item, HttpSession session) {
@@ -53,6 +53,7 @@ public class FoodController {
 
     @PostMapping("/order")
     public ResponseEntity<List<FoodOrder>> placeOrder(@RequestBody OrdersRequest request, HttpSession session) {
+        System.out.println("📦 Received order request: " + request);
         Integer studentId = (Integer) session.getAttribute("studentId");
         if (studentId == null) return ResponseEntity.status(401).build();
 
